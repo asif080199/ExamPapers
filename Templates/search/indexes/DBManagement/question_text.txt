@@ -1,0 +1,5 @@
+{{object.content}}
+{{object.topic.title}}
+{{object.subtopic.title}}
+{{object.topic.subject.title}}
+

@@ -1,0 +1,29 @@
+{% extends 'qna.base.html' %}
+{% block qnacontent %}
+
+		
+		<!--End upload form--->
+		
+		<!--Story display--->
+		<div class="thumbnail" style="margin:3px;padding-top:3px;padding-bottom:20px;padding-right:10px;padding-left:10px">
+			<h4>{{ask.title}}</h4>
+			{{ask.content|safe}}
+			{% for i in ask.image%}
+				<img src = "/{{i.imageurl}}" max-width = "200px">
+			{% endfor %}
+			
+			{% if ask.author = request.user%}
+				<small class="pull-left"><a href = "/{{cur.id}}/qna/edit/{{ask.id}}">Edit</a>&nbsp;&nbsp;<a href = "/{{cur.id}}/qna/delete/{{ask.id}}">Delete</a></small>
+			{% endif %}
+			<small class="pull-right"> By {{ask.author.first_name}} {{ask.author.last_name}} at {{ask.created}} </small>
+			
+		</div>
+		<div class="thumbnail" style="margin:3px;padding:10px">
+			<h4>Discussion</h4>
+			{% with ask as object %}{% include "comments.html" %}{% endwith %}
+		</div>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,48 @@
+{% extends 'qna.base.html' %}
+{% block qnacontent %}
+		{{ form.errors }}
+    
+		<form   method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<p>{{ form.non_field_errors }}</p>
+			<p>
+				
+				{{ form.title }} <font color = "red">{{ form.title.errors }}</font><br/>
+				{{ form.content }} <font color = "red">{{ form.content.errors }}</font> <br/>
+				Topic <br/>
+				{{ form.topic }} <font color = "red">{{ form.topic.errors }} </font>
+
+				<table >
+					<tr>
+						<td width = "35%">{{ form.docfile }}</td>
+						<td style="text-align:right" width = "75%"><small align = "right">Need to show a graph? Try <a   target="_blank" href = "http://web.geogebra.org/chromeapp/">Geogebra</a></small></td>
+					</tr>
+				</table>
+				
+			</p>
+			<p><input class="btn btn-default" style = "display:block;width:100%" type="submit" value="I agree with term and condition. Help me with this question!" /></p>
+			
+			<p align = "center" ><a href = "">Term and Condition</a></font>
+		</form>
+		<!--End upload form--->
+		
+		
+		<script>
+		window.onload = function() {
+			var updateDiv = function() {
+				var editorText = CKEDITOR.instances.editor1.getData();
+				$('#resarea').html(editorText);
+			};
+			CKEDITOR.replace( 'editor1', {
+				toolbar : [
+					{ name: 'basicstyles', items: [ 'Bold', 'Italic' ] },
+					{ name: 'math', items: ['mathedit'] },
+				],
+				extraPlugins : 'mathedit,onchange',
+				disableObjectResizing : true
+			});
+			CKEDITOR.instances.editor1.on('change', updateDiv);
+		};
+	</script>
+
+{% endblock %}

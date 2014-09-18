@@ -1,0 +1,53 @@
+body {
+  padding-top: 90px;
+  padding-bottom: 50px;
+  overflow-y:scroll;
+  /* Chrome Font Smoothening */
+  -webkit-text-stroke: 0.25px rgba(0,0,0,0.1)
+}
+
+.nav-login {
+  min-width: 300px;
+  padding: 8px 15px;
+}
+
+/* Displays color line in navbar and blockquotes: vary by subject */
+#mainnavbar {
+  border-bottom: 5px #428BCA solid;
+}
+blockquote {
+  border-left-color: #428BCA;
+}
+
+/* Displays light color line on hover at navbar links: vary by subject */
+@media (min-width: 768px) {
+  #mainnavbar .navbar-nav > li > a:hover,
+  #mainnavbar .navbar-nav > li > a:focus {
+    border-bottom: 5px #5BC0DE solid;
+    margin-bottom: -5px;
+  }
+}
+
+/* Respace li and ul for left nagivation*/
+li.linav  { 
+	margin-top: 5px;
+	margin-bottom: -25px;
+	padding-top: 0; 
+	padding-bottom: 0; 
+}
+li.linav2  { 
+	margin-top: 0px;
+	margin-bottom: 10px;
+	padding-top: 0; 
+	padding-bottom: 0; 
+}
+ul.ulnav   {
+	margin-left:-20px;
+}
+
+/* For toggle*/
+.hidden {
+     display:none;
+}
+
+/* */

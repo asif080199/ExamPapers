@@ -1,0 +1,22 @@
+{% extends 'qna.base.html' %}
+{% block qnacontent %}
+		<h3>My questions:</h3>
+		{% if asks %}
+			{% for s in asks %}
+				<div class="thumbnail" style="padding:10px;margin:0px;margin-bottom:10px">
+					<a href = "/{{cur.id}}/qna/view/{{s.id}}/">{{s.title}}</a>
+					{{s.contentshort|safe}}...<br/>
+					{% load comments %}
+					{% get_comment_count for s as comment_count %}
+					<small>Views ({{s.view}}) &nbsp;&nbsp;  Answers ({{comment_count}})</small><small class="pull-right"> By {{s.author}} at {{s.datetime}} </small>
+					{% for i in s.image %} 
+						<img style="max-width:200px" src ="/{{i.imageurl}}"></img>
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<p>No Q&A found.</p>
+		{% endif %}
+		
+
+{% endblock %}

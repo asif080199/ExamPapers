@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Topics</h3>
+            </div>
+            <div class="panel-body">
+				{% for b in blocks %}
+					<b>{{b.title}}</b><br/>
+					 {% for t in b.topics %}
+						<ul class="ulnav">
+							{% if t.id != tp %}	
+								<li class ="linav"><a href = "/{{cur.id}}/study/?tp={{t.id}}">{{t.title}}</a></li>
+							{% endif%}
+							{% if t.id == tp %}	
+								<span class="text-muted"><li class ="linav">{{t.title}}</li></span>
+							{% endif%}
+						</ul><br/>
+					 {% endfor %}
+				{% endfor  %}
+			</div>
+          </div>
+	</div>
+	<div class="col-sm-9">
+		<h2>Study</h2>
+		{% if tp == -1 %}
+			<div class="col-sm-4">
+				<img height = "400px" src = "/static/image/pic/study.jpg">
+			</div>
+		{% endif %}
+		<div class="panel-group" id="accordion">
+		{% for c in content%}
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+			  <h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{c}}">
+					{{c}}
+				</a>
+			  </h4>
+			</div>
+			<div id="collapse{{c}}" class="panel-collapse collapse">
+			  <div class="panel-body">
+				{{c}}<br/>
+				<a href = "">Download file content</a>
+			  </div>
+			</div>
+		  </div>
+		{% endfor %}
+		</div>
+	</div>
+{% endblock %}

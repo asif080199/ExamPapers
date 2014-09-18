@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block html_head %}
+	<script type = "text/javascript">
+		function checkSubmit(){
+			var searchtext = document.getElementById("search_field").value;
+				if (searchtext==""){
+					return false;
+				}
+		}
+	</script>
+{%  endblock %}
+{% block content %}
+<div class = "span12">
+	<h1>Welcome to {{cur.title}}!</h1>
+	<blockquote>
+		<p>{{cur.description}}</p>
+	</blockquote>
+	<hr/>
+	<form action="/{{cur.id}}/search/" method="get" onSubmit =" return checkSubmit(this)">
+		<input type = 'hidden' name ='type' value = 'question'>
+		<input type = 'hidden' name ='tp' value = -1>
+		<table width="100%">
+			<tr>
+				<td width="90%"><input	id="search_field" class = "form-control" width="100%" type="text" name="searchtext" placeholder="Enter key word"></td>
+				<td><input type="submit" id="search" class="btn btn-inverse" style="height:30px;" value="Search" /></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+
+{% endblock %}

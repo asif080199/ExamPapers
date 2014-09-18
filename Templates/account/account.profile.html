@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block html_head %}
+
+{%  endblock %}
+{% block content %}
+		
+	<div class="span2">
+		<div class="well well-large">
+			<b>Name:</b> {{ user.get_full_name }}<br/>
+			<br/>
+			<b>Subscriptions:</b><br/>
+			{%for s in subjects%}
+			- <a href = "/{{s.id}}/">{{s}}</a> <br/>
+			{%endfor%}
+		</div>
+	</div>
+	<div class = "span9">
+		<div class="thumbnail" align='center'>
+			<h3> My subscription</h3>
+		</div>
+			{%for s in subjects%}
+				<div class="span4">
+					<div class="thumbnail" align='center'>
+						<h4>{{s}}</h4>
+						<hr/>
+						{{s.description}}<br/><br/>
+						<a href = "/{{s.id}}/"><button class="btn btn-primary">Learn now!</button></a>
+						<hr/>
+						<b>Expired date:</b> Never! Because you are awesome!						
+					</div>
+				</div>
+			{%endfor%}
+	</div>
+{% endblock %}

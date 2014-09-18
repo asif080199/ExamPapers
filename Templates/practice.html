@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load dajaxice_templatetags %}
+{% block html_head %}
+    {% dajaxice_js_import %}
+    <script src="/static/javascript/mathbuddy_exercises.js"></script>
+{% endblock %}
+
+{% block content %}
+	<div class = "span12" style="margin:0px">
+		<div class="thumbnail">
+				<h3 align='center'>{{s.title}} - {{s.description}} Practice</h3><hr/>
+				<table width="100%">
+				{%for t in s.topics%}
+					<tr ><td width="45%" style="padding-right:10px">- {{t}}</td>
+					<td>{{t.history}}/{{t.all}}</td>
+						<td width="30%" style="padding-top:10px">
+							<div class="progress">
+								<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: {{t.progress}}%; min-width: 0%;">
+									<span>{{t.progress}}%</span>
+								</div>
+							</div>
+						</td width="20%">
+						<td style="text-align:center">
+							{%if t.all > 0 %}
+								<a href = "/{{s.id}}/practice_question/{{t.id}}/0">Practice now!</a>
+							{%else%}
+								Not Available
+							{%endif%}	
+						</td>
+					</tr>
+				{%endfor%}
+			</table>
+			</div>
+	</div>
+{% endblock %}

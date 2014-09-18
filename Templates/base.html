@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	{% block extrahead %}{% endblock %}
+
+    <head>
+        <title>Online Assessment System</title>
+        <script type="text/javascript" src="/static/mathjax-MathJax-f5cd294/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+            MathJax.Hub.Config({
+                displayAlign: "left",
+                tex2jax: {inlineMath: [['$','$'],['$$','$$'],['\\[','\\]']], displayMath:[]}
+            })
+        </script>
+		<style type="text/css">
+				.disableSelect {
+					-webkit-user-select: none;
+					-moz-user-select: -moz-none;
+					-ms-user-select: none;
+					user-select: none;
+				}
+        </style>
+        {% block html_head %}{% endblock %}
+	</head>
+    {% include 'header.html' %}
+    <body class="center_page">
+		
+		<div class="container">
+            {% block content %}{% endblock %}
+		</div>
+    </body>
+</html>

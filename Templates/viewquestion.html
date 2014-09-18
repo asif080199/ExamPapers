@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load dajaxice_templatetags %}
+{% block html_head %}
+    {% dajaxice_js_import %}
+    <script>
+		function toggleAns(button_id) {
+			var ele_name = "sol";
+			var ele = document.getElementById(ele_name);
+			var text = document.getElementById(button_id);
+			if(ele.style.display == "block") {
+					ele.style.display = "none";
+				text.value = "View Solution";
+			}
+			else {
+				ele.style.display = "block";
+				text.value = "Hide Solution";
+			}
+		}
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Question Info</h3>
+            </div>
+            <div class="panel-body">
+				<ul class="ulnav">
+					<li><b>ID:</b> {{question.id}}</li>
+					<li><b>Difficulty :</b> {%for s in question.stars%}{{s|safe}}{%endfor%}</li>
+					
+					<li><b>Category:</b>{% for at in question.distinct_anstype %}
+											{{at}},
+										{% endfor %}
+					</li>
+					<li><b>Subject:</b> {{cur}}</li>
+					<li><b>Topic:</b> {{question.topic}}</li>
+					<li><b>Subtopic:</b> {{question.subtopic}}</li>
+				</ul>
+			</div>
+          </div>
+		  
+	</div>
+	
+    <div class="col-sm-9">
+        <div class="accordion" id="accordion2">
+		<div class="thumbnail" style="margin:3px;padding:10px">
+			
+			{{question.content|safe}}	
+			<hr/>
+			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
+			<div style = "display:none;" id="sol">
+				{{question.solution|safe}}
+			</div>
+		</div>
+		<div class="thumbnail" style="margin:3px;padding:10px">
+			<h4>Discussion</h4>
+			{% with question as object %}{% include "comments.html" %}{% endwith %}
+		</div>
+        
+		</div>
+    </div>
+{% endblock %}

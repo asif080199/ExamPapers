@@ -1,0 +1,14 @@
+/* Discussion content css */
+.comment-content {
+  min-height: 60px;
+}
+#discusscontent .media {
+  /*padding-bottom: 20px;*/
+}
+.comment-children {
+  margin-left: 50px;
+}
+
+.comment-children div > .comment-children div > .comment-children div > .comment-children div {
+  margin-left: 0px;
+}
