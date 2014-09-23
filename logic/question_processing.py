@@ -81,3 +81,66 @@ def formatIntoLabelDictList(labellist, anslist):
 
 	return dictList
 	
+def display_finalanswer(finalanswer):
+	curr_qns_id = ''
+	currqnscount = 1
+	noanscount = 0
+
+	for fa in finalanswer:
+		if fa.content is not None and fa.content!='':
+			tempDict = extractLabelandAns(fa.content)
+			fa.labellist = formatIntoLabelDictList(tempDict['labellist'], tempDict['anslist'])
+
+		if isSketch(fa.answertype_id) or fa.content == '':
+			anstype = AnswerType.objects.get(id=fa.answertype_id).description
+			fa.label = " [" + anstype + " Question]. View Papers for detailed solution."
+			noanscount += 1
+
+		if curr_qns_id == fa.question_id:
+			currqnscount += 1
+		else:
+			curr_qns_id = fa.question_id
+
+	if currqnscount == noanscount:
+		return None
+	else:
+		return finalanswer
+
+
+def formatIntoLabelDictList(labellist, anslist):
+	dictList = list()
+	counter = 0
+
+	for ll in labellist:
+		try:
+			dictList.append({'sub': counter, 'label': ll, 'ans':anslist[counter] , 'counter':counter})
+		except IndexError:
+			dictList.append({'sub': counter, 'label': ll})
+		counter += 1
+
+	return dictList
+
+def getAllDistinctAnsType(finalanswer):
+	distinct_anstype = list()
+	for fa in finalanswer:
+		desc = AnswerType.objects.get(id=fa['answertype_id']).description
+		if not desc in distinct_anstype:
+			distinct_anstype.append(desc)
+	return distinct_anstype
+
+def extractLabelandAns(content):
+	labellist = list()
+	anslist = list()
+
+	if content != '':
+		labelanslist = content.split('"')
+		counter = 0
+		while counter < len(labelanslist):
+			temp = ("$$"+labelanslist[counter]+"$$").replace(";", "$$<br/>$$").replace(" ", " \space ")
+			labellist.append(temp)
+		
+			if (counter+1) < len(labelanslist):
+				anslist.append(labelanslist[counter+1])
+			counter+=2
+
+	return {'labellist': labellist, 'anslist': anslist}

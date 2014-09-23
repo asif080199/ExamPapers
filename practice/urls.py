@@ -13,4 +13,5 @@ from django.conf import settings
 urlpatterns = patterns('ExamPapers.practice.views',
 	url('home/$', views.home),
 	('question/(?P<tp>\d*)/(?P<qid>\d*)/$', views.question),
+	('submit/$', views.submit),
 )

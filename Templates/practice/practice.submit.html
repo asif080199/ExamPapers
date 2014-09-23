@@ -1,5 +1,23 @@
 {% extends 'base.html' %}
-
+{% load dajaxice_templatetags %}
+{% block html_head %}
+    {% dajaxice_js_import %}
+    <script>
+		function toggleAns(button_id) {
+			var ele_name = "sol";
+			var ele = document.getElementById(ele_name);
+			var text = document.getElementById(button_id);
+			if(ele.style.display == "block") {
+					ele.style.display = "none";
+				text.value = "View Solution";
+			}
+			else {
+				ele.style.display = "block";
+				text.value = "Hide Solution";
+			}
+		}
+	</script>
+{% endblock %}
 {% block content %}
 	<div class="col-sm-3">
 		<div class="well">
@@ -32,23 +50,18 @@
 		</div>
 	
 	</div>
-	<div class="col-sm-9" >
-		<div class="thumbnail">
-		  <form method = "POST" action = "/{{cur.id}}/practice/submit/">
-			<input type = "hidden" name = "qid" value = {{question.id}}>
-			{% csrf_token %}
-			<h4>Question</h4>
-			{{question.content|safe}}
-			<hr/>
-			<h4>Answer:</h4>
-			{% for fa in answers%}
+	<div class="col-sm-9">
+        <div class="accordion" id="accordion2">
+		<div class="thumbnail" style="margin:3px;padding:10px">
+		{{question.content|safe}}
+		{% for fa in answers%}
 				{% ifequal fa.part_no|slice:"2:3" 1|safe%}
 					{%  if not forloop.first %}
 						{% ifnotequal fa.part_no|slice:"0:1" 0|safe %}
-							<hr>
+						
 						{% else %}
                             {% ifnotequal fa.part_no|slice:"1:2" 0|safe %}
-							<hr>
+						
                         {% endifnotequal %}
                     {% endifnotequal %}
                  {% endif %}
@@ -69,15 +82,37 @@
 					{% for ll in fa.labellist%}
 					{{ ll.label|safe }}
 				{% if not forloop.last %}
-					<input name = "u{{fa.id}}{{ll.counter}}" value = "{{ ll.ans}}">
+					____
 				{% endif %}
 				{% endfor %}
                 {% endif%}
 			{% endfor %}
-
+			<br/>
+		<br/><b>My answers:</b>
+				<ul>
+				{%for ans in results %}
+					<li>$${{ans.0}}$$ 
+						{% if ans.1 ==  1  %}
+							<small class="pull-right"> <b><font color = "green">Correct!</font></b></small>
+						{% else %}
+							<small class="pull-right"><b><font color = "red">Wrong!</font></b></small>
+						{%endif%}
+					</li> 
+				{%endfor%}
+				</ul>
+			<br/>
+			{{numCorrect}} out of {{lenuser_input}} is correct! <br/>
+			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
+			<div style = "display:none;" id="sol">
+				{{question.solution|safe}}
+			</div>
 		</div>
-		<input class="btn btn-default" style = "display:block;width:100%" type="submit" value="Submit" />
-	  </form>
-	</div>
+		<div class="thumbnail" style="margin:3px;padding:10px">
+			<h4>Discussion</h4>
+			{% with question as object %}{% include "comments.html" %}{% endwith %}
+		</div>
+        
+		</div>
+    </div>
 	
 {% endblock %}

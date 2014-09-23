@@ -13,8 +13,8 @@ import urllib
 java_server='http://czh-restlet.ap01.aws.af.cm/'
 # java_server='http://localhost:8080/java_func'
 
+from ExamPapers.logic.common import *
 from ExamPapers.logic.question_processing import *
-from ExamPapers.logic.ans_check import *
 
 def isProve(anstype):
 	return (anstype == "Prove" or anstype == 1 or anstype == '1')
@@ -49,28 +49,6 @@ def extractLabelandAns(content):
 	return {'labellist': labellist, 'anslist': anslist}
 	
 	
-def formatContent(question,type):
-	"""
-	Format question content and solution, convert image and align content
-	Input: question object, content type: Question or Solution
-	Output: formated content
-	"""
-	images = list(Image.objects.filter(qa_id=question.id, qa=type).only('id','imagepath').order_by('id').values())
-	if type == "Question":
-		for i in images:
-			html_img = "<tempimage style = 'width:200px' src='" + i['imagepath'] + "' alt='" + i['imagepath'] + "' />"
-			question.content = question.content.replace('img', html_img, 1)
-		question.content = question.content.replace('<tempimage', '<img')
-		question.content = question.content.replace(';','<br/>')
-		return question.content
-	if type =="Solution":
-		solutionContent  = Solution.objects.get(question_id = question.id).content
-		for i in images:
-			html_img = "<tempimage style = 'width:200px' src='" + i['imagepath'] + "' alt='" + i['imagepath'] + "' />"
-			solutionContent = solutionContent.replace('img', html_img, 1)
-		solutionContent = solutionContent.replace('<tempimage', '<img')
-		solutionContent = solutionContent.replace(';','<br/>')
-		return solutionContent
 		
 def getAllDistinctAnsType(answer):
 	distinct_anstype = list()
@@ -79,33 +57,6 @@ def getAllDistinctAnsType(answer):
 		if not desc in distinct_anstype:
 			distinct_anstype.append(desc)
 	return distinct_anstype
-
-def star(rate):
-	"Convert difficulty int value to star icon using bootstrap star"
-	stars = []
-	for s in range(int(rate)):
-		stars.append("<i class='glyphicon glyphicon-star '></i>")
-	#for s in range(5-rate):
-	#	stars.append("<i class='glyphicon glyphicon-star-empty'></i>")
-	return stars
-
-def getExerciseInputImages():
-	inputList = list()
-
-	exercise_input_file = ROOT_PATH+"/resource/static/exercise_input.txt"
-	ins = open(exercise_input_file, "r" )
-
-	tagContent = list()
-	for latex in ins:
-		latex = latex[:-1].strip()
-		if latex.startswith("Tab:"):
-			tagContent = list()
-			inputList.append({'tabHeader': latex[4:], 'content': tagContent})
-		elif latex == "":
-			continue
-		else:
-			tagContent.append({'display': "$$"+latex+"$$", 'id': latex})
-	return inputList	
 
 def format_ans(str):
 	return str.replace("\\left","").replace("\\right","").strip()
@@ -564,6 +515,7 @@ def check_qns_solution(qid, user_inputs):
 								
 							else:
 							#	print u, v, result, 'multi switch'
+								#print result
 								if result == 'True':
 									correctans += 1
 									a['value'].remove(v)
@@ -578,20 +530,22 @@ def check_qns_solution(qid, user_inputs):
 							param[result] = result
 						else:
 						#	print u_input[counter], v, result, 'multi no switch'
+							#print result
 							if result == 'True':
 								correctans += 1
 						counter += 1
 			else:
 				
 				result = checkAns(u_input, a['value'][0], a['id'])
-				print result
 				resultList.append(result)
 				if result != 'True' and result != 'False':
 					param[result] = result
 				else:
 					#print u_input, a['value'][0], result, 'no switch'
+					#print result
 					if result == 'True':
 						correctans += 1
+	
 
 	param['resultList'] = resultList
 	param['numCorrect'] = correctans
