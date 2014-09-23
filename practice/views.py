@@ -42,30 +42,34 @@ def question(request, subj_id, tp, qid):
 	param  = {}
 	param.update(current(subj_id))
 	
-	user_input = ["n\\pi\\pm \\frac{4}{24}\\pi"]
-	#qid = "199703003008"
-	param.update(check_qns_solution(qid,user_input))
-
 	
 	#Recommend questions in the same topic
 	questions = Question.objects.filter(topic_id = tp)
+	for q in questions:
+		answer = list(Answer.objects.filter(question_id=q.id).values())
+		q.stars = star((q.marks+1)/2)
+		q.subtopic = Subtopic.objects.get(id=q.subtopic_id)
+		q.distinct_anstype = getAllDistinctAnsType(answer)
+	
+	
 	if request.GET.get("qid") != None:
 		qid = request.GET.get("qid")	
 	# if no question selected --> default do 1st question
 	if int(qid) == 0 or qid == None:
 		qid = questions[0].id
-
 	
 	#now write to history
 	if Progress.objects.filter(question_id_id = qid).filter(user=u).count() == 0:
 		history = Progress(user=u, question_id=Question.objects.get(id = qid))
 		history.save()
-
+	
 	#Return param
 	param['tp'] = tp	
 	param['questions'] = questions
 	param['question'] = getViewQuestion(qid)
 	param['answers'] = getAnswer(qid)
+	
+	
 	return render_to_response(
         'practice/practice.question.html', param, context_instance=RequestContext(request)
     )
@@ -84,9 +88,11 @@ def submit(request,subj_id):
 		qid = request.POST['qid']
 		for key in request.POST:
 			value = request.POST[key]
-			if key!= "csrfmiddlewaretoken":
+			if key!= "csrfmiddlewaretoken" and key!= "qid":
+				while len(key)<4:
+					key = "0"+key
 				user_input_dict[(key[1:])] = value
-	
+
 	keys = []
 	for key in user_input_dict:
 		keys.append(key)
@@ -95,7 +101,10 @@ def submit(request,subj_id):
 	user_input = []
 	for key in keys:
 		user_input.append(user_input_dict.get(key))
+	
 	""" ------------------------- """
+	
+	#print user_input_dict
 	
 	# Now check with given answer	
 	param.update(check_qns_solution(qid,user_input))
@@ -103,7 +112,7 @@ def submit(request,subj_id):
 	# Prepare for display result 
 	results = []
 	
-	for i in range(len(user_input)-1):
+	for i in range(len(user_input)):
 		result = param['resultList'][i]
 		tem = []
 		if result == 'True':
@@ -113,8 +122,20 @@ def submit(request,subj_id):
 		
 		results.append(tem)
 	
+	# Question in the same topic
+	question = getViewQuestion(qid)
+	tp = question.topic_id
+	questions = Question.objects.filter(topic_id = tp)
+	for q in questions:
+		answer = list(Answer.objects.filter(question_id=q.id).values())
+		q.stars = star((q.marks+1)/2)
+		q.subtopic = Subtopic.objects.get(id=q.subtopic_id)
+		q.distinct_anstype = getAllDistinctAnsType(answer)
+		
+	param['tp'] = tp	
 	param['question'] = getViewQuestion(qid)
+	param['questions'] = questions
 	param['results']  = results
 	param['answers'] = getAnswer(qid)
-	param['lenuser_input'] = len(user_input)-1
+	param['lenuser_input'] = len(user_input)
 	return render_to_response('practice/practice.submit.html', param, context_instance=RequestContext(request))

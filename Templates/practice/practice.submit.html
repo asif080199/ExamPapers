@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'practice/practice.base.html' %}
 {% load dajaxice_templatetags %}
 {% block html_head %}
     {% dajaxice_js_import %}
@@ -18,50 +18,21 @@
 		}
 	</script>
 {% endblock %}
-{% block content %}
-	<div class="col-sm-3">
-		<div class="well">
-			<h4 align='center'><h3>Question Info</h3>
-			<li><b>Question ID:</b> {{question.id}}</li>
-			<li><b>Difficulty :</b> {%for s in question.stars%}{{s|safe}}{%endfor%}</li>
-			
-			<li><b>Category:</b>[{% for at in question.distinct_anstype %}
-                            {{ at }}
-                            {% if forloop.last %}] {% else %}, {% endif %}
-                        {% endfor %}
-			</li>
-			<li><b>Subject:</b> {{cur}}</li>
-			<li><b>Topic:</b> {{question.topic}}</li>
-			<li><b>Subtopic:</b> {{question.subtopic}}</li>
-			<hr/>
-			<a href = "/{{cur.id}}/practice/"><button class = "btn btn-primary">Practice other topics</button></a>
-		</div>
-		<div class="row-fluid well well-small" >
-		<h3>In this topic...</h3>
-		{% for q in questions %}
-		 <a href="/{{cur.id}}/practice_question/{{tp}}/{{q.id}}">{%if q.id in history%}<font style="text-decoration:line-through">	{%endif%}
-						{%for s in q.stars%}{{s|safe}}{%endfor%}- {{q.subtopic}}  
-                        [{% for at in q.distinct_anstype %}
-                            {{ at }}
-                            {% if forloop.last %}] {% else %}, {% endif %} 
-						{%endfor%}{%if q.id in history%}</font>{%endif%}
-                      </a><br/><br/>
-		{%endfor%}
-		</div>
-	
-	</div>
+{% block practice_content%}
 	<div class="col-sm-9">
         <div class="accordion" id="accordion2">
 		<div class="thumbnail" style="margin:3px;padding:10px">
 		{{question.content|safe}}
+		<hr/>
+		<b>Answers:</b>
 		{% for fa in answers%}
 				{% ifequal fa.part_no|slice:"2:3" 1|safe%}
 					{%  if not forloop.first %}
 						{% ifnotequal fa.part_no|slice:"0:1" 0|safe %}
-						
+						<br/>
 						{% else %}
                             {% ifnotequal fa.part_no|slice:"1:2" 0|safe %}
-						
+						<br/>
                         {% endifnotequal %}
                     {% endifnotequal %}
                  {% endif %}
@@ -82,13 +53,13 @@
 					{% for ll in fa.labellist%}
 					{{ ll.label|safe }}
 				{% if not forloop.last %}
-					____
+					<font color = 'blue'>$${{ ll.ans}}$$</font>
 				{% endif %}
 				{% endfor %}
                 {% endif%}
 			{% endfor %}
-			<br/>
-		<br/><b>My answers:</b>
+			<hr/>
+			<b>My answers:</b>
 				<ul>
 				{%for ans in results %}
 					<li>$${{ans.0}}$$ 
@@ -101,7 +72,8 @@
 				{%endfor%}
 				</ul>
 			<br/>
-			{{numCorrect}} out of {{lenuser_input}} is correct! <br/>
+			<div class="alert alert-warning" role="alert">{{numCorrect}} out of {{lenuser_input}} is correct! <br/></div>
+			<hr/>
 			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
 			<div style = "display:none;" id="sol">
 				{{question.solution|safe}}

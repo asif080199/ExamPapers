@@ -48,7 +48,6 @@ def extractLabelandAns(content):
 
 	return {'labellist': labellist, 'anslist': anslist}
 	
-	
 		
 def getAllDistinctAnsType(answer):
 	distinct_anstype = list()

@@ -23,9 +23,10 @@ def getViewQuestion(qid):
 	question.subtopic = Subtopic.objects.get(id=question.subtopic_id)
 	question.distinct_anstype = getAllDistinctAnsType(answer)
 	question.stars = star((question.marks+1)/2)
-	question.solution = "Not available"
 	question.solution = formatContent(question,"Solution")
-	question.answer = Answer.objects.filter(question = question.id)
+	question.answer = "Not available"
+	if Answer.objects.filter(question = question.id).count != 0:
+		question.answer = Answer.objects.filter(question = question.id)
 	return question
 
 def formatContent(question,type):
@@ -43,7 +44,9 @@ def formatContent(question,type):
 		question.content = question.content.replace(';','<br/>')
 		return question.content
 	if type =="Solution":
-		solutionContent  = Solution.objects.get(question_id = question.id).content
+		solutionContent = "Not available"
+		if Solution.objects.filter(question_id = question.id).count() != 0:
+			solutionContent  = Solution.objects.get(question_id = question.id).content
 		for i in images:
 			html_img = "<tempimage style = 'width:200px' src='" + i['imagepath'] + "' alt='" + i['imagepath'] + "' />"
 			solutionContent = solutionContent.replace('img', html_img, 1)
@@ -90,7 +93,7 @@ def display_finalanswer(finalanswer):
 		if fa.content is not None and fa.content!='':
 			tempDict = extractLabelandAns(fa.content)
 			fa.labellist = formatIntoLabelDictList(tempDict['labellist'], tempDict['anslist'])
-
+			
 		if isSketch(fa.answertype_id) or fa.content == '':
 			anstype = AnswerType.objects.get(id=fa.answertype_id).description
 			fa.label = " [" + anstype + " Question]. View Papers for detailed solution."
