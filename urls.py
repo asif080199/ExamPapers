@@ -37,6 +37,9 @@ urlpatterns = patterns('',
 	#qna
 	url(r'^(?P<subj_id>\d*)/qna/', include('ExamPapers.qna.urls')),
 	
+	#practice
+	url(r'^(?P<subj_id>\d*)/practice/', include('ExamPapers.practice.urls')),
+	
 	#dajax
     (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
 	

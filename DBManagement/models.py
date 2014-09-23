@@ -116,3 +116,12 @@ class Answer(models.Model):
 
 	def __str__(self):
 		return str(self.id)
+
+class Progress(models.Model):
+	user = models.ForeignKey(User, null=False)
+	question_id = models.ForeignKey(Question, null=False)
+	created = models.DateTimeField(auto_now=True)
+	score = models.IntegerField(null = True)
+	
+	def __str__(self):
+		return str(self.id)

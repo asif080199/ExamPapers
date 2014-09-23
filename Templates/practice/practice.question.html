@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+	<div class="col-sm-3">
+		<div class="well">
+			<h4 align='center'><h3>Question Info</h3>
+			<li><b>Question ID:</b> {{question.0.id}}</li>
+			<li><b>Difficulty :</b> {%for s in question.0.stars%}{{s|safe}}{%endfor%}</li>
+			
+			<li><b>Category:</b>[{% for at in question.0.distinct_anstype %}
+                            {{ at }}
+                            {% if forloop.last %}] {% else %}, {% endif %}
+                        {% endfor %}
+			</li>
+			<li><b>Subject:</b> {{cur}}</li>
+			<li><b>Topic:</b> {{question.0.topic}}</li>
+			<li><b>Subtopic:</b> {{question.0.subtopic}}</li>
+			<hr/>
+			<a href = "/{{cur.id}}/practice/"><button class = "btn btn-primary">Practice other topics</button></a>
+		</div>
+	
+	</div>
+	<div class="col-sm-6" >
+		<div class="thumbnail">
+			<h4>Question</h4>
+			{{question.content|safe}}
+			<hr/>
+			<h4>Answer:</h4>
+			{{question.answer}}
+			<input type="button" id="toggleans{{ question.id }}" name="toggleans" class="btn btn-inverse" onclick="toggleAns({{question.id}}, this.id);"  value="View Solution"/>
+				<div class="row-fluid  pad-top20 display-none" id="sol_{{question.id}}">
+					{{question.qanswer|safe}}
+				</div>
+		</div>
+		<div class="thumbnail">
+			<h4>Discussion</h4>
+			{% with question as object %}{% include "comments.html" %}{% endwith %}
+		</div>
+		
+	</div>
+	<div class="col-sm-3">
+		<div class="row-fluid well well-small" style="margin:0px;padding:10px">
+		<h3>In this topic...</h3>
+		{% for q in questions %}
+		 <a href="/{{cur.id}}/practice_question/{{tp}}/{{q.id}}">{%if q.id in history%}<font style="text-decoration:line-through">	{%endif%}
+						{%for s in q.stars%}{{s|safe}}{%endfor%}- {{q.subtopic}}  
+                        [{% for at in q.distinct_anstype %}
+                            {{ at }}
+                            {% if forloop.last %}] {% else %}, {% endif %} 
+						{%endfor%}{%if q.id in history%}</font>{%endif%}
+                      </a><br/><br/>
+		{%endfor%}
+		</div>
+	</div>
+{% endblock %}
