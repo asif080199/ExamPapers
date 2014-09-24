@@ -74,9 +74,6 @@ def question(request, subj_id, tp, qid):
         'practice/practice.question.html', param, context_instance=RequestContext(request)
     )
 
-def getAnswer(qid):
-	answers = Answer.objects.filter(question_id = qid)
-	return display_finalanswer(answers)
 
 def submit(request,subj_id):
 	param = {}

@@ -34,19 +34,24 @@ urlpatterns = patterns('',
     (r'^accounts/reset/$', views.account_reset),
 	(r'^accounts/profile/$', views.profile),
 	
-	#qna
-	url(r'^(?P<subj_id>\d*)/qna/', include('ExamPapers.qna.urls')),
-	
-	#practice
-	url(r'^(?P<subj_id>\d*)/practice/', include('ExamPapers.practice.urls')),
-	
-	#dajax
-    (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
 	
 	#comments
 	url(r'^comments/', include('django.contrib.comments.urls')),
 	
-	url(r'^(?P<subj_id>\d*)/test/', views.test),
+	#qna
+	url(r'^(?P<subj_id>\d*)/qna/', include('ExamPapers.qna.urls')),
+	
+	#control
+	
+	#practice
+	url(r'^(?P<subj_id>\d*)/practice/', include('ExamPapers.practice.urls')),
+	
+	
+	
+	#dajax
+    (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
+	
+	url(r'^(?P<subj_id>\d*)/control/', include('ExamPapers.control.urls')),
 )
 
 # This is needed to serve static files like images and css

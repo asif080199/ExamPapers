@@ -22,6 +22,9 @@
 					 {% for t in b.topics %}
 						{%if t.count > 0%}
 							<li class="linav2"><a href=" /{{cur.id}}/search/?type={{type}}&tp={{t.id}}&searchtext={{searchtext}}"> {% if t.id == tp %}<span class="text-muted"> {% endif %}{{t.title}} ({{t.count}}){% if t.id == tp %}</span> {% endif %}</a></li>
+							{% for q in t.questions%}
+								{{q}}
+							{%endfor%}
 						{% endif %}
 					 {% endfor %}
 					</ul>

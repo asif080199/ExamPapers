@@ -1,0 +1,39 @@
+<script src="/static/javascript/latex_admin.js"></script>
+<div class ="row-fluid well well-small">
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            {% for x in exe_input %}
+                {% if forloop.first %}
+                    <li class="active"><a href="#{{ x.tabHeader }}" data-toggle="tab">{{ x.tabHeader }}</a></li>
+                {% else %}
+                    <li><a href="#{{ x.tabHeader }}" data-toggle="tab">{{ x.tabHeader }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+        <div class="tab-content">
+            {% for x in exe_input %}
+                {% if forloop.first %}
+                    <div class="tab-pane active exercise_input break-word" id="{{ x.tabHeader }}">
+                {% else %}
+                    <div class="tab-pane exercise_input break-word" id="{{ x.tabHeader }}">
+                {% endif %}
+                        {% for c in x.content %}
+                            <div class="text-center width50 display-inlineblock" id='{{ c.id }}'>
+                                {{c.display|safe}}
+                            </div>
+                        {% endfor %}
+                    </div>
+            {% endfor %}
+
+            <br/>
+            <div class="border-black height150 pad5 overflow-auto" id="preview"></div>
+            <input type="hidden" id="lastFocusInput"/>
+        </div>
+    </div>
+    <div id="commonTemp" class="margin-top5">
+        Common Latex Template -
+        <input type="button" value="$$\begin{align}  \end{align}$$" class='btn btn-small btn-info' onclick="insertBtnValueAtCaret(this.value);">
+        <input type="button" value="$$  $$" class='btn btn-small btn-info' onclick="insertBtnValueAtCaret(this.value);">
+    </div>
+</div>

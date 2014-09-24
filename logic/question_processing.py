@@ -147,3 +147,7 @@ def extractLabelandAns(content):
 			counter+=2
 
 	return {'labellist': labellist, 'anslist': anslist}
+	
+def getAnswer(qid):
+	answers = Answer.objects.filter(question_id = qid)
+	return display_finalanswer(answers)

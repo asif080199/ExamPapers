@@ -282,8 +282,6 @@ def profile(request):
 	param['subjects'] = subjects
 	return render(request,'account/account.profile.html',param)
 
-
-
 @login_required	
 def level(request,lid):
 	param = {}

@@ -8,7 +8,9 @@
 {% block content %}
 	<div class = "col-sm-12" style="margin:0px">
 		<div class="thumbnail">
-				<h3 align='center'>{{s.title}} - {{s.description}} Practice</h3><hr/>
+				<h3 align='center'>{{s.title}} Practice</h3>
+				<blockquote> {{s.description}}</blockquote>
+				<hr/>
 				<table width="100%">
 				{%for t in s.topics%}
 					<tr ><td width="45%" style="padding-right:10px">- {{t}}</td>

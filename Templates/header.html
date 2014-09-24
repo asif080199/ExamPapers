@@ -36,7 +36,7 @@
             </li>
             {% endif %}
             {% if user.is_staff %}
-            <li><a href="/control/"><span class="glyphicon glyphicon-wrench"></span> Admin</a></li>
+            <li><a href="/{{cur.id}}/control/home"><span class="glyphicon glyphicon-wrench"></span> Control</a></li>
             {% endif %}
 			{% endif %}
           </ul>
@@ -98,3 +98,7 @@
 
 <!-- CKEditor -->
 <script src="/static/javascript/ckeditor/ckeditor.js"></script>
+
+<!--Datatable-->
+<link rel="stylesheet" type="text/css" href="/static/css/dataTable.css">
+<script type="text/javascript" src="/static/javascript/dataTable.js"></script>

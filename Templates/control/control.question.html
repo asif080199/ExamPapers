@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content%}
+	<div class="col-sm-3">
+		<div class="well">
+			<h4 align='center'><h3>Question Info</h3>
+			<li><b>Question ID:</b> {{question.id}}</li>
+			<li><b>Difficulty :</b> {%for s in question.stars%}{{s|safe}}{%endfor%}</li>
+			
+			<li><b>Category:</b>[{% for at in question.distinct_anstype %}
+                            {{ at }}
+                            {% if forloop.last %}] {% else %}, {% endif %}
+                        {% endfor %}
+			</li>
+			<li><b>Subject:</b> {{cur}}</li>
+			<li><b>Topic:</b> {{question.topic}}</li>
+			<li><b>Subtopic:</b> {{question.subtopic}}</li>
+			
+			<hr/>
+			<a href = "/{{cur.id}}/control/edit/{{question.id}}/"><button class = "btn btn-warning " style = "display:block;width:100%" >Edit</button></a>
+			<a href = "/{{cur.id}}/control/delete/{{question.id}}"/><button class = "btn btn-danger" style = "display:block;width:100%" >Delete</button></a>
+			<br/>
+			<input type='button' class = "btn btn-default " style = "display:block;width:100%" value="Back" onClick="javascript:history.go(-1);">
+		</div>
+	</div>
+	<div class="col-sm-9" >
+		<div class="thumbnail">
+		  <form method = "POST" action = "/{{cur.id}}/control/submit/">
+			<input type = "hidden" name = "qid" value = {{question.id}}>
+			{% csrf_token %}
+			{{question.content|safe}}
+			<hr/>
+			<h4>Answer:</h4>
+			{% for fa in answers%}
+				{% ifequal fa.part_no|slice:"2:3" 1|safe%}
+					{%  if not forloop.first %}
+						{% ifnotequal fa.part_no|slice:"0:1" 0|safe %}
+							<br/>
+						{% else %}
+                            {% ifnotequal fa.part_no|slice:"1:2" 0|safe %}
+							<br/>
+                        {% endifnotequal %}
+                    {% endifnotequal %}
+                 {% endif %}
+				{% with 'a) b) c) d) e)' as list %}
+					{% for j in list.split %}
+						{% ifequal fa.part_no|slice:"0:1" forloop.counter|safe %}{{j}}{% endifequal %}
+                    {% endfor %}
+                {% endwith %}
+                {% with '(i) (ii) (iii) (iv) (v)' as list %}
+					{% for j in list.split %}
+						{% ifequal fa.part_no|slice:"1:2" forloop.counter|safe %}{{j}}{% endifequal %}
+					{% endfor %}
+				{% endwith %}
+				{% endifequal %}
+				{% if not fa.content %}
+					{{ fa.label }}
+				{% else %}
+					{% for ll in fa.labellist%}
+					{{ ll.label|safe }}
+				{% if not forloop.last %}
+					<input name = "u{{fa.id}}{{ll.counter}}" value = "{{ ll.ans}}">
+				{% endif %}
+				{% endfor %}
+                {% endif%}
+			{% endfor %}
+			<br/><br/>
+			<input class="btn btn-primary"  type="submit" value="Submit" /></form>
+		</div>
+		<br/>
+		
+		
+			
+		
+		
+	</div>
+	
+{% endblock %}
