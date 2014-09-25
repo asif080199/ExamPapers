@@ -23,30 +23,62 @@
           </div>
 	</div>
 	<div class="col-sm-9">
-		<h2>Study</h2>
+		<h2>Concept</h2>
+		<div class="alert alert-info">Topic: {{topic}}</div>
 		{% if tp == -1 %}
-			<div class="col-sm-4">
-				<img height = "400px" src = "/static/image/pic/study.jpg">
-			</div>
+				<div class="alert alert-warning"> <p class = "glyphicon glyphicon-chevron-left"></p><p class = "glyphicon glyphicon-chevron-left"></p><p class = "glyphicon glyphicon-chevron-left"></p> Select a topic</div>
+		
 		{% endif %}
-		<div class="panel-group" id="accordion">
-		{% for c in content%}
-		  <div class="panel panel-default">
-			<div class="panel-heading">
-			  <h4 class="panel-title">
-				<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{c}}">
-					{{c}}
-				</a>
-			  </h4>
-			</div>
-			<div id="collapse{{c}}" class="panel-collapse collapse">
-			  <div class="panel-body">
-				{{c}}<br/>
-				<a href = "">Download file content</a>
+		{% if content|length > 0 %}
+			<div class="panel-group" id="accordion">
+			{% for c in content%}
+			  <div class="panel panel-default">
+				<div class="panel-heading">
+				  <h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{c}}">
+						{% if c.type == "C"%}
+							<p class = " glyphicon glyphicon-circle-arrow-down"></p> Concept: 
+						{% endif %}
+						{% if c.type == "F"%}
+							<p class = " glyphicon glyphicon-circle-arrow-down"></p> Formula: 
+						{% endif %}
+						{{c.title}}
+					</a>
+				  </h4>
+				</div>
+				<div id="collapse{{c}}" class="panel-collapse collapse">
+				  <div class="panel-body">
+					{{c.content|safe}}
+				  </div>
+				</div>
 			  </div>
+			{% endfor %}
+						<!-- Next/Prev page links  -->
+				<small class="pull-right">
+					{% if content.object_list and content.paginator.num_pages > 1 %}
+					<div class="pagination" style="margin-top: 20px; margin-left: -20px; ">
+						<span class="step-links">
+							{% if content.has_previous %}
+								<a href= "/{{cur.id}}/study/?tp={{tp}}&page={{ content.previous_page_number }}">Newer entries &lt;&lt; </a>
+							{% endif %}
+
+							<span class="current">
+								&nbsp;Page {{ content.number }} of {{ content.paginator.num_pages }}
+							</span>
+
+							{% if content.has_next %}
+								<a href="/{{cur.id}}/study/?tp={{tp}}&page={{ content.next_page_number }}"> &gt;&gt; Older entries</a>
+							{% endif %}
+						</span>
+					</div>
+					{% endif %}
+					</div>
+				</small>
 			</div>
-		  </div>
-		{% endfor %}
-		</div>
+			
+		{% endif %}
+		{% if content|length == 0 and tp != -1 %}
+			<div class="alert alert-danger">No content available for this topic</div>
+		{% endif %}
 	</div>
 {% endblock %}

@@ -61,7 +61,8 @@ INSERT INTO DBManagement_topic VALUES
 (34,6,'Hypothesis Testing'),
 (35,6,'Correlation and Linear Regression'),
 
-(36,7,'Others');
+(36,7,'Others'),
+(37,7,'Trigonometry');
 
 INSERT INTO DBManagement_subtopic VALUES
 (101,1,'Linear Functions'),
@@ -137,7 +138,7 @@ INSERT INTO DBManagement_subtopic VALUES
 (1802,18,'Trigonometric Form of Complex Numbers'),
 (1803,18,'Geometry of Complex Numbers in Trigonometric Form'),
 (1901,19,'Exponential Form of Complex Numbers'),
-(1902,19,'De MoivreÂ?s Theorem'),
+(1902,19,'De Moivreas Theorem'),
 (1903,19,'nth Roots of Unity'),
 (1904,19,'nth Roots of w of Complex Numbers'),
 (2001,20,'Locus in the Argand Diagram'),

@@ -313,9 +313,26 @@ def study(request,subj_id,tp):
 		b.topics = Topic.objects.filter(block = b)
 	param['blocks'] = blocks
 	param['tp'] = tp
+	param['topic'] = "None"
+	param['content'] = "False"
+	content = []
 	if tp!=-1:
-		param['content'] = ["Content1","Content2","Content3"] #to be replaced by file content
+		param['topic'] = Topic.objects.get(id = tp).title
+		content = TagDefinition.objects.filter(topic_id = tp).order_by('type')
+		for c in content:
+			c.content = c.content.replace(";","<br/>")
+	#Do paging 
+	paginator = Paginator(content, 7)
 		
+	try: page = int(request.GET.get("page", '1'))
+	except ValueError: page = 1
+
+	try:
+		content = paginator.page(page)
+	except (InvalidPage, EmptyPage):
+		content = paginator.page(paginator.num_pages)
+		
+	param['content'] = content
 	param.update(current(subj_id))
 	return render(request,'study.html', param)
 
@@ -469,10 +486,6 @@ def statistics(request,subj_id,type):
 	
 	param['blocks']= blocks
 	return render(request,'statistics.html',param)
-	
-	
-	
-
 	
 def star(rate):
 	stars = []

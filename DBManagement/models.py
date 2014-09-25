@@ -125,3 +125,18 @@ class Progress(models.Model):
 	
 	def __str__(self):
 		return str(self.id)
+
+class TagDefinition(models.Model):
+	id = models.AutoField('id', primary_key=True, null=False)
+	title = models.TextField('content', null=True)
+	type = models.TextField('content', null=True)
+	topic = models.ForeignKey(Topic, null=True) 
+	content = models.TextField('content', null=True)
+	
+	def __str__(self):
+		return str(self.id)
+
+class  Tag(models.Model):
+	id = models.AutoField('id', primary_key=True, null=False)
+	question = models.ForeignKey(Question, null=True) 
+	tagdefinition = models.ForeignKey(TagDefinition, null=True) 
