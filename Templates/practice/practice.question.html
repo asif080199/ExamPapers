@@ -11,6 +11,7 @@
 			<hr/>
 			<h4>Answer:</h4>
 			{% for fa in answers%}
+				<br/>
 				{% ifequal fa.part_no|slice:"2:3" 1|safe%}
 					{%  if not forloop.first %}
 						{% ifnotequal fa.part_no|slice:"0:1" 0|safe %}
@@ -38,7 +39,6 @@
 					{% for ll in fa.labellist%}
 					{{ ll.label|safe }}
 				{% if not forloop.last %}
-					{{ll.sub}}
 					<input name = "u{{fa.id}}{{ll.counter}}" value = "{{ ll.ans}}">
 				{% endif %}
 				{% endfor %}
