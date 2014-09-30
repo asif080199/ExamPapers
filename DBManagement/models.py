@@ -139,4 +139,126 @@ class TagDefinition(models.Model):
 class  Tag(models.Model):
 	id = models.AutoField('id', primary_key=True, null=False)
 	question = models.ForeignKey(Question, null=True) 
-	tagdefinition = models.ForeignKey(TagDefinition, null=True) 
+	tagdefinition = models.ForeignKey(TagDefinition, null=True)
+
+
+"""Paper test and CAT"""
+class Assessment(models.Model):
+    "Assessment model to represent different assessment engines"
+
+    PRACTICE = 'P'
+    TEST = 'T'
+    ASSESSMENT_MODE_CHOICES = (
+        (PRACTICE, 'Practice'),
+        (TEST, 'Test'),
+    )
+
+    name        = models.CharField(max_length=30)
+    type        = models.CharField(max_length=1, choices=ASSESSMENT_MODE_CHOICES)
+    active      = models.BooleanField()
+    engine      = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return self.name
+
+# New in version 20131023
+class Response(models.Model):
+    "Response model to store user responses"
+    user        = models.ForeignKey(User)
+    question    = models.ForeignKey(Question)
+    response    = models.TextField(max_length=100)
+    date        = models.DateTimeField(auto_now=True)
+    duration    = models.IntegerField(blank=True, null=True) # In seconds
+    correctness = models.DecimalField(max_digits=3, decimal_places=2, null=True) # Percent correct in dec (0-1)
+    criterion   = models.DecimalField(max_digits=3, decimal_places=1) # Max marks for random practice/test, diff for CAT
+    ability     = models.DecimalField(max_digits=5, decimal_places=2, null=True) # Current ability score for practices
+    assessment  = models.ForeignKey(Assessment)
+
+# New in version 20131208
+class Test(models.Model):
+    "Test model for storage of each test paper generated"
+    STATE_CHOICES = (
+        (False, 'Draft'),
+        (True, 'Active'),
+    )
+
+    id          = models.CharField(max_length=6, primary_key=True) #Unique 6 char alphanumeric ID
+    generated   = models.DateTimeField(auto_now=True)
+    questions   = models.ManyToManyField(Question, through='TestQuestion')
+    assessment  = models.ForeignKey(Assessment)
+    state       = models.BooleanField(choices=STATE_CHOICES, default=False)
+
+    def _get_score(self):
+        "Gets the score of the completed test"
+        question = self.questions.all().reverse()[0] # Get last question
+
+        # Should we filter for users?
+        test_response = TestResponse.objects.filter(test=self).filter(question=question)[0]
+
+        return test_response.ability
+
+    score     = property(_get_score)
+
+# New in version 20131208
+class TestResponse(Response):
+    "TestResponse model for storage of test responses, this links back to the test itself"
+    test        = models.ForeignKey(Test, related_name='responses')
+
+    def __unicode__(self):
+        return 'TestResponse ' + str(self.id)
+
+class Meta(models.Model):
+    "Meta model to keep the list of meta tags used"
+    metatag     = models.CharField(max_length=30, primary_key=True)
+
+    def __unicode__(self):
+        return self.metatag
+# Many to Many intermediary models
+
+# New in version 20131023
+class QuestionMeta(models.Model):
+    "QuestionMeta model is an intermediary model between Question and Meta models"
+    question    = models.ForeignKey(Question)
+    meta        = models.ForeignKey(Meta)
+    content     = models.CharField(max_length=50)
+
+# New in version 20131208
+class TestQuestion(models.Model):
+    "TestQuestion model is an intermediary model between Test qnd Question models"
+    question    = models.ForeignKey(Question)
+    test        = models.ForeignKey(Test)
+
+# New in version 20140205
+class UserProfile(models.Model):
+    user        = models.OneToOneField(User)
+
+    debug       = models.BooleanField()
+
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            UserProfile.objects.create(user=instance)
+
+    post_save.connect(create_user_profile, sender=User)
+
+# New in version 20140215
+class UserUsage(models.Model):
+    user        = models.ForeignKey(User)
+    datetime    = models.DateTimeField(auto_now=True)
+    page        = models.CharField(max_length=50)
+
+    class Meta:
+        ordering = ['-datetime']
+
+    def __unicode__(self):
+        return self.user.get_full_name() + ' last accessed ' + self.page + ' ' + timesince(self.datetime) + ' ago'
+	
+class UserProfile(models.Model):
+    user        = models.OneToOneField(User)
+
+    debug       = models.BooleanField()
+
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            UserProfile.objects.create(user=instance)
+
+    post_save.connect(create_user_profile, sender=User)

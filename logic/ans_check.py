@@ -31,6 +31,9 @@ def isExpression(anstype):
 def isText(anstype):
 	return (anstype == "Text" or anstype == 5 or anstype == '5')
 
+def isMCQ(anstype):
+	return (anstype == "MCQ" or anstype == 6 or anstype == '6')	
+
 def extractLabelandAns(content):
 	labellist = list()
 	anslist = list()
@@ -69,6 +72,9 @@ def checkAns(user_inputs,actual_ans, anstype):
 
 	elif isExpression(anstype):
 		return checkExpressionAnsType(user_inputs, actual_ans)
+		
+	elif isMCQ(anstype):
+		return checkMCQAnsType(user_inputs, actual_ans)
 
 	elif isText(anstype):
 		return checkTextAnsType(user_inputs, actual_ans)
@@ -111,6 +117,13 @@ def checkExpressionAnsType(user_inputs, actual_ans):
 	return 'False'
 
 def checkTextAnsType(user_inputs, actual_ans):
+	if format_ans(user_inputs) != '':
+		if format_ans(user_inputs).lower() == format_ans(actual_ans).lower():
+			return 'True'
+	else:
+		return "isEmpty"
+
+def checkMCQAnsType(user_inputs, actual_ans):
 	if format_ans(user_inputs) != '':
 		if format_ans(user_inputs).lower() == format_ans(actual_ans).lower():
 			return 'True'

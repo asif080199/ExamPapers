@@ -196,3 +196,5 @@ EMAIL_HOST_PASSWORD = 'DrJohnHui'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+# Extra user profile data for users
+AUTH_PROFILE_MODULE = 'DBManagement.UserProfile'

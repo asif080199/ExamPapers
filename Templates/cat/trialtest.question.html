@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}CAT Test{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+    $(document).ready(function() {
+      /* AJAX time retrival for tests */
+      if($('#test_timer').length) {
+        /* Find test ID and get test ending time from server */
+        var request = $.ajax({
+          url: "/trialtest/{{ test_id }}/getendtime/",
+          cache: false
+        })
+
+        request.done(function(msg) {
+          var enddate = new Date(msg);
+
+          $('#test_timer').countdown({until: enddate, compact: true, format: 'HMS', description: '', alwaysExpire: true, onExpiry: testExpired});
+        });
+      };
+    });
+
+    function testExpired() {
+      alert("Time's up! Proceeding to next question...");
+
+      var test_form = $("#test_form");
+      var answer = $('input[name=ans]:checked', '#test_form').val()
+
+      if(!answer) {
+        var $hiddenInput = $('<input/>',{type:'hidden',name:"ans",value:"<MCQ Empty>"});
+        $hiddenInput.appendTo(test_form);
+      }
+
+      test_form.submit();
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+	<div class="col-sm-12">
+		 <h1>CAT Test<a href="/{{cur.id}}/cat/home" class="btn btn-danger pull-right">End CAT Test</a></h1>
+	</div>
+	<div class="col-sm-3">
+		<div class="well">
+              <div>Time Remaining: <div id="test_timer"></div></div>
+              <h5>Topic</h5>
+              <span class="label label-info">{{ question.topic }}</span>
+              <h5>Difficulty</h5>
+              {% if question.difficulty == 5 %}
+              <span class="label label-danger"> Very Difficult</span>
+              {% elif question.difficulty == 4 %}
+              <span class="label label-warning">Difficult</span>
+              {% elif question.difficulty == 3 %}
+              <span class="label label-warning">Average</span>
+              {% elif question.difficulty == 2 %}
+              <span class="label label-success">Easy</span>
+              {% elif question.difficulty == 1 %}
+              <span class="label label-success">Very Easy</span>
+              {% endif %}
+              <h5>Tags</h5>
+              {% if question.tags.all %}
+              {% for tag in question.tags.all %}
+              <span class="label label-default">{{ tag }}</span>
+              {% endfor %}
+              {% else %}
+              <span class="label label-default">No tags yet</span>
+              {% endif %}
+            </div>
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+			  Debug Data <small>(Normally hidden from user)</small>
+			</div>
+			<div class="panel-body">
+			  <p>Question: {{question.id}}</p>
+			  <p>Answer: {{debug.answer}}</p>
+			  <p>Difficulty (1-5): {{question.difficulty}}</p>
+			  <p>Current Ability: {{debug.ability}}</p>
+			  <p>Item info: {{question.question_info}}</p>
+			</div>
+		  </div>
+	</div>
+	<div class="col-sm-9 thumbnail">
+		<div id="qlabel" class="col-sm-1 ">
+			<h3>Q:</h3>
+		</div>
+		<div id="qlabel" class="col-sm-11 ">
+			 {{question.content}}
+			 <hr/>
+		</div>
+		<div id="qlabel" class="col-sm-1 ">
+			<h3>A:</h3>
+		</div>
+		<div id="qlabel" class="col-sm-11">
+			<form id="test_form" method="post">
+              {% csrf_token %}
+				{% for fa in answers%}
+				<br/>
+				{% ifequal fa.part_no|slice:"2:3" 1|safe%}
+					{%  if not forloop.first %}
+						{% ifnotequal fa.part_no|slice:"0:1" 0|safe %}
+							<br/>
+						{% else %}
+                            {% ifnotequal fa.part_no|slice:"1:2" 0|safe %}
+							<br/>
+                        {% endifnotequal %}
+                    {% endifnotequal %}
+                 {% endif %}
+				{% with 'a) b) c) d) e)' as list %}
+					{% for j in list.split %}
+						{% ifequal fa.part_no|slice:"0:1" forloop.counter|safe %}{{j}}{% endifequal %}
+                    {% endfor %}
+                {% endwith %}
+                {% with '(i) (ii) (iii) (iv) (v)' as list %}
+					{% for j in list.split %}
+						{% ifequal fa.part_no|slice:"1:2" forloop.counter|safe %}{{j}}{% endifequal %}
+					{% endfor %}
+				{% endwith %}
+				{% endifequal %}
+				{% if not fa.content %}
+					{{ fa.label }}
+				{% else %}
+					{% for ll in fa.labellist%}
+					{{ ll.label|safe }}
+				{% if not forloop.last %}
+					<input name = "u{{fa.id}}{{ll.counter}}" value = "{{ ll.ans}}">
+				{% endif %}
+				{% endfor %}
+                {% endif%}
+				{% endfor %}
+			  </div>
+			  <small class = "pull-right">
+			 <input type ="submit" style = "margin-top:180px" id="practicesubmitbtn" value = "Submit" type="submit" data-loading-text="Submitting..." class="btn btn-primary">
+              </small>
+			  <input type="hidden" name="qid" value="{{question.id}}">
+	</div>
+	</form>
+	
+{% endblock %}

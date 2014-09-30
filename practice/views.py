@@ -101,7 +101,6 @@ def submit(request,subj_id):
 	
 	""" ------------------------- """
 	
-	#print user_input_dict
 	
 	# Now check with given answer	
 	param.update(check_qns_solution(qid,user_input))

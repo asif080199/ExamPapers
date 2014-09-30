@@ -1,6 +1,6 @@
-from itemrtdb.models import *
+from DBManagement.models import *
 from django.db.models import Avg
-
+from logic.ans_check import check_qns_solution
 import abc, random, re, decimal, math, sys
 
 # Please note: When adding a new engine here, please be sure to follow the interface (base) specifications. This will allow your code to work peacefully with the rest of the system. RandomPracticeEngine is a good sample of what to expect.
@@ -123,7 +123,7 @@ class CATPracticeEngine(PracticeEngineBase):
 
         for question in question_pool:
             # Normalisation of question difficulty due to remapped range (from -3 to +3 >> 1 to 5)
-            difficulty = ((question.difficulty-1.0)/4.0 * 6.0)-3.0
+            difficulty = ((question.difficulty/2))
 
             temp = 0
             temp = self._compute_item_info(session_store, difficulty)
@@ -247,7 +247,10 @@ class TestEngineBase(object):
         """Match and record user's response with answers and update ability scores."""
         return
 
-class CATTestEngine(TestEngineBase):
+		
+
+class CATTestEngine(TestEngineBase):	#using this
+	# Modification for mathematic result checking by Ly on 30 Sep 2014
 
     """
     Test engine that uses an implementation of computerised adaptive testing to pick questions for tests.
@@ -295,28 +298,15 @@ class CATTestEngine(TestEngineBase):
         best_questions = []
 
         for question in question_pool:
-            # Normalisation of question difficulty due to remapped range (from -3 to +3 >> 1 to 5)
-            difficulty = ((question.difficulty-1.0)/4.0 * 6.0)-3.0
+            # Normalisation of question difficulty due to remapped range (from 2 to 10 >> 1 to 5)
+            difficulty = question.difficulty/2
 
             temp = 0
             temp = self._compute_item_info(session_store, difficulty)
             fitness = 1 - (temp * (1-temp))
 
-#            if topic is None:
- #               topic_weight = 0
-  #              topic_total = 0
-   #             for atopic in topic_pool:
-    #                topic_total = topic_total + atopic.weight
-     #               if atopic == question.topic:
-      #                  topic_weight = atopic.weight * 1
-#
- #               topic_weight = topic_weight/topic_total
-  #              fitness = fitness + 1 - topic_weight
-
             question_info[question.id] = fitness
-            #if temp > max_info:
-            #    max_info = temp
-            # goal is to minimize
+ 
             if fitness < min_info:
                 min_info = fitness
                 best_questions = []
@@ -357,11 +347,8 @@ class CATTestEngine(TestEngineBase):
         this_engine = Assessment.objects.all().get(name='CAT Test')
 
         # Get correctness of answer (between 0 and 1)
-        correctness = 0
-        for answer in question.answers.all():
-            if re.search('^'+answer.content+'$', response, re.IGNORECASE):
-                correctness = answer.correctness
-
+        results = check_qns_solution(question.id,response)
+        correctness = 1.0*results['numCorrect']/results['totalAns']
         # Rebuild session store
         if not session_store or session_store['engine'] != this_engine.name or session_store['test'] != test.id:
             session_store = {}
@@ -377,8 +364,8 @@ class CATTestEngine(TestEngineBase):
             for prev_response in responses:
                 session_store = self._compute_ability(session_store, prev_response.criterion, prev_response.correctness)
 
-        # Normalisation of question difficulty due to remapped range (from -3 to +3 >> 1 to 5)
-        difficulty = ((question.difficulty-1.0)/4.0 * 6.0)-3.0
+        # Normalisation of question difficulty due to remapped range (from 2 to 10 >> 1 to 5)
+        difficulty = question.difficulty/2
 
         # Compute new ability score
         session_store = self._compute_ability(session_store, difficulty, correctness)
@@ -409,7 +396,7 @@ class CATTestEngine(TestEngineBase):
                     terminate = True
                     debug_t_cond = 3
 
-        reply_vector = {'session_store': session_store, 'terminate': terminate, 'ability': normalised_ability, 'debug_t_cond': debug_t_cond, 'correctness': correctness}
+        reply_vector = {'session_store': session_store, 'terminate': terminate, 'ability': normalised_ability, 'debug_t_cond': debug_t_cond, 'correctness': correctness, 'numCorrect': results['numCorrect'], 'totalAns' : results['totalAns'], 'resultList' : results['resultList']}
 
         return reply_vector
 
