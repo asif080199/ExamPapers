@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class = "col-sm-12">	
+		<h1>Paper Test <small class="pull-right">Test ID: <span id="test_id">{{ test.id }}</span></small></h1>
+	</div>
+	<div class="col-sm-3 well" >
+              {% csrf_token %}
+              <ul class="nav bs-sidenav">
+                  <li id="nav_questions">
+                    <a href="#">Questions</a>
+                    <ul class="nav">
+                      {% for question in test.questions.all %}
+                      <li><a href="#question-{{ forloop.counter }}">Question {{ forloop.counter }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  </li>
+              </ul>
+		<a href = "/{{cur.id}}/paper/solution/{{ test.id }}/">
+			<button class = "btn btn-default" style="display:block;width:100%">View Paper with Solution</button>
+		</a>
+		<button class = "btn btn-default" style="display:block;width:100%"><p class = "glyphicon glyphicon-print glyphicon"></p> Print Paper</button>
+	</div>
+	<div class = "col-sm-9">
+		<div class = "thumbnail">
+		{% for question in testQuestion %}
+          <div class="multiquestion-row">
+            <div id="question-{{ forloop.counter }}" class="anchor"></div>
+            <div class="row">
+              <div id="qlabel" class="col-md-1">
+                <h3>Q{{ forloop.counter }}:</h3>
+              </div>
+              <div class="col-md-11"{% if not user.is_staff %} style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor: default;"{% endif %}>
+                {{ question.content|safe }}
+              </div>
+            </div>
+            <div class="row">
+              <form method="post" action="/papertest/{{ test.id }}/save/">
+                {% csrf_token %}
+                <hr/>
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+	</div>
+	</div>
+      
+{% endblock %}

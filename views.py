@@ -451,6 +451,7 @@ def statistics(request,subj_id,type):
 	
 	
 	#count
+	all = 0
 	if type == "overview":
 		param['total'] = 0
 	blocks = Block.objects.filter(subject__id = subj_id)
@@ -459,16 +460,18 @@ def statistics(request,subj_id,type):
 			b.topics = Topic.objects.filter(block__id = b.id)
 			for t in b.topics:
 				t.a = Question.objects.filter(topic_id = t.id).filter(difficulty = 0).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 1).count()+ Question.objects.filter(topic_id = t.id).filter(difficulty = 2).count()
-				t.b = Question.objects.filter(topic_id = t.id).filter(difficulty = 2).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 3).count()
-				t.c = Question.objects.filter(topic_id = t.id).filter(difficulty = 4).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 5).count()
-				t.d = Question.objects.filter(topic_id = t.id).filter(difficulty = 6).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 7).count()
-				t.e = Question.objects.filter(topic_id = t.id).filter(difficulty = 8).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 9).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 10).count()
-		a = Question.objects.filter(difficulty = 0).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 1).count()+ Question.objects.filter(difficulty = 2).count()
-		b = Question.objects.filter(difficulty = 2).count() + Question.objects.filter(difficulty = 3).count()
-		c = Question.objects.filter(difficulty = 4).count() + Question.objects.filter(difficulty = 5).count()
-		d = Question.objects.filter(difficulty = 6).count() + Question.objects.filter(difficulty = 7).count()
-		e = Question.objects.filter(difficulty = 8).count() + Question.objects.filter(difficulty = 9).count() + Question.objects.filter(difficulty = 10).count()
+				t.b = Question.objects.filter(topic_id = t.id).filter(difficulty = 3).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 4).count()
+				t.c = Question.objects.filter(topic_id = t.id).filter(difficulty = 5).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 6).count()
+				t.d = Question.objects.filter(topic_id = t.id).filter(difficulty = 7).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 8).count()
+				t.e = Question.objects.filter(topic_id = t.id).filter(difficulty = 9).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 10).count()
+				
+		a = Question.objects.filter(difficulty = 0).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(topic_id = t.id).filter(topic__block__subject_id = subj_id).filter(difficulty = 1).count()+ Question.objects.filter(topic__block__subject_id = subj_id).filter(difficulty = 2).count()
+		b = Question.objects.filter(difficulty = 3).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(difficulty = 4).filter(topic__block__subject_id = subj_id).count()
+		c = Question.objects.filter(difficulty = 5).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(difficulty = 6).filter(topic__block__subject_id = subj_id).count()
+		d = Question.objects.filter(difficulty = 7).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(difficulty = 8).filter(topic__block__subject_id = subj_id).count()
+		e = Question.objects.filter(difficulty = 9).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(difficulty = 10).filter(topic__block__subject_id = subj_id).count() 
 		param['total'] = [a,b,c,d,e]
+		all = Question.objects.filter(topic__block__subject_id = subj_id).count()
 	if type == "qna":
 		today = datetime.today()
 		for b in blocks:
@@ -482,8 +485,9 @@ def statistics(request,subj_id,type):
 		b = Ask.objects.filter(created__month = today.month).count()
 		c = Ask.objects.filter(created__year = today.year).count()
 		d = Ask.objects.count()
+		all = a + b + c + d 
 		param['total'] = [a,b,c,d]
-	
+	param['all'] = all
 	param['blocks']= blocks
 	return render(request,'statistics.html',param)
 	

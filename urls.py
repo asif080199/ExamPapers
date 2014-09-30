@@ -25,6 +25,9 @@ urlpatterns = patterns('',
 	#cat
 	url(r'^(?P<subj_id>\d*)/cat/', include('ExamPapers.cat.urls')),
 	
+	#paper
+	url(r'^(?P<subj_id>\d*)/paper/', include('ExamPapers.paper.urls')),
+	
 	#statistics
 	(r'^(?P<subj_id>\d*)/statistics/(?P<type>\d*)', views.statistics),	
 	

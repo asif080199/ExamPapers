@@ -27,7 +27,6 @@ def getViewQuestion(qid):
 	question.answer = "Not available"
 	if Answer.objects.filter(question = question.id).count != 0:
 		question.answer = Answer.objects.filter(question = question.id)
-	print question.content
 	return question
 
 def formatContent(question,type):

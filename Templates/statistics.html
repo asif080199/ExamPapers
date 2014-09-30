@@ -3,38 +3,15 @@
 	
 	<div class="col-sm-12">
 		<div class='nav nav-tabs'>
-			<li {% if type == "overview" or type == None %} class="active" {% endif %}><a href="/{{cur.id}}/statistics/?type=overview"><span>Traffic</span></a></li>
-			<li {% if type == "practice" %} class="active" {% endif %}><a href="/{{cur.id}}/statistics/?type=practice"><span>Practice Question Bank</span></a></li>
+			<li {% if type == "practice" or type == None %} class="active" {% endif %}><a href="/{{cur.id}}/statistics/?type=practice"><span>Practice Question Bank</span></a></li>
 			<li {% if type == "qna" %} class="active" {% endif %}><a href="/{{cur.id}}/statistics/?type=qna"><span>Q&A Question Bank</span></a></li>
 			
 		</div>
-		{% if type == "overview" or type == None %}
-			<div class = "thumbnail">
-				<h3>Traffic</h3><br/>
-				<ul>
-					<li>
-						<!-- BEGIN: Powered by Supercounters.com -->
-						Number of users online <script type="text/javascript" src="http://widget.supercounters.com/online_i.js"></script><script type="text/javascript">sc_online_i(909508,"ffffff","000000");</script><br><noscript><a href="http://www.supercounters.com/"></a></noscript>
-						<!-- END: Powered by Supercounters.com -->
-					</li>
-					<li>
-						<!-- BEGIN: Powered by Supercounters.com -->
-						User map: <br/>
-						<div style="text-align:center; margin:0; padding:0; width:350px;"><embed src="//rk.revolvermaps.com/f/g.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" wmode="window" allowScriptAccess="always" allowNetworking="all" width="350" height="350" flashvars="m=8&amp;i=a3tak3tztvh&amp;r=false&amp;v=true&amp;b=000000&amp;n=false&amp;s=350&amp;c=fff600"></embed><br /><img src="//rk.revolvermaps.com/js/c/a3tak3tztvh.gif" width="1" height="1" alt="" /><a href="http://www.revolvermaps.com/?target=enlarge&amp;i=a3tak3tztvh&amp;color=fff600&amp;m=8">Large Visitor Globe</a></div>
-					</li>
-				</ul>
-				
 
-				
-				
-
-
-			</div>
-		{%endif%}
-		{% if type == "practice" %} 
+		{% if type == "practice" or type == None%} 
 			<div class="panel panel-default">
 			  <!-- Default panel contents -->
-			  <div class="panel-heading"><h4 style="text-align:center">Number of question by Topic and Difficulty in Practice Bank</h3></div>
+			  <div class="panel-heading"><h4 style="text-align:center">Number of question by Topic and Difficulty in Practice Bank ({{all}})</h3></div>
 			   
 			  
 			  <!-- Table -->
@@ -78,7 +55,7 @@
 		{% if type == "qna" %}
 			<div class="panel panel-default">
 			  <!-- Default panel contents -->
-			  <div class="panel-heading"><h4 style="text-align:center">Number of question by Topic in Q&A Bank</h3></div>
+			  <div class="panel-heading"><h4 style="text-align:center">Number of question by Topic in Q&A Bank ({{all}})</h3></div>
 
 			  <!-- Table --> 
 			  <table class="table">
