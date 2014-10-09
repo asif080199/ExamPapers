@@ -67,15 +67,15 @@
               <h5>Topic</h5>
               <span class="label label-info">{{ question.topic }}</span>
               <h5>Difficulty</h5>
-              {% if question.difficulty >= 10 %}
+              {% if question.difficulty == 5 %}
               <span class="label label-danger"> Very Difficult</span>
-              {% elif question.difficulty >= 8 %}
+              {% elif question.difficulty == 4 %}
               <span class="label label-warning">Difficult</span>
-              {% elif question.difficulty >= 6 %}
+              {% elif question.difficulty == 3 %}
               <span class="label label-warning">Average</span>
-              {% elif question.difficulty >= 4 %}
+              {% elif question.difficulty == 2 %}
               <span class="label label-success">Easy</span>
-              {% elif question.difficulty >= 2 %}
+              {% elif question.difficulty == 1 %}
               <span class="label label-success">Very Easy</span>
               {% endif %}
               <h5>Tags</h5>

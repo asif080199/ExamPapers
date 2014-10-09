@@ -75,12 +75,12 @@ def papertest(request, subj_id, test_id=None):
             for i in range (0, numQns):
                 # Get a random question and add to paper
                 question_pool = question_pool.exclude(id__in=new_test.questions.all().values_list('id'))
-
+                """ I don't get this. Isn't it just random"""
                 if question_pool:
                     question = question_pool[random.randint(0, question_pool.count()-1)]
                     newTestQuestion = TestQuestion(question=question, test=new_test)
                     newTestQuestion.save()
-
+                """ I don't get this. Isn't it just random"""
             return redirect('/'+subj_id+'/paper/papertest/'+str(testid)+'/')
         elif request.method == 'POST':
 			
