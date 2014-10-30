@@ -46,7 +46,7 @@ class Subtopic(models.Model):
 
 
 class Paperset(models.Model):
-	id = models.IntegerField('id', primary_key=True, null=False)
+	id = models.AutoField('id', primary_key=True, null=False)
 	title = models.TextField('title', null=True)
 	subject = models.ForeignKey(Subject, null=False)
 
@@ -262,3 +262,4 @@ class UserProfile(models.Model):
             UserProfile.objects.create(user=instance)
 
     post_save.connect(create_user_profile, sender=User)
+

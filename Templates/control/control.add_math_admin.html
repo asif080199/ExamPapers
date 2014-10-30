@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+		<div class="container-fluid" style="margin-top:40px;">
+			<div class="row-fluid">
+					<h1>Modifying H2 Mathematics</h1>
+					<hr>
+					<h3>Choose by Paper:</h3>
+					<form name="papers" action="/{{subj_id}}/control/math_admin_list/paper/1/" method="get">
+						<div class="row-fluid">
+							<div class="span11">
+								<select name="list_id" style="width:100%">
+									{% for p in papers%}
+										<option value="{{p.id}}">{{p.year}} {{p.month}} Paper {{p.number}}</option>
+									{% endfor %}											
+								</select>
+							</div>
+							<div class="span1">
+								<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Submit"/>
+							</div>
+						</div>
+					</form>
+					<h3>Choose by Topic:</h3>					
+					<form name="papers" action="/{{subj_id}}/control/math_admin_list/topic/1/" method="get">
+						<div class="row-fluid">
+							<div class="span11">
+								<select name="list_id" style="width:100%">
+									{% for t in topics %}
+										<option value="{{t.id}}">{{t.title}}</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="span1">
+								<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Submit"/>
+							</div>
+						</div>
+					</form>	
+			</div>
+		</div>
+{% endblock %}

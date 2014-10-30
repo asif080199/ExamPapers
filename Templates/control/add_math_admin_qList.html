@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+		<div class="container-fluid" style="margin-top:40px;">
+			<div class="row-fluid">
+				<h1>{{page_title}}</h1>
+				<div class="well">
+					Total Questions: {{num_q}}
+				</div>
+				<form action="{{subj_id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{list_id}}/-1/" method="get">
+					<input type="submit" class="btn btn-primary" id="submit"  name="attempt"  value="Insert New Question"/>
+				</form>
+				<table frame='box' rules='all' width='100%' border='2'>
+					<tr>
+						<td rowspan='2' width='90px'>Question Id</td>
+						<td rowspan='2' width='90px'>Paper</td>
+						<td colspan='3'>Question Summary</td>											
+					</tr>
+					<tr>
+						<td>Topic</td>
+						<td>Sub-Topic</td>
+						<td width='50px'>_</td>
+					</tr>
+				</table>
+				{% for q in questions %}											
+					<form action="/{{subj_id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{list_id}}/{{q.id}}/" method="get">
+						<table frame='box' rules='all' width='100%' border='2'>
+							<tr>
+								<td rowspan='2' width='90px'>{{q.id}}</td>
+								<td rowspan='2' width='90px'>{{q.paper}}</td>
+								<td colspan='3'>{{q.display}}</td>													
+							</tr>
+							<tr>
+								<td>{{q.topic}}</td>
+								<td>{{q.subtopic}}</td>
+								<td width='50px'><input type="submit" class="btn btn-danger" id="submit" name="attempt"  value="Modify"/></td>
+							</tr>
+						</table>
+					</form>												
+				{% endfor %}
+				<div class="pagination">
+					<ul>
+						{% for p in page_links %}
+							{% if page_no == p %}
+								<li class="disabled"><a href="#">{{p}}</a></li>
+							{% else %}
+								<li class="active"><a href='/{{subj_id}}/control/math_admin_list/{{list_type}}/{{p}}/?list_id={{list_id}}'>{{p}}</a></li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</div>
+				<a href="/{{subj_id}}/control/math_admin/" class="btn btn-success">&laquo; Back to Admin List<a>
+			</div>
+		</div>
+{% endblock %}

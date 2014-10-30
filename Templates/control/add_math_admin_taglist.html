@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+		<div class="container-fluid" style="margin-top:40px;">
+			<div class="row-fluid">
+				<h1>Admin Taglist</h1>
+				<hr>
+				<div class="row-fluid">
+					<h5>Tag Type (Now Viewing):</h5>
+				</div>
+				<form name="papers" action="/{{cur.id}}/control/math_admin_taglist/" method="get">
+					<div class="row-fluid">
+						<div class="span11">
+							<select name="type" style="width:100%">
+									<option value="K" {% if type == 'K' %} selected {% endif %}>Keyword</option>
+									<option value="C" {% if type == 'C' %} selected {% endif %}>Concept</option>
+									<option value="F" {% if type == 'F' %} selected {% endif %}>Formula</option>
+							</select>
+						</div>
+						<div class="span1">
+							<input type="submit" class="btn btn-primary" id = "submit" name="submit" value="Submit"/>
+						</div>
+					</div>
+				</form>
+				<div class="well">
+				<h4>Trigger Keyword Regeneration</h4>
+				<hr>
+					<form name="regen" action="/{{cur.id}}/control/math_admin_regenkeyword/" method="get">
+						<input type='submit' class='btn btn-danger' id='submit' name='submit' onclick='return window.confirm("Are you sure you want to regenerate keyword tags?")' value='Regenerate Keywords'/>
+					</form>
+					<div class="alert alert-error">Important: Regenerate Keywords might take awhile once invoked. Please do not break the loading as it will cause the regeneration to be done inappropriately.</div>
+				</div>
+				
+				{% if type != None %}
+					<div class="row-fluid">
+						<form name="add" action="/{{cur.id}}/control/math_admin_tag_form/" method="get">
+							<input type='submit' class='btn btn-primary' id='submit' name='submit' value='Add Tag'/>
+						</form>
+					</div>
+					<form name="papers" action="/{{cur.id}}/control/math_admin_taglist/" method="get">
+						<table class="table">
+							<tr>
+								<th width="20%">Title</th>
+								<th width="20%">Type</th>
+								<th width="45%">Description</th>
+								<th width="15%">Action</th>
+							</tr>
+							{% for tag in taglist %}
+							<tr>
+								<td>{{tag.title}}</td>
+								<td>{{tag.type}}</td>
+								<td><!--{{tag.content|safe}}-->
+									{% for item in tag.content %}
+										{% ifequal item.type 1 %}
+											{{item.value|safe}}
+										{% endifequal %}
+										{% ifequal item.type 2 %}
+											<img src="{{item.value}}" alt="{{item.value}}"/>
+										{% endifequal %}		
+										<br/>
+									{% endfor %}
+									<br/>
+								</td>
+								<td><a class="btn btn-inverse" href="{{cur.id}}/control/math_admin_tag_form/?id={{tag.id}}">Edit</a> <a class="btn btn-danger" href="/{{cur.id}}/control/math_admin_tag_delete/?id={{tag.id}}" onclick='return window.confirm("Confirm Delete?")'>Delete</a></td>
+							</tr>
+							{% endfor %}
+						</table>
+						
+					<form name="papers" action="/{{cur.id}}/control/math_admin_taglist/" method="get">
+				{% endif %}
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div>
+				<!-- Next/Prev page links  -->
+					<small class="pull-right">
+								{% if taglist.object_list and taglist.paginator.num_pages > 1 %}
+								<div class="pagination" style="margin-top: 20px; margin-left: -20px; ">
+									<span class="step-links">
+										{% if taglist.has_previous %}
+											<a href= "/{{cur.id}}/control/math_admin_taglist/?type={{type}}&submit=Submit&page={{ taglist.previous_page_number }}">Newer entries &lt;&lt; </a>
+										{% endif %}
+
+										<span class="current">
+											&nbsp;Page {{ taglist.number }} of {{ taglist.paginator.num_pages }}
+										</span>
+
+										{% if taglist.has_next %}
+											<a href="/{{cur.id}}/control/math_admin_taglist/?type={{type}}&submit=Submit&page={{ taglist.next_page_number }}"> &gt;&gt; Older entries</a>
+										{% endif %}
+									</span>
+								</div>
+								{% endif %}
+				</div>
+				</small>
+			</div>
+{% endblock %}

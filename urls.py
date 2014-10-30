@@ -48,6 +48,7 @@ urlpatterns = patterns('',
 	url(r'^(?P<subj_id>\d*)/qna/', include('ExamPapers.qna.urls')),
 	
 	#control
+	url(r'^(?P<subj_id>\d*)/control/', include('ExamPapers.control.urls')),
 	
 	#practice
 	url(r'^(?P<subj_id>\d*)/practice/', include('ExamPapers.practice.urls')),
