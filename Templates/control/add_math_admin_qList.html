@@ -7,6 +7,7 @@
 					Total Questions: {{num_q}}
 				</div>
 				<form action="{{subj_id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{list_id}}/-1/" method="get">
+					(% csrf_token %)
 					<input type="submit" class="btn btn-primary" id="submit"  name="attempt"  value="Insert New Question"/>
 				</form>
 				<table frame='box' rules='all' width='100%' border='2'>

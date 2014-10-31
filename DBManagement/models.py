@@ -141,6 +141,23 @@ class  Tag(models.Model):
 	question = models.ForeignKey(Question, null=True) 
 	tagdefinition = models.ForeignKey(TagDefinition, null=True)
 
+"""Index Formula Search"""
+class Formula(models.Model):
+    #indexid = models.PositiveIntegerField(primary_key=True)
+    indexid = models.AutoField('index ID', primary_key=True)
+    question = models.ForeignKey(Question)
+    formula = models.CharField(max_length=1024, null=True, blank=True)
+    status = models.BooleanField(default=True)
+    inorder_term = models.CharField(max_length=1024, null=True, blank=True)
+    sorted_term = models.CharField(max_length=1024, null=True, blank=True)
+    structure_term = models.CharField(max_length=1024, null=True, blank=True)
+    constant_term = models.CharField(max_length=1024, null=True, blank=True)
+    variable_term = models.CharField(max_length=1024, null=True, blank=True)
+            
+class Formula_index(models.Model):
+    indexkey = models.CharField('index key', primary_key=True, max_length=64)
+    docsids = models.CharField(max_length=9192, null=True, blank=True)
+    df = models.PositiveIntegerField('frequency', default=1, blank=True)
 
 """Paper test and CAT"""
 class Assessment(models.Model):

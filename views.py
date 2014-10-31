@@ -420,9 +420,7 @@ def search(request,subj_id,type,tp,searchtext):
 @login_required		
 def viewquestion(request,lid,qid):
 	param = {}
-	#todo
-	param['cur'] = Subject.objects.get(id = lid)
-	param['level'] = Subject.objects.all()
+	param.update(current(subj_id))
 	
 	param['question'] = getViewQuestion(qid)
 	return render(request,'viewquestion.html',param)

@@ -8,6 +8,7 @@ from ExamPapers.logic.question_processing import *
 from logic.common import *
 import string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from ExamPapers.fsearch.views import index
 
 #set Additional Maths folder
 add_math_img='/static/image/'
@@ -219,11 +220,9 @@ def AddMaths_qDelete(request,list_type,page_no,subj_id): #no page return
 	
 #accept values from form to insert or modify question
 def AddMaths_qChange(request,list_type,page_no,subj_id):	#no page return
-
 	q_id=request.POST.get('a_q_id','')
 	q_content=request.POST.get('a_content','')
 	q_sol=request.POST.get('a_sol','')
-	q_formula=request.POST.get('a_formula','')
 	q_input=request.POST.get('a_input','')
 	q_type=request.POST.get('a_type','')
 	q_ans=request.POST.get('a_ans','')
@@ -232,7 +231,6 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):	#no page return
 	q_marks=request.POST.get('a_marks','')
 	q_source=request.POST.get('q_source','')
 	q_difficulty=request.POST.get('q_difficulty','')
-	
 	q_item=None
 	if(q_id!=''):
 		q_item=Question.objects.get(id=q_id)
@@ -335,9 +333,10 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):	#no page return
 		cur_answer = Solution(question_id=q_item, content=q_sol)
 		cur_answer.save()
 
-	#formula update and indexing
 	
-	#formulae=formula.objects.filter(question_id=q_item.id)
+	
+	
+	#formulae=Formula.objects.filter(question_id=q_item.id)
 	#formulae.delete();
 	#q_formula_list = q_formula.split(';')
 	#for f in q_formula_list:
@@ -571,7 +570,7 @@ def add_math_question(request,list_type,subj_id,page_no):
 	#for links
 	param['cur_subj']=Subject.objects.get(id=subj_id)
 			
-	return render_to_response('control/add_math_question.html',param)
+	return render_to_response('control/add_math_question.html',param,RequestContext(request))
 
 
 def add_math_concept_tag(request,subj_id, page_no):

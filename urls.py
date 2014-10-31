@@ -53,7 +53,8 @@ urlpatterns = patterns('',
 	#practice
 	url(r'^(?P<subj_id>\d*)/practice/', include('ExamPapers.practice.urls')),
 	
-	
+	#fsearch
+	url(r'^(?P<subj_id>\d*)/fsearch/', include('ExamPapers.fsearch.urls')),
 	
 	#dajax
     (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),

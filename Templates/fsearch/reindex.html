@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block html_head %}
+	<script type = "text/javascript">
+		function checkSubmit(){
+			var searchtext = document.getElementById("search_field").value;
+				if (searchtext==""){
+					return false;
+				}
+		}
+	</script>
+	
+{%  endblock %}
+{% block content %}	
+	<h1>Reindex</h1>
+	<form action = "/{{cur.id}}/fsearch/reindex/" method = "post">
+		{% csrf_token %}
+		<input type = "hidden" name = "trigger" value = "activate">
+		<input type = "Submit" class = "" value = "Reindex">
+	</form>
+{% endblock %}
