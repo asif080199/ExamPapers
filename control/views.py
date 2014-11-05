@@ -960,7 +960,7 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):
 #display tag list	
 def AddMaths_Admin_TagList(request,subj_id):
 	param={}
-	
+	param.update(current(subj_id))
 	tag_type=request.GET.get('type')
 	param['type']=tag_type
 	

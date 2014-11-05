@@ -1,26 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
-		<div class="container-fluid" style="margin-top:40px;">
-			<div class="row-fluid">
+				
 				{% if tag_def.title != None %}
 					<h1>{{tag_def.title}}</h1>
 				{% else %}
 					<h1>New Tag</h1>
 				{% endif %}
+				<div class="row-fluid">
+					<div class="alert  alert-info">
+						<p>Leave the topic as "N.A." if tag is a keyword.</p>
+					</div>
+				</div>
 				<hr>
 				<form name="submit" action="/{{cur.id}}/control/math_admin_tag_save/" method="post">
 					{% csrf_token %}
 					<input type='hidden' id='tag_id' name='tag_id' value='{{tag_def.id}}'/>
 					<div class="row-fluid">
-						<div class="span3">Title :</div>
-						<div class="span9">
-							<input type="text" style="width:80%" id="title" name="title" value="{{tag_def.title}}" />
+						<div class="col-sm-1">Title :</div>
+						<div class="col-sm-11">
+							<input type="text" id="title" name="title" value="{{tag_def.title}}" class="form-control"/>
 						</div>
 					</div>
 					<div class="row-fluid">
-						<div class="span3">Type:</div>
-						<div class="span9">
-							<select name="type" id="type" style="width:81%">
+						<div class="col-sm-1">Type:</div>
+						<div class="col-sm-11">
+							<select name="type" id="type"  class="form-control">
 								<option value="K" {% if tag_def.type == 'K' %} selected {% endif %}>Keyword</option>
 								<option value="C" {% if tag_def.type == 'C' %} selected {% endif %}>Concept</option>
 								<option value="F" {% if tag_def.type == 'F' %} selected {% endif %}>Formula</option>
@@ -28,9 +32,9 @@
 						</div>
 					</div>
 					<div class="row-fluid">
-						<div class="span3">Type:</div>
-						<div class="span9">
-							<select name="topic" id="topic" style="width:81%">
+						<div class="col-sm-1">Type:</div>
+						<div class="col-sm-11">
+							<select name="topic" id="topic" class="form-control">
 								<option value="0" {% if tag_def.topic_id == None %} selected {% endif %}>N.A.</option>
 							{% for t in topics %}
 								<option value="{{t.id}}" {% if tag_def.topic_id == t.id %} selected {% endif %}>{{t.title}}</option>
@@ -38,15 +42,11 @@
 							</select>
 						</div>
 					</div>
+					
 					<div class="row-fluid">
-						<div class="alert alert-block alert-info">
-							<p>Leave the topic as "N.A." if tag is a keyword.</p>
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span3">Description:</div>
-						<div class="span9">
-							<textarea type="text" style="width:80%" id="desc" name="desc" cols='70' rows='10'/>{{display}}</textarea>
+						<div class="col-sm-1">Description:</div>
+						<div class="col-sm-11">
+							<textarea type="text" class="form-control" id="desc" name="desc" cols='70' rows='10'/>{{display}}</textarea>
 						</div>
 					</div>
 					<div class="row-fluid">
@@ -55,6 +55,4 @@
 				</form>
 				<hr>
 				<a class="btn btn-success" href="/{{cur.id}}/control/math_admin_taglist/">&laquo; Back to Tag List</a>
-			</div>
-		</div>
 {% endblock %}

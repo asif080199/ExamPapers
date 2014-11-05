@@ -1,0 +1,14 @@
+<div id="menu">
+	<ul>
+		<li class="current_page_item" style="width:50px;"><a href="/home/">Homepage</a></li>
+		<li style="width:300px;">
+			<a>Subjects</a>
+			<ul>
+			{% for subj in subject %}
+				<li><a href="/add_maths/{{subj.id}}/">{{subj.title}}</a></li>
+			{% endfor %}
+			</ul>
+		</li>
+		<li style="width:150px;"><a href="/admin/">Log In As Admin</a></li>
+	</ul>
+</div>

@@ -8,30 +8,22 @@
 					<h5>Tag Type (Now Viewing):</h5>
 				</div>
 				<form name="papers" action="/{{cur.id}}/control/math_admin_taglist/" method="get">
-					<div class="row-fluid">
-						<div class="span11">
-							<select name="type" style="width:100%">
+						<div class="col-sm-11">
+							<select name="type" class="form-control">
 									<option value="K" {% if type == 'K' %} selected {% endif %}>Keyword</option>
 									<option value="C" {% if type == 'C' %} selected {% endif %}>Concept</option>
 									<option value="F" {% if type == 'F' %} selected {% endif %}>Formula</option>
 							</select>
 						</div>
-						<div class="span1">
+						<div class="col-sm-1">
 							<input type="submit" class="btn btn-primary" id = "submit" name="submit" value="Submit"/>
 						</div>
-					</div>
 				</form>
-				<div class="well">
-				<h4>Trigger Keyword Regeneration</h4>
-				<hr>
-					<form name="regen" action="/{{cur.id}}/control/math_admin_regenkeyword/" method="get">
-						<input type='submit' class='btn btn-danger' id='submit' name='submit' onclick='return window.confirm("Are you sure you want to regenerate keyword tags?")' value='Regenerate Keywords'/>
-					</form>
-					<div class="alert alert-error">Important: Regenerate Keywords might take awhile once invoked. Please do not break the loading as it will cause the regeneration to be done inappropriately.</div>
-				</div>
+
 				
 				{% if type != None %}
 					<div class="row-fluid">
+						<br/><br/><hr/>
 						<form name="add" action="/{{cur.id}}/control/math_admin_tag_form/" method="get">
 							<input type='submit' class='btn btn-primary' id='submit' name='submit' value='Add Tag'/>
 						</form>

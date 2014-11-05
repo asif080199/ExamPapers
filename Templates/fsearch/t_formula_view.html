@@ -1,5 +1,6 @@
 <!-- template t_formula_view.html -->
 	<script type="text/javascript">
+	/*This is a test*/
 
 	function display_formula() {	  
 	  //alert(document.getElementById("topic").value);
@@ -75,7 +76,7 @@
 				    break;
 				    };
 			    case "vecab":{
-				    document.getElementById('query').value += "\\overrightarrow(AB)";
+				    document.getElementById('query').value += "\\overrightarrow{AB}";
 				    break;
 				    };
 			    case "int":{
@@ -94,7 +95,7 @@
 		    display_formula();
 	    }
     </script>
-    <table width = "100%">
+    <table >
         <tr> 
             <td colspan=3>
                 <div id='formulatoolbar'>
@@ -122,12 +123,6 @@
 				    <a href="javascript:funcbuttonclick('lnx')" class='btn btn-default'>lnx</a>
 	            </div>
 	            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td align="left" width="650px">
-               
-	        </td>
         </tr>
     </table>
 <!-- End template t_formula_view.html -->

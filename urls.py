@@ -17,7 +17,7 @@ urlpatterns = patterns('',
 
 	#search 
 	(r'^(?P<subj_id>\d*)/search/(?P<type>\d*)(?P<tp>\d*)(?P<searchtext>\d*)',views.search),
-	(r'^(?P<lid>\d*)/view/(?P<qid>\d*)/$', views.viewquestion),
+	(r'^(?P<subj_id>\d*)/view/(?P<qid>\d*)/$', views.viewquestion),
 	
 	#study
 	(r'^(?P<subj_id>\d*)/study/(?P<tp>\d*)', views.study),	

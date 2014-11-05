@@ -11,9 +11,9 @@
 {%  endblock %}
 {% block content %}
 <div class = "span12">
-	<h1>Welcome to {{cur.title}}!</h1>
+	<h1>Text Search</h1>
 	<blockquote>
-		<p>{{cur.description}}</p>
+		<p>{{cur.title}}</p>
 	</blockquote>
 	<hr/>
 	<form action="/{{cur.id}}/search/" method="get" onSubmit =" return checkSubmit(this)">
@@ -22,7 +22,7 @@
 		<table width="100%">
 			<tr>
 				<td width="90%"><input	id="search_field" class = "form-control" width="100%" type="text" name="searchtext" placeholder="Enter key word"></td>
-				<td><input type="submit" id="search" class="btn btn-inverse" style="height:30px;" value="Search" /></td>
+				<td><input type="submit" id="search" class="btn btn-primary" value="Search" /></td>
 			</tr>
 		</table>
 	</form>

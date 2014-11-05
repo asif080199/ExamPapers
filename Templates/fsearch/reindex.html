@@ -15,6 +15,6 @@
 	<form action = "/{{cur.id}}/fsearch/reindex/" method = "post">
 		{% csrf_token %}
 		<input type = "hidden" name = "trigger" value = "activate">
-		<input type = "Submit" class = "" value = "Reindex">
+		<input type = "Submit" class = "btn btn-default" value = "Reindex">
 	</form>
 {% endblock %}

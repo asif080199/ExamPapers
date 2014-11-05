@@ -20,10 +20,10 @@ def formula_retrieval(sorted_sem_terms, k=20):
             print term
             print "."
             try:      
-                f_index = formula_index.objects.get(pk=term)
+                f_index = Formula_index.objects.get(pk=term)
                 posting_list  = (f_index.docsids.replace('#', ' ')).split()
         
-                formula_objs = formula.objects.filter(pk__in=posting_list, status__exact=True)                                  
+                formula_objs = Formula.objects.filter(pk__in=posting_list, status__exact=True)                                  
                 #Convert string to list
                 for obj in formula_objs:
                     if obj.status:
@@ -39,7 +39,7 @@ def formula_retrieval(sorted_sem_terms, k=20):
 
                         related_formulas.add(obj)
                                 
-            except (KeyError, formula_index.DoesNotExist):
+            except (KeyError, Formula_index.DoesNotExist):
                 pass
         if len(related_formulas) >= k:
             break
@@ -100,7 +100,7 @@ def compute_IDF_values(query_ino_terms, query_sort_terms, query_struc_fea, relat
                                     rel_formula.sorted_term + 
                                     rel_formula.structure_term))
     
-    formula_index_obj = formula_index.objects.filter(pk__in=terms_collection)
+    formula_index_obj = Formula_index.objects.filter(pk__in=terms_collection)
     for obj in formula_index_obj:
         IDF_values[obj.indexkey]=math.log10(N/obj.df)
         
@@ -160,20 +160,13 @@ def formulas_ranking(query_ino_terms, query_sort_1gram, query_struc_fea, query_c
     temp_result = sorted(ranked_scores, key=lambda scores:scores[1], reverse=True)
     for index, (rel_formula, score) in enumerate(temp_result):
         question = rel_formula.question
-        results.append([rel_formula.question_id, question.topic_id_id, question.content, rel_formula.formula, index+1, index+2, score])
+        results.append([rel_formula.question_id, question.topic_id, question.content, rel_formula.formula, index+1, index+2, score])
     
     return results, len(temp_result) 
 
 def search_content_formula(mathML):
     (query_sem_fea, query_struc_fea, query_cn_fea, query_var_fea) = features_extraction(mathML)
-    print query_sem_fea
-    print "----------------"
-    print query_struc_fea
-    print "----------------"
-    print query_cn_fea
-    print "----------------"
-    print query_var_fea
-	
+
     query_ino_terms = ino_sem_terms(query_sem_fea)	# sematic term in order
     query_sort_terms = sort_sem_terms(query_sem_fea)	# sematic term in sorted order
 
@@ -182,7 +175,7 @@ def search_content_formula(mathML):
     query_ino_terms = [term for term in chain.from_iterable(query_ino_terms)]
     query_sort_terms = query_sort_terms[len(query_sort_terms)-1]
         
-    N = formula.objects.count()
+    N = Formula.objects.count()
     
     IDF_values = compute_IDF_values(query_ino_terms, query_sort_terms, 
                                     query_struc_fea, related_formulas, N)

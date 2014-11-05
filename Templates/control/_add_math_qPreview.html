@@ -1,0 +1,89 @@
+{% load dajaxice_templatetags %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>MathAnalyzer - A Practice Tool</title>
+		<script type="text/javascript" src="/static/mathjax-MathJax-f5cd294/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+			MathJax.Hub.Config({				
+				displayAlign: "left",
+				tex2jax: {inlineMath: [['$$','$$'],['\\[','\\]']], displayMath:[]} 
+			})
+		</script>
+		<!--for latex input, but still need internet connection-->
+		<!--<script type="text/javascript" src="/static/javascript/editor.js"></script>-->
+		<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
+		{% dajaxice_js_import %}
+		<script type="text/javascript">	
+			function post_ajax(data){
+				alert("Result: "+data.result);
+			}
+			//1 editor to multiple textbox input
+			var textb_id='';
+			function update_tb(input_id){				
+				textb_id=input_id;				
+			}
+			function call_LatexEditor(){
+				if(textb_id==''){
+					alert("No input selected.\nClick on a textbox before selecting latex input");
+				}
+				else{
+					OpenLatexEditor(textb_id,'latex','en-us');
+				}
+			}
+		</script>
+
+		<link href="/static/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+		{% include 'head.html' %}
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="wrapper2">
+				<div id="header" class="container">
+					<div id="logo">
+						<h1><span>Online Assessment System</span></h1>
+					</div>
+					{% include 'add_math_menubar.html' %}
+				</div>
+				<div id="banner"></div>
+				<!-- end #header -->
+
+				<div id="page">
+					<div id="content">
+						<div class="post">						
+							<div style="clear: both;">&nbsp;</div>
+							<div class="entry">
+								<a style="color:green;font-size:4;font-family:Arial;font-style:italic;font-weight:bold">Question</a>
+								{% for item in question.display %}
+									<br/>
+									{% ifequal item.type 1 %}
+										{{item.value}}
+									{% endifequal %}
+									{% ifequal item.type 2 %}
+										<img src="{{item.value}}" alt="{{item.value}}"/>
+									{% endifequal %}
+								{% endfor %}
+								<br>
+								<a href="/solution/{{question.id}}/">Show Full Solution</a><br/>
+								<a href="/math_admin/1/">
+									<span value="back to paper list">
+										<font size="3" face="arial" color="green"><b>Back to Admin List</b></font>
+									</span>
+								<a>	
+
+							</div>
+						</div>
+					</div><!-- end #content -->
+				</div>
+				<div id="sidebar"></div><!-- end #sidebar -->
+				<div style="clear: both;">&nbsp;</div><!-- end #page -->
+				
+				<div id="footer">			
+					<p>Copyright (c) 2011 Sitename.com. All rights reserved. Design by 
+						<a href="http://www.freecsstemplates.org/">Free CSS Templates</a>.
+					</p>
+				</div>
+			</div>
+		</div><!-- end #footer -->
+	</body>
+</html>

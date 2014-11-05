@@ -418,7 +418,7 @@ def search(request,subj_id,type,tp,searchtext):
 	return render(request,'search.html',param)
 
 @login_required		
-def viewquestion(request,lid,qid):
+def viewquestion(request,subj_id,qid):
 	param = {}
 	param.update(current(subj_id))
 	

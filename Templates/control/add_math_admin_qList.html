@@ -3,53 +3,47 @@
 		<div class="container-fluid" style="margin-top:40px;">
 			<div class="row-fluid">
 				<h1>{{page_title}}</h1>
-				<div class="well">
+				<div class="alert alert-info">
 					Total Questions: {{num_q}}
 				</div>
-				<form action="{{subj_id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{list_id}}/-1/" method="get">
-					(% csrf_token %)
+				<form action="/{{cur.id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{subj_id}}/{{list_id}}/-1/" method="get">
 					<input type="submit" class="btn btn-primary" id="submit"  name="attempt"  value="Insert New Question"/>
 				</form>
-				<table frame='box' rules='all' width='100%' border='2'>
+				<br/>
+				<table width='100%' border='2'>
 					<tr>
-						<td rowspan='2' width='90px'>Question Id</td>
-						<td rowspan='2' width='90px'>Paper</td>
-						<td colspan='3'>Question Summary</td>											
+						<th>ID</th>
+						<th>Paper</th>
+						<th>Question Summary</th>
+						<th>Topic</th>
+						<th>Sub-Topic</th>
+						<th></th>
 					</tr>
-					<tr>
-						<td>Topic</td>
-						<td>Sub-Topic</td>
-						<td width='50px'>_</td>
-					</tr>
-				</table>
 				{% for q in questions %}											
-					<form action="/{{subj_id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{list_id}}/{{q.id}}/" method="get">
-						<table frame='box' rules='all' width='100%' border='2'>
+					<form action="/{{cur.id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{subj_id}}/{{list_id}}/{{q.id}}/" method="get">
 							<tr>
-								<td rowspan='2' width='90px'>{{q.id}}</td>
-								<td rowspan='2' width='90px'>{{q.paper}}</td>
-								<td colspan='3'>{{q.display}}</td>													
-							</tr>
-							<tr>
+								<td>{{q.id}}</td>
+								<td>{{q.paper}}</td>
+								<td>{{q.display}}</td>
 								<td>{{q.topic}}</td>
 								<td>{{q.subtopic}}</td>
-								<td width='50px'><input type="submit" class="btn btn-danger" id="submit" name="attempt"  value="Modify"/></td>
+								<td><input type="submit" class="btn btn-danger btn-sm" id="submit" name="attempt"  value="Modify"/></td>
 							</tr>
-						</table>
 					</form>												
 				{% endfor %}
-				<div class="pagination">
-					<ul>
+				</table>
+				<nav>
+					<ul class = "pagination">
 						{% for p in page_links %}
 							{% if page_no == p %}
-								<li class="disabled"><a href="#">{{p}}</a></li>
+								<li class="active"><a href="#">{{p}}</a></li>
 							{% else %}
-								<li class="active"><a href='/{{subj_id}}/control/math_admin_list/{{list_type}}/{{p}}/?list_id={{list_id}}'>{{p}}</a></li>
+								<li class="disable"><a href='/{{cur.id}}/control/math_admin_list/{{list_type}}/{{p}}/?list_id={{list_id}}'>{{p}}</a></li>
 							{% endif %}
 						{% endfor %}
 					</ul>
-				</div>
-				<a href="/{{subj_id}}/control/math_admin/" class="btn btn-success">&laquo; Back to Admin List<a>
+				</nav>
+				<a href="/math_admin/{{subj_id}}/" class="btn btn-success">&laquo; Back to Admin List<a>
 			</div>
 		</div>
 {% endblock %}
