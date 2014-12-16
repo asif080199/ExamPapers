@@ -15,7 +15,7 @@ import asciitomathml.asciitomathml
 
 from ExamPapers.fsearch.formula_searcher import search_content_formula
 from ExamPapers.fsearch.formula_indexer import *
-
+from ExamPapers.fsearch.preclustering import *
 import re
 
 @login_required	
@@ -46,10 +46,7 @@ def result(request, subj_id):
 		query = math_obj.to_xml_string()
 		
 		query = query.replace("<math xmlns=\"http://www.w3.org/1998/Math/MathML\">","<math>")
-		
-       	#topic_id = request.POST.get('topic','')
-    	#query = unicode(query.decode('utf8'))
-    	#query = request.POST['outputMathML']
+		query = query.replace("&","")
 		if request.POST['query'] == '':
 			query = None
 		request.session['outputMathML'] = query
@@ -94,6 +91,7 @@ def index(formula_list):
 		math_obj.parse_string(the_string)
 		mathML = math_obj.to_xml_string()
 		mathML = mathML.replace("<math xmlns=\"http://www.w3.org/1998/Math/MathML\">","<math>") 
+		mathML = mathML.replace("&","") 
 		try:
 			create_index_model('',mathML,id)
 		except:
@@ -103,6 +101,13 @@ def index(formula_list):
 	#return render_to_response('fsearch/findex.html',param,RequestContext(request))
 
 def reindex(request,subj_id):
+	#test
+	get_all_structure()
+	get_all_constant()
+	get_all_semantic()
+	get_all_variable()
+	#test
+	
 	param = {}
 	param.update(current(subj_id))
 	trigger = request.POST.get('trigger','')
