@@ -1,0 +1,55 @@
+K	50
+Date:	2014-12-26
+Time:	14:03:07.947000
+Duration:	0:00:01.250000
+-------------------
+11	mfenced$+, mfenced$msup$cn
+24	cn
+19	msup$mfenced
+31	var
+16	mfrac
+44	msup
+7	mfrac, mfrac$mrow$, mfrac$mrow$mfenced, mfrac$mrow$mfenced$var
+138	var
+59	var
+72	var
+4	mfrac, mfenced, mfrac$mfenced, mfrac$mrow$mfenced, mfrac$mfenced$mfenced, mfrac$mfenced$cn, mfrac$mrow$cn, mfrac$mrow$mfenced$var, mfrac$mfenced$mfenced$var
+22	mfrac$mfenced$cn
+54	mfrac$mrow$cn
+2	mfrac, +, msup, -, mfenced, mfrac$mrow$, mfrac$mfenced, mfrac$mfenced$-, mfrac$mrow$mfenced, mfrac$mfenced$msup, mfrac$mrow$mfenced$mfenced, mfrac$mrow$mfenced$mfenced$+, mfrac$mfenced$cn, mfrac$mfenced$msup$cn, mfrac$mrow$msqrt$mrow$cn, mfrac$mrow$mfenced$mfenced$cn, mfrac$mfenced$msup$var, mfrac$mrow$mfenced$mfenced$var
+10	mfrac
+11	mfrac
+12	mfrac
+7	mfenced
+17	msup$mrow$cn
+5	#8721, msup$mfenced$var
+2	mfrac, +, msup, mfenced, e, mfrac$mrow$, mfrac$mrow$+, mfrac$mrow$mfenced, mfrac$mrow$msup, mfrac$mrow$msup$mfenced, mfrac$mrow$e, mfrac$mrow$mfenced$, mfrac$mrow$mfenced$mfrac, mfrac$mrow$mfenced$mfrac$mrow$+, mfrac$mrow$mfenced$mfrac$mrow$msup, mfrac$mrow$mfenced$mfrac$mrow$msup$mfenced, mfrac$mrow$mfenced$mfrac$mrow$msup$mfenced$, mfrac$mrow$mfenced$mfrac$mrow$msup$mfenced$mfrac, mfrac$mrow$msup$mfenced$, mfrac$mrow$msup$mfenced$mfrac, mfrac$mfenced$cn, mfrac$mrow$cn, mfrac$mrow$msup$cn, mfrac$mrow$mfenced$mfrac$mfenced$cn, mfrac$mrow$mfenced$mfrac$mrow$cn, mfrac$mrow$msup$mfenced$mfrac$mfenced$cn, mfrac$mrow$mfenced$mfrac$mrow$msup$cn, mfrac$mrow$mfenced$mfrac$mrow$msup$mfenced$mfrac$mfenced$cn, var, mfrac$mrow$var, mfrac$mrow$mfenced$var, mfrac$mrow$msup$mfenced$mfrac$mrow$var, mfrac$mrow$mfenced$mfrac$mrow$msup$mfenced$mfrac$mrow$var
+17	msup$mrow$cn
+13	mfrac
+26	-, mfenced$-
+13	mfrac, mfrac$mrow$, mfrac$mrow$mfenced$var
+22	mfenced$+
+4	mfrac, +, mfenced, #8721, munderover, mfrac$mrow$mfenced, mfrac$mrow$mfenced$+, munderover$#8721;, munderover$mrow$=, mfrac$mfenced$cn, mfrac$mrow$cn, mfrac$mrow$mfenced$cn, munderover$mrow$cn, mfrac$mrow$mfenced$var, munderover$mrow$var
+23	msup$e
+16	sin
+2	mfrac, +, msup, mfenced, mfrac$mfenced, mfrac$mfenced$msup, mfrac$mrow$msup, mfenced$+, msup$mfenced, msup$mfenced$+, cn, msup$cn, mfrac$mfenced$msup$cn, mfrac$mrow$msup$cn, mfenced$cn, msup$mfenced$cn, var, mfrac$mrow$var, mfrac$mfenced$var, mfenced$var, msup$mfenced$var, mfrac$mrow$msup$var
+30	mfrac
+17	msub, msub$var
+3	e
+7	mfrac
+15	msup, mfenced, mfenced$msup
+20	msup
+34	msup
+11	mfrac
+1	mfrac, msup, -, mfenced, #8747, msqrt, mfrac$mrow$, mfenced$mfenced, mfrac$mrow$msqrt, mfenced$mfenced$-, mfrac$mrow$msqrt$mrow$mfenced, mfenced$mfenced$msup, mfrac$mrow$msqrt$mrow$mfenced$msup, mfrac$mrow$msqrt$mrow$mfenced$-, mfrac$mfenced$cn, mfenced$mfenced$cn, mfenced$mfenced$msup$mrow$cn, mfrac$mrow$msqrt$mrow$mfenced$cn, mfrac$mrow$msqrt$mrow$mfenced$msup$mrow$cn, var, mfrac$mrow$msqrt$mrow$mfenced$msup$var, msqrt$mrow$var, mfenced$mfenced$msup$var
+1	mfrac, +, msup, mfenced, mfenced$msup, mfrac$mfenced, mfrac$mrow$msup, mfrac$mrow$msup$mfenced, mfenced$+, mfrac$mrow$msup$mfenced$+, mfrac$mrow$msup$mfenced$msup, mfrac$mfenced$cn, cn, mfenced$msup$cn, mfrac$mrow$msup$cn, mfenced$cn, mfrac$mrow$msup$mfenced$cn, mfrac$mrow$msup$mfenced$msup$cn, var, mfrac$mrow$var, mfrac$mfenced$var, mfenced$msup$var, mfrac$mrow$msup$mfenced$msup$var
+1	+, msup, -, mfenced, cos, e, mfenced$mfenced, mfenced$, msup$e, msup$mrow$, mfenced$mfenced$-, mfenced$cos, mfenced$mfenced$, msup$mrow$mfenced, msup$mrow$mfenced$, msup$mrow$mfenced$+, cn, msup$mrow$mfrac$mfenced$cn, msup$mrow$mfrac$mrow$cn, mfenced$mfrac$mfenced$cn, mfenced$mfrac$mrow$cn, var, msup$mrow$var, mfenced$var, mfenced$mfenced$var, msup$mrow$mfenced$var
+7	#8594, mover, mover$#8594;, mover$mrow$var
+12	mfenced
+4	mfrac, +, mfrac$mrow$, mfrac$mrow$+, mfrac$mfenced$cn, mfrac$mrow$cn, mfrac$mrow$var
+2	mfrac, msup, -, mfenced, #8747, msqrt, mfrac$mrow$mfenced, mfrac$mrow$mfenced$msqrt, mfrac$mrow$mfenced$msqrt$mrow$msup, mfrac$mfenced$cn, mfrac$mrow$mfenced$msqrt$mrow$cn, var, mfrac$mrow$mfenced$var, mfrac$mrow$mfenced$msqrt$mrow$msup$var
+22	msub
+3	mfrac, +, msup, mfenced, msqrt, mfrac$mrow$, mfrac$mfenced, mfrac$mfenced$msup, mfrac$mrow$msqrt, mfrac$mrow$msqrt$mrow$+, mfrac$mfenced$cn, mfrac$mfenced$msup$cn, mfrac$mfenced$msup$var, mfrac$mrow$msqrt$mrow$var
+2	mfrac, -, mfenced, e, mfenced$, mfenced$mfrac, mfenced$mfrac$mfenced, mfenced$mfrac$mrow$-, mfenced$mfrac$mfenced$-, mfenced$mfrac$mfenced$cn, mfenced$mfrac$mrow$cn, var, mfenced$var, mfenced$mfrac$mrow$var, mfenced$mfrac$mfenced$var
+5	msup$mrow$cn
+11	mfrac

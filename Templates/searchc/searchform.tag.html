@@ -1,0 +1,13 @@
+<form action="/{{cur.id}}/searchc/resultTag/" method="post" onSubmit =" return checkSubmit(this)">
+	{% csrf_token %}
+	<input class =  type="text"  name = "query"  placeholder = "Add tag for searching" value = "{{query}}" data-role="tagsinput">	
+	<div id ="fb-root"></div> 
+	<input type="submit" id="search" class="btn btn-primary" value="Search" />
+</form>
+   
+		
+  
+
+   
+    
+

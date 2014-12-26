@@ -1,0 +1,16 @@
+<form action="/{{cur.id}}/searchc/resultFormula/" method="post" onSubmit =" return checkSubmit(this)" class="form-inline" role="form">
+		{% csrf_token %}
+		{% include "fsearch/t_formula_view.html" %}
+		<br/>
+		<table width = "100%">
+			<tr>
+				<td width = "90%">
+					<input id="query" name="query" type="text" class="form-control" value="{{query}}" style= "width:100%;display:block" onkeyup="display_formula()" />
+				</td>
+				<td>
+					<input type = "Submit" class = "btn btn-primary" value = "Search">
+				</td>
+			</tr>
+		</table>
+	    <div>Preview: </div><div id="outputNode" class="formula_view"></div>
+	</form>

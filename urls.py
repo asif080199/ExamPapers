@@ -13,7 +13,7 @@ from django.conf import settings
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     (r'^$', views.home),
-	(r'^(?P<lid>\d*)/$', views.level),
+	(r'^(?P<subj_id>\d*)/$', views.level),
 
 	#search 
 	(r'^(?P<subj_id>\d*)/search/(?P<type>\d*)(?P<tp>\d*)(?P<searchtext>\d*)',views.search),
@@ -46,6 +46,10 @@ urlpatterns = patterns('',
 	
 	#qna
 	url(r'^(?P<subj_id>\d*)/qna/', include('ExamPapers.qna.urls')),
+	
+	#searchc
+	url(r'^(?P<subj_id>\d*)/searchc/', include('ExamPapers.searchc.urls')),
+	
 	
 	#control
 	url(r'^(?P<subj_id>\d*)/control/', include('ExamPapers.control.urls')),

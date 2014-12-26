@@ -13,13 +13,12 @@
 {% block content %}
 <div class = "span12">
 		
-	<h1>Formula Index Search</h1>
+	<h1>Formula Search</h1>
 	<blockquote>
-		This search engine makes use of formula index. Formula index are built based on semantic, structure, variable and constant information of the mathematic formula.<br/>
-		Enter any mathematical formula using given editor or purely LaTeX MarkUp language to experience fast and accurate Formula Index Search.
+		<p>{{cur.title}}</p>
 	</blockquote>
 	<hr/>
-	<form action="/{{cur.id}}/fsearch/result/" method="post" onSubmit =" return checkSubmit(this)" class="form-inline" role="form">
+	<form action="/{{cur.id}}/searchc/result/" method="get" onSubmit =" return checkSubmit(this)" class="form-inline" role="form">
 		{% csrf_token %}
 		{% include "fsearch/t_formula_view.html" %}
 		<br/>

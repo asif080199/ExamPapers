@@ -11,7 +11,6 @@
           <ul class="nav navbar-nav">
 			{% if cur != ''  %}
             {% if user.is_authenticated %}
-			
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><div style="color: white; font-size: 14px;">{{cur.title}}</div></b></a>
               <ul class="dropdown-menu">
@@ -23,8 +22,11 @@
 			<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-zoom-in"></i> Search <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-					<li><a href="/{{cur.id}}"><span class="glyphicon glyphicon-screenshot"></span> Text Search</a></li>
-					<li><a href="/{{cur.id}}/fsearch/home/"><span class="glyphicon glyphicon-usd"></span> Formula Search</a></li>
+					<li><a href="/{{cur.id}}"><span class="glyphicon glyphicon-list-alt"></span> Text Index Search</a></li>
+					<li><a href="/{{cur.id}}/fsearch/home/"><span class="glyphicon glyphicon-list-alt"></span> Formula Index Search</a></li>
+					<li><a href="/{{cur.id}}/searchc/homeFormula/"><span class="glyphicon glyphicon-usd"></span> Formula Cluster Search</a></li>
+					<li><a href="/{{cur.id}}/searchc/homeTag/"><span class="glyphicon glyphicon-usd"></span> Tag Cluster Search</a></li>
+					<li><a href="/{{cur.id}}/searchc/homeText/"><span class="glyphicon glyphicon-leaf"></span> Cluster Result Search</a></li>
                 </ul>
 			</li>
 			<li><a href="/{{cur.id}}/study/?tp=-1"><span class="glyphicon glyphicon-tasks"></span> Concept</a></li>
@@ -47,6 +49,7 @@
 					<li><a href="/{{cur.id}}/control/home/"><span class="glyphicon glyphicon-star"></span> Manage Question</a></li>
 					<li><a href="/{{cur.id}}/control/math_admin_taglist/?type=K"><span class="glyphicon glyphicon-tag"></span> Manage Tags</a></li>
 					<li><a href="/{{cur.id}}/control/fsearch/home"><span class="glyphicon glyphicon-star"></span> Manage Index</a></li>
+					<li><a href="/{{cur.id}}/searchc/cluster"><span class="glyphicon glyphicon-certificate"></span> Manage Clusters</a></li>
 					<li><a href="/admin/"><span class="glyphicon glyphicon-cog"></span> Django Admin</a></li>
                 </ul>
 			</li>
@@ -115,3 +118,7 @@
 <!--Datatable-->
 <link rel="stylesheet" type="text/css" href="/static/css/dataTable.css">
 <script type="text/javascript" src="/static/javascript/dataTable.js"></script>
+
+<!--Tag Form-->
+<link rel="stylesheet" href="/static/css/bootstrap-tagsinput.css">	
+<script src="/static/javascript/bootstrap-tagsinput.min.js"></script>

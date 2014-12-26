@@ -283,10 +283,10 @@ def profile(request):
 	return render(request,'account/account.profile.html',param)
 
 @login_required	
-def level(request,lid):
+def level(request,subj_id):
 	param = {}
 	param['level'] = Subject.objects.all()
-	param['cur'] = Subject.objects.get(id = lid)
+	param['cur'] = Subject.objects.get(id = subj_id)
 	return render(request,'level.html', param)
 	
 @login_required	

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block html_head %}
+	<script type = "text/javascript">
+		function checkSubmit(){
+			var searchtext = document.getElementById("search_field").value;
+				if (searchtext==""){
+					return false;
+				}
+		}
+	</script>
+{%  endblock %}
+{% block content %}
+<div class = "span12">
+	<h1>Cluster Result Search</h1>
+	<blockquote>
+		This search engine makes use of cluster for result organizing. Enter any text and the engine will cluster search result <b>on real time</b>.<br/>
+		Experience the smart and fun search experience with Cluster Result Search now!
+	</blockquote>
+	<hr/>
+	{% include 'searchc/searchform.html' %}
+</div>
+
+
+{% endblock %}

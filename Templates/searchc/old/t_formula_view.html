@@ -1,0 +1,128 @@
+<!-- template t_formula_view.html -->
+	<script type="text/javascript">
+	/*This is a test*/
+
+	function display_formula() {	  
+	  //alert(document.getElementById("topic").value);
+	  var str = "$$" + document.getElementById("query").value + "$$";
+	  var outnode = document.getElementById("outputNode");
+	  var n = outnode.childNodes.length;
+	  for (var i=0; i<n; i++)
+		outnode.removeChild(outnode.firstChild);
+	  outnode.appendChild(document.createTextNode(str));
+	  //AMprocessNode(outnode);
+	  MathJax.Hub.Queue(["Typeset",MathJax.Hub,outnode]);
+	  $("#outputMathML").val($("#outputNode").html());
+	  
+	  if (document.getElementById("query").value == "" ) {	  
+	    document.getElementById("outputNode").style.display = "none";
+	  }
+	  else
+	  {
+	    document.getElementById("outputNode").style.display = "";
+	  }
+	}
+	</script>
+	<script type="text/javascript">
+	    function funcbuttonclick(id){
+		    switch (id){
+			    case "x/y":{
+				    document.getElementById('query').value += "\\frac{x}{y}";
+				    break;
+				    };
+			    case "e^x":{
+				    document.getElementById('query').value += "e^x";
+				    break;
+				    };
+    		
+			    case "xpower":{
+				    document.getElementById('query').value += "x^2";
+				    break;
+				    };
+			    case "root3":{
+				    document.getElementById('query').value += "\\sqrt[3]{x}";
+				    break;
+				    };
+			    case "xmsub":{
+				    document.getElementById('query').value += "{x}_{2}";
+				    break;
+				    };
+			    case "sum":{
+				    document.getElementById('query').value += "\\sum_{i=0}^{n} {a}_{n}";
+				    break;
+				    };
+			    case "sqrt":{
+				    document.getElementById('query').value += "\\sqrt{x}";
+				    break;
+				    };
+			    case "sin":{
+				    document.getElementById('query').value += "\\sin x";
+				    break;
+				    };
+			    case "cos":{
+				    document.getElementById('query').value += "\\cos x";
+				    break;
+				    };
+			    case "tan":{
+				    document.getElementById('query').value += "\\tan x";
+				    break;
+				    };
+			    case "cot":{
+				    document.getElementById('query').value += "\\cot x";
+				    break;
+				    };
+			    case "limit":{
+				    document.getElementById('query').value += "\\lim_(n \\to \\infty)";
+				    break;
+				    };
+			    case "vecab":{
+				    document.getElementById('query').value += "\\overrightarrow{AB}";
+				    break;
+				    };
+			    case "int":{
+				    document.getElementById('query').value += "\int_{-1}^{1} xdx";
+				    break;
+				    };
+			    case "logx":{
+				    document.getElementById('query').value += "\log x";
+				    break;
+				    };
+			    case "lnx":{
+				    document.getElementById('query').value += "\ln x";
+				    break;
+				    };
+		    }
+		    display_formula();
+	    }
+    </script>
+    <table >
+        <tr> 
+            <td colspan=3>
+                <div id='formulatoolbar'>
+		            <a href="javascript:funcbuttonclick('x/y')" class='btn btn-default'>x/y</a>
+		            
+				    <a href="javascript:funcbuttonclick('e^x')" class='btn btn-default'>e<sup>x</sup></a>
+				    <a href="javascript:funcbuttonclick('xpower')" class='btn btn-default'>x<sup>2</sup></a>
+
+				    <a href="javascript:funcbuttonclick('xmsub')" class='btn btn-default'>x<sub>2</sub></a>
+				    <a href="javascript:funcbuttonclick('sqrt')" class='btn btn-default'>&#8730;x</a>
+				    <a href="javascript:funcbuttonclick('root3')" class='btn btn-default'><sup>3</sup>&#8730;x</a>
+				    <a href="javascript:funcbuttonclick('int')" class='btn btn-default'>&#8747;<sub>-1</sub><sup>1</sup>xdx</a>
+				    <a href="javascript:funcbuttonclick('sum')" class='btn btn-default'>&#8721;<sub>i=0</sub><sup>n</sup>a_n</a>
+
+    		
+				    <a href="javascript:funcbuttonclick('sin')" class='btn btn-default'>sinx</a>
+				    <a href="javascript:funcbuttonclick('cos')" class='btn btn-default'>cosx</a>
+				    <a href="javascript:funcbuttonclick('tan')" class='btn btn-default'>tanx</a>
+				    <a href="javascript:funcbuttonclick('cot')" class='btn btn-default'>cotx</a>
+    				
+				    <a href="javascript:funcbuttonclick('vecab')" class='btn btn-default'>&#8407;AB</a>
+				    <a href="javascript:funcbuttonclick('limit')" class='btn btn-default'>lim<sub>n->oo</sub></a>
+
+				    <a href="javascript:funcbuttonclick('logx')" class='btn btn-default'>logx</a>
+				    <a href="javascript:funcbuttonclick('lnx')" class='btn btn-default'>lnx</a>
+	            </div>
+	            </td>
+        </tr>
+    </table>
+<!-- End template t_formula_view.html -->

@@ -15,7 +15,6 @@ import asciitomathml.asciitomathml
 
 from ExamPapers.fsearch.formula_searcher import search_content_formula
 from ExamPapers.fsearch.formula_indexer import *
-from ExamPapers.fsearch.preclustering import *
 import re
 
 @login_required	
@@ -101,12 +100,8 @@ def index(formula_list):
 	#return render_to_response('fsearch/findex.html',param,RequestContext(request))
 
 def reindex(request,subj_id):
-	#test
-	get_all_structure()
-	get_all_constant()
-	get_all_semantic()
-	get_all_variable()
-	#test
+	
+	
 	
 	param = {}
 	param.update(current(subj_id))

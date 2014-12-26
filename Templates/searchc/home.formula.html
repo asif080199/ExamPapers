@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block html_head %}
+	<script type = "text/javascript">
+		function checkSubmit(){
+			var searchtext = document.getElementById("search_field").value;
+				if (searchtext==""){
+					return false;
+				}
+		}
+	</script>
+	
+{%  endblock %}
+{% block content %}
+<div class = "span12">
+		
+	<h1>Formula Cluster Search</h1>
+	<blockquote>
+		This search engine makes use of pre-trained clusters for information retrieval. For this particilar search experience, KMean 50 clusters are used.<br/>
+		Enter any mathematical formula using given editor or purely LaTeX MarkUp language to experience the fast and smart Formula Cluster Search.
+	</blockquote>
+	<hr/>
+	{% include 'searchc/searchform.formula.html' %}
+</div>
+
+	
+
+{% endblock %}

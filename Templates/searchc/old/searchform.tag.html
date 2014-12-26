@@ -1,0 +1,194 @@
+{% load search %}
+{% load highlight %}
+{% show_keywords as keywords %}
+<!--<head>
+	link href="/static/css/style2.css" rel="stylesheet" type="text/css" media="screen" /-->
+	<!--<link rel="stylesheet" type="text/css" href="/static/content/lib/treeview/jquery.treeview.css" />
+		</link>	
+	 	<script type="text/javascript" src="/static/content/js/jquery.js"></script>
+	 	<script type="text/javascript" src="/static/content/js/jquery.cookie.js"></script>
+	 	<script type="text/javascript" src="/static/content/lib/treeview/jquery.treeview.js"></script>	
+	 	<script type="text/javascript" src="/static/content/lib/treeview/demo.js"></script>
+	 	<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
+	 <script src="/static/javascript/jquery-ui.js"></script>
+	<script src="/static/javascript/tagit.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="/static/css/jquery-ui-1.10.0.custom.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/tagit-dark-grey.css">
+	<link href="/static/css/highlight.css" rel="stylesheet" type="text/css" media="screen" />
+	<script src="/static/content/js/ASCIIMathML.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/static/mathjax-MathJax-f5cd294/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+			MathJax.Hub.Config({				
+				displayAlign: "left",
+				tex2jax: {inlineMath: [['$$','$$'],['\\[','\\]']], displayMath:[]} 
+			})
+	</script>-->
+	<script>
+		$(function () {
+		  $('#search_field_tag').tagit({tagSource:{{keywords.show_keywords|safe}}, select:true, sortable:true});
+		});
+		</script>
+	<script type="text/javascript">
+	</script>
+	<script type="text/javascript">
+	$().ready(function() {
+		function formatItem(row) {
+			return row[0] + " (<strong>id: " + row[1] + "</strong>)";
+		}
+		function formatResult(row) {
+			return row[0].replace(/(<.+?>)/gi, '');
+		}
+	});
+	</script>
+	<script type="text/javascript">
+		function showformulaEditor(){
+			OpenLatexEditor('query','latex','',true,'','mini');
+			display_formula();
+		}
+	</script>	
+<!--</head>-->
+<div class="row-fluid" style="background:#CCCCCC; padding-top:20px; padding-bottom:20px; valign:center;">
+	<div class="row-fluid" style="margin:0px;padding:0px;">
+		<div class="navbar" style="border-radius:0px;">
+			<div class="navbar-inner">
+				<ul class="nav">
+					<li {% if searchtype == "searchWH" or searchtype = None %} class="active" {% endif %}>
+						<a href="/search/"><span>Haystack Search</span></a>
+					</li>
+					<li {% if searchtype == "searchDB" %} class="active" {% endif %}>
+						<a href="/question/?searchtype=searchDB"><span>Database Search</span></a>
+					</li>
+					<li {% if searchtype == "tag" %} class="active" {% endif %}>
+						<a href="/question/?searchtype=tag"><span>Concept/Formula Tag Search</span></a>
+					</li>
+					<li {% if searchtype == "formula" %} class="active" {% endif %}>
+						<a href="/question/?searchtype=formula"><span>Formula Search</span></a>
+					</li>
+					<li {% if searchtype == "keyword" %} class="active" {% endif %}>
+						<a href="/question/?searchtype=keyword"><span>Keyword Tag Search</span></a>
+					</li>
+					<li {% if searchtype == "keywordcluster" %} class="active" {% endif %}>
+						<a href="/question/?searchtype=keywordcluster"><span>Keyword Search - Cluster</span></a>
+					</li>
+					<li {% if searchtype == "invertedindex" %} class="active" {% endif %}>
+						<a href="/question/?searchtype=invertedindex"><span>Inverted Index Search</span></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+{% if searchtype == "tag" %}
+	<form id="tag_search" action="/result/1/" method="get" style="display:block">
+		<div id="tag" class="span9" style="margin-left:0px;">
+			<ul id="search_field_tag" data-name="tag">
+			{% if tags|length > 0 %}
+				{% for t in tags %}
+					<li data-value="{{t}}">{{t}}</li>
+				{% endfor %}
+			{% endif %}
+			</ul>
+		</div>
+		<div class="span1"><input type="submit" id="search" class="btn btn-inverse" style="height:34px;" value="Search" /></div>
+	</form>
+{% endif %}
+{% if searchtype == "searchDB" %}
+	<form id="text_search" action="/result_text/1/" method="get" style="display:block">
+		<div id="text" class="span9" style="margin-left:20px;">
+			<input type="text" name="q" id="q" style="width:100%" />
+		</div>
+		<div class="span1"><input type="submit" id="search" class="btn btn-inverse" style="height:34px;" value="Search" />
+		</div>
+	</form>
+{% endif %}
+{% if searchtype == None or searchtype == "searchWH" %}
+	<form id="text_search_whoosh" action="/search_text/1/" method="get" style="display:block">
+		<div id="text" class="span9" style="margin-left:20px;">
+			<input type="text" name="q" id="q" style="width:100%" value = "{{q}}"/>
+		</div>
+		<div class="span1"><input type="submit" id="search" class="btn btn-inverse" style="height:34px;" value="Search" />
+		</div>
+	</form>
+{% endif %}
+{% if searchtype == "formula" %}
+	<form name="srch_formula" method="post" action="/result_formula/1/?searchtype=formula">
+		 {% csrf_token %}
+		<table width="1400px">
+			<col style="width: 97%;"/>
+            <col style="width: 1.5%;"/>
+            <col style="width: 1.5%;"/>
+			<tr>
+				<td align="left" colspan="3" nowrap="nowrap">
+					{% include "t_formula_view.html" %}
+				</td>
+			</tr>
+			<tr align="left">
+				<td align="left">
+					<input id="query" name="query" type="text" value="{{ query }}" style="margin-left: 20px;width:100%" onkeyup="display_formula()" />
+						<script type="text/javascript" src="/static/content/js/tiny_mce/tiny_mce_popup.js"></script>
+						<script type="text/javascript">
+							display_formula();
+						</script>
+						<script type="text/javascript">
+							function submitquery(){
+								var query = encodeURIComponent(document.getElementById('query').value);
+								var query2 = encodeURIComponent(document.getElementById('outputMathML').value);
+								alert(query);
+								window.location.href = "?query=" + query + "&outputMathML=" + query2;
+							}
+						</script>
+				</td>
+				<td align="left">
+					<!-- <a href="javascript:submitquery();"> -->
+					<a href="javascript:document.srch_formula.submit()">
+						<div class="btn btn-inverse" style="margin-left: 55px;height:23px;" >Search</div>
+					</a>
+				</td>
+				<td align="left">
+					<a href="javascript:showformulaEditor()">
+					<!--a href="javascript:OpenLatexEditor('query','latex','',true)">-->
+						<div class="btn btn-inverse" style="margin-left: 25px;height:23px;">Editor</div>
+					</a>
+				</td>
+			</tr>
+		</table>
+	</form>
+{% endif %}
+{% if searchtype == "keyword" %}
+	<form id="text_keyword" action="/result_keyword/1/" method="get" style="display:block">
+		<div id="text" class="span9" style="margin-left:20px;">
+			<input type="text" name="q" id="q" style="width:100%" />
+		</div>
+		<div class="span1"><input type="submit" id="search" class="btn btn-inverse" style="height:34px;" value="Search" />
+		</div>
+	</form>
+{% endif %}
+{% if searchtype == "invertedindex" %}
+	<form id="text_invertedindex" action="/result_invertedindex/1/" method="get" style="display:block">
+		<div id="text" class="span9" style="margin-left:20px;">
+			<input type="text" name="q" id="q" style="width:100%" />
+		</div>
+		<div class="span1"><input type="submit" id="search" class="btn btn-inverse" style="height:34px;" value="Search" />
+		</div>
+	</form>
+{% endif %}
+{% if searchtype == "keywordcluster" %}
+	<form id="text_keyword_cluster" action="/result_keyword_cluster/1/" method="get" style="display:block">
+	<div style="padding-left:20px"><h5>Please enter query and select the K-Value for clustering</h5></div>
+		<div id="text" class="span8" style="margin-left:20px;">
+			<input type="text" name="q" id="q" style="width:100%" />
+		</div>
+		<div class="span1">
+			<select name="k_value" style="width:100%">
+			{% for k in kvaluelist %}
+				<option value="{{k}}" {% if k|slugify == k_value %} selected {% endif %}>{{k}}</option>
+			{% endfor %}
+			</select>
+		</div>
+			<!--<div class="span1" style="margin-left:10px;">	
+				<input type="submit" class="btn btn-primary" id = "submit" name="submit" value="Generate"/>
+			</div>-->
+		<div class="span1"><input type="submit" id="search" class="btn btn-inverse" style="height:34px;" value="Search" />
+		</div>
+	</form>
+{% endif %}
+</div>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block html_head %}
+	<script type = "text/javascript">
+		function checkSubmit(){
+			var searchtext = document.getElementById("search_field").value;
+				if (searchtext==""){
+					return false;
+				}
+		}
+	</script>
+{%  endblock %}
+{% block content %}
+<div class = "span12">
+	<h1>Text Search</h1>
+	<blockquote>
+		<p>{{cur.title}}</p>
+	</blockquote>
+	<hr/>
+	{% include 'searchc/searchform.tag.html' %}
+</div>
+
+
+{% endblock %}

@@ -11,9 +11,10 @@
 {%  endblock %}
 {% block content %}
 <div class = "span12">
-	<h1>Text Search</h1>
+	<h1>Text Index Search</h1>
 	<blockquote>
-		<p>{{cur.title}}</p>
+		This search engine makes use of text index by Whoosh and Haystack. <br/>
+		Enter any text to experience the fast and accurate Text Index Search.
 	</blockquote>
 	<hr/>
 	<form action="/{{cur.id}}/search/" method="get" onSubmit =" return checkSubmit(this)">

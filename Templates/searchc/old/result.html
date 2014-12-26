@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="col-sm-12">
+		<form action="/{{cur.id}}/fsearch/result/" method="post" onSubmit =" return checkSubmit(this)" class="form-inline" role="form">
+		{% csrf_token %}
+		{% include "fsearch/t_formula_view.html" %}
+		<br/>
+		<table width = "100%">
+			<tr>
+				<td width = "90%">
+					<input id="query" name="query" type="text" class="form-control" value="{{ query }}" style= "width:100%;display:block" onkeyup="display_formula()" />
+				</td>
+				<td>
+					<input type = "Submit" class = "btn btn-primary" value = "Search">
+				</td>
+			</tr>
+		</table>
+		<div>Preview: </div><div id="outputNode" class="formula_view"></div>
+		<hr/>
+	</form>
+	</div>
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Clusters
+			</div>
+			<div class="panel-body">
+				{% for cluster in resultCluster%}
+					{{ name }} ({{len}})<br/>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-9">
+		<h2>Search Result</h2>
+		<hr/>
+					{% for q in questions %}
+						<div class = "col-sm-12">
+							<div class="well well-large" style="padding-top:0px;padding-bottom:3px;margin:0px;margin-bottom:10px">
+								<table width = "100%">
+									<tr>
+										<td align = "center" width = "25%">$${{q.formula}}$$</td>
+										<td width = "60%"><h4><a href = "/{{cur.id}}/view/{{q.id}}/"> Question {{q.question_no}} of {{q.paper}}:</a>	</h4>
+												{{q.content}}</td>
+										<td align = "center"><img alt="" style="width:100px" src = "{{q.image.0.imagepath}}"/></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					{% endfor %}
+				
+			</div>
+    </div>
+	</small>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class = "col-sm-12">
+	<h1>Cluster Training and Info</h1>
+	<blockquote>
+		Cluster Training allows admin to build KMean and Hierachical clusters for question tag and question formula<br/>
+		Cluster result and summary is shown at the end of the process. It serve as an interface for cluster experiment and testing. <br/>
+		For application purpose, <b>Cluster Search</b> in this system will use cluster result of KMean 50 as default temporarily.
+	</blockquote>
+	<hr/>
+	{%if info != None %}
+		<div class = "col-sm-12">
+			<div class="thumbnail" style="margin-bottom:30px;padding:20px">
+				{% for i in info%}
+					{{i|safe}}
+				{% endfor%}
+			</div>
+		</div>
+	{%endif%}
+	{% if info == None %}
+		
+	{% endif %}
+	<div class = "col-sm-4">
+		<div class = "well well-large">
+			<form action = "/{{cur.id}}/searchc/cluster/" method = "post">
+				{% csrf_token %}
+				<label>Data:</label>
+				<select class="form-control" name = "data">
+					<option value = "tag">	Tag</option>
+					<option value = "formula">	Formula</option>
+				</select><br/>
+				<input type = "hidden" name = "type" value = "I">
+				<input type = "Submit" class = "btn btn-primary" value = "Build data vector">
+			</form>
+		</div>
+	</div>
+	<div class = "col-sm-4">
+		<div class = "well well-large">
+			<form action = "/{{cur.id}}/searchc/cluster/" method = "post">
+				{% csrf_token %}
+				<input type = "hidden" name = "type" value = "K">
+				<label>Cluster Data:</label>
+				<select class="form-control" name = "data">
+					<option value = "tag">	Tag</option>
+					<option value = "formula">	Formula</option>
+				</select><br/>
+				<label>Number of clusters</label>
+				<input type = "text" name = "noCluster" class="form-control" placeholder = "2-900"><br/>
+				<input type = "Submit" class = "btn btn-primary" value = "Build K-Mean Cluster">
+			</form>
+		</div>
+	</div>
+	<div class = "col-sm-4">
+		<div class = "well well-large">
+			<form action = "/{{cur.id}}/searchc/cluster/" method = "post">
+				{% csrf_token %}
+				<input type = "hidden" name = "type" value = "H">
+				<label>Cluster Data:</label>
+				<select class="form-control" name = "data">
+					<option value = "tag">	Tag</option>
+					<option value = "formula">	Formula</option>
+				</select><br/>
+				<label>Number of clusters</label>
+				<input type = "text" name = "noCluster" class="form-control" placeholder = "2-900"><br/>
+				<input type = "Submit" class = "btn btn-primary" value = "Build Hierachical Cluster">
+			</form>
+		</div>
+	</div>
+	
+</div>
+
+
+{% endblock %}

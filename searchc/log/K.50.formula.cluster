@@ -1,0 +1,55 @@
+K	50
+Date:	2014-12-26
+Time:	16:10:01.596000
+Duration:	0:00:01.483000
+-------------------
+46	Mfrac$Mrow$Cn
+14	Mfenced, Var, Mfenced$Var
+12	Msup
+21	Msup$Var
+60	Msup
+28	Mfrac
+32	Msub$Var
+6	Mfrac$Mfenced$+, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Mfenced$Var
+64	Mfenced
+42	Var
+149	Var
+23	Msup$Mfenced
+4	Mfrac, +, Msup, Mfenced, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$Msup$Mfenced$+, Mfrac$Mrow$Msup$Mfenced$Msup, Mfrac$Mrow$Msup$Mfenced$Cn, Mfrac$Mrow$Msup$Mfenced$Msup$Cn, Mfrac$Mrow$Var, Mfrac$Mrow$Msup$Mfenced$Msup$Var
+27	Mfenced
+2	Mfrac, +, Msup, Mfenced, E, Mfrac$Mrow$, Mfrac$Mrow$+, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$E, Mfrac$Mrow$Mfenced$, Mfrac$Mrow$Mfenced$Mfrac, Mfrac$Mrow$Mfenced$Mfrac$Mrow$+, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$Mfrac, Mfrac$Mrow$Msup$Mfenced$, Mfrac$Mrow$Msup$Mfenced$Mfrac, Mfrac$Mfenced$Cn, Mfrac$Mrow$Cn, Mfrac$Mrow$Msup$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Cn, Mfrac$Mrow$Msup$Mfenced$Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$Mfrac$Mfenced$Cn, Var, Mfrac$Mrow$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mrow$Msup$Mfenced$Mfrac$Mrow$Var, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$Mfrac$Mrow$Var
+6	Mfrac, Msup, Mfenced, Mfrac$Mfenced, Mfrac$Mrow$+, Mfrac$Mrow$Msup, Var, Mfrac$Mrow$Msup$Var
+11	Mfenced
+4	Msub, Msup, #8747, Msub$Msup$#8747;, Msub$Msup, Msub$Msup$Mrow$, Msub$Msup$Mrow$Var
+5	Mfrac$Mrow$Mfenced$Var
+2	+, Mfenced, Cos, Mfenced$+, Mfenced$, Mfenced$Cos, Mfenced$Cn, Var, Mfenced$Var
+2	Mfrac, +, Msup, Mfenced, Mfrac$Mfenced, Mfrac$Mfenced$Msup, Mfrac$Mrow$Msup, Mfenced$+, Msup$Mfenced, Msup$Mfenced$+, Cn, Msup$Cn, Mfrac$Mfenced$Msup$Cn, Mfrac$Mrow$Msup$Cn, Mfenced$Cn, Msup$Mfenced$Cn, Var, Mfrac$Mrow$Var, Mfrac$Mfenced$Var, Mfenced$Var, Msup$Mfenced$Var, Mfrac$Mrow$Msup$Var
+23	Mfrac
+3	E
+9	Mfrac
+19	Msup$Mrow$Cn
+28	-, Var
+7	#8594, Mover, Mover$#8594;, Mover$Mrow$Var
+23	Mfrac$Mfenced$Cn, Var, Mfenced$Var
+25	Mfenced$Msup
+2	Mfrac, +, Msup, -, Mfenced, Mfrac$Mrow$, Mfrac$Mfenced, Mfrac$Mfenced$-, Mfrac$Mrow$Mfenced, Mfrac$Mfenced$Msup, Mfrac$Mrow$Mfenced$Mfenced, Mfrac$Mrow$Mfenced$Mfenced$+, Mfrac$Mfenced$Cn, Mfrac$Mfenced$Msup$Cn, Mfrac$Mrow$Msqrt$Mrow$Cn, Mfrac$Mrow$Mfenced$Mfenced$Cn, Mfrac$Mfenced$Msup$Var, Mfrac$Mrow$Mfenced$Mfenced$Var
+4	Mfrac, Msup, Mfenced, Mfrac$Mrow$, Mfrac$Mfenced, Mfrac$Mrow$Mfenced, Mfrac$Mfenced$Msup, Mfrac$Mrow$Msup, Mfrac$Mfenced$, Mfrac$Mfenced$Msup$Mfenced, Var, Mfrac$Mrow$Var, Mfrac$Mfenced$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mrow$Msup$Var, Mfrac$Mfenced$Msup$Mfenced$Var
+3	Mfrac, +, Msup, Mfenced, Mfrac$Mfenced, Mfrac$Mrow$Mfenced$+, Mfrac$Mfenced$Msup, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced, Mfrac$Mfenced$Cn, Mfrac$Mfenced$Msup$Cn, Mfrac$Mrow$Msup$Cn, Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mfenced$Msup$Var
+57	Var
+8	Mfrac
+3	Msub
+4	Msup, -, Mfenced, Mfenced$-, Mfenced$, Msup$Cn, Mfenced$Cn, Var, Msup$Var, Mfenced$Var
+12	Mfrac, Mfrac$Mrow$, Mfrac$Mrow$Mfenced$Var
+21	Var
+16	-, Mfrac$Mfenced$Cn
+5	Msubsup$Mrow$Mfrac$Mrow$Cn
+20	Msup
+4	Mfrac, +, Mfenced, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Mfenced$+, Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Cn
+5	#8721
+2	Mfrac, -, Mfenced, E, Mfenced$, Mfenced$Mfrac, Mfenced$Mfrac$Mfenced, Mfenced$Mfrac$Mrow$-, Mfenced$Mfrac$Mfenced$-, Mfenced$Mfrac$Mfenced$Cn, Mfenced$Mfrac$Mrow$Cn, Var, Mfenced$Var, Mfenced$Mfrac$Mrow$Var, Mfenced$Mfrac$Mfenced$Var
+5	#8721, Msup$Mfenced$Var
+3	Mfrac, Msup, Mfenced, Mfrac$Mrow$, Mfrac$Mfenced, Mfrac$Mfenced$Msup, Mfrac$Mrow$Msup, Mfrac$Mfenced$, Mfrac$Mfenced$Msup$Mfenced, Mfrac$Mfenced$Msup$Cn, Mfrac$Mrow$Msup$Cn, Mfrac$Mrow$Var, Mfrac$Mfenced$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mrow$Msup$Var, Mfrac$Mfenced$Msup$Mfenced$Var
+19	Mfrac
+3	Mfrac, +, Msup, Mfenced, Msqrt, Mfrac$Mrow$, Mfrac$Mfenced, Mfrac$Mfenced$Msup, Mfrac$Mrow$Msqrt, Mfrac$Mrow$Msqrt$Mrow$+, Mfrac$Mfenced$Cn, Mfrac$Mfenced$Msup$Cn, Mfrac$Mfenced$Msup$Var, Mfrac$Mrow$Msqrt$Mrow$Var
+16	Mfrac, Mfrac$Mrow$Msup
+2	Mfrac, Msup, -, Mfenced, #8747, Msqrt, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Mfenced$Msqrt, Mfrac$Mrow$Mfenced$Msqrt$Mrow$Msup, Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Msqrt$Mrow$Cn, Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mrow$Mfenced$Msqrt$Mrow$Msup$Var

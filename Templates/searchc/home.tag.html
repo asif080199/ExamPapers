@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block html_head %}
+	<script type = "text/javascript">
+		function checkSubmit(){
+			var searchtext = document.getElementById("search_field").value;
+				if (searchtext==""){
+					return false;
+				}
+		}
+	</script>
+{%  endblock %}
+{% block content %}
+<div class = "span12">
+	<h1>Tag Cluster Search</h1>
+	<blockquote>
+		This search engine makes use of pre-trained clusters for information retrieval. For this particilar search experience, KMean 50 clusters are used.<br/>
+		Enter relevant tags to experience the fast and smart Tag Cluster Search.
+	</blockquote>
+	<hr/>
+	{% include 'searchc/searchform.tag.html' %}
+</div>
+
+
+{% endblock %}
