@@ -14,5 +14,5 @@ urlpatterns = patterns('ExamPapers.searchc.views',
 		('cluster/$', views.cluster),
 		('resultFormula/',views.resultFormula),
 		('resultTag/',views.resultTag),
-		('resultText/(?P<type>\d*)(?P<cluster>\d*)(?P<query>\d*)',views.resultText),
+		('resultText/',views.resultText),
 )

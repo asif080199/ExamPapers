@@ -1,0 +1,23 @@
+<form action="/{{cur.id}}/searchc/resultText/" method="get" onSubmit =" return checkSubmit(this)">
+			{% csrf_token %}
+			<table width="100%">
+				<tr>
+					<td width="90%"><input placeholder="{{query}}" id="search_field" class = "form-control" width="100%" type="text" name="query"></td>
+					<td>
+						<input type = 'hidden' name ='type' value = 'question'>
+						<input type = 'hidden' name ='cluster' value = 0>
+						<input type="submit" id="search" class="btn btn-primary" value="Search" />
+					</td>
+				</tr>
+			</table>
+</form>
+{% block html_head %}
+	<script type = "text/javascript">
+		function checkSubmit(){
+			var searchtext = document.getElementById("search_field").value;
+				if (searchtext==""){
+					return false;
+				}
+		}
+	</script>
+{%  endblock %}

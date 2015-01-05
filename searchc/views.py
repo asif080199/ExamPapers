@@ -182,9 +182,49 @@ def resultTag(request,subj_id):
 	
 	return render(request,'searchc/result.tag.html',param) 
 	
-def resultText():
-	param = {}
+def resultText(request,subj_id):
+	param={}
+	
+	#get input 
+	type = "question"
+	cluster = 0 
+	if request.GET.get("query") != None:
+		query = request.GET.get("query","")
+	if request.GET.get("type") != None:
+		type = request.GET.get("type","question")		
+	if request.GET.get("cluster") != None:
+		clusterId = int(request.GET.get("cluster",0))
+	
+	#update cur and subj	
 	param.update(current(subj_id))
+
+	""" The search """
+	#get all match question
+	questions = SearchQuerySet().autocomplete(content=query).filter(subject_id=subj_id)
+	
+	#cluster online
+	
+	if len(questions) > 1:
+		finalCluster = buildOnlineCluster("H","tag",questions)
+	elif len(questions) == 1:
+		finalCluster = [[0,query,questions,1]]	# a dummy cluster
+	else:
+		finalCluster = [[]]
+	selectedCluster = finalCluster[clusterId]
+	if len(questions) >= 1:
+		#prepare question display
+		for question in selectedCluster[2]:
+			question.stars = star(int(question.marks*5/16.0)+1)
+			question.images = Image.objects.filter(qa_id = question.id)
+			if question.images.count() > 0:
+				question.image = question.images[0].imagepath
+			question.content_short = question.content[0:100]
+		param['cluster'] = selectedCluster 
+		param['clusters'] = finalCluster 
+	param['type'] = type
+	param['query'] = query
+	param['clusterId'] = clusterId
+	
 	return render(request,'searchc/result.text.html',param) 
 
 def euclidean(x,y):
@@ -197,4 +237,10 @@ def euclidean(x,y):
 
 
 
-
+def star(rate):
+	stars = []
+	for s in range(rate):
+		stars.append("<i class='glyphicon glyphicon-star '></i>")
+	#for s in range(5-rate):
+	#	stars.append("<i class='glyphicon glyphicon-star-empty'></i>")
+	return stars

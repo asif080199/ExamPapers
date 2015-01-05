@@ -4,7 +4,49 @@ import json
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import KMeans
 import datetime
+from DBManagement.models import *
 
+
+def buildOnlineCluster(clusterType,dataName,allQuestion):
+	key = []
+	data = []
+	allKey,allVectors = readData(dataName)
+
+	
+	# get vector
+	for question in allQuestion:
+		questionKey = int(question.id[22:])
+		key.append(questionKey)	#this id is searchQueryId 
+		for i in range(len(allKey)):
+			if questionKey == allKey[i]:
+				data.append(allVectors[i])
+		
+	# build cluster
+	
+	#number cluster
+	auto = int(len(allQuestion)/4)
+	noCluster = min(15,max(2,auto))	
+		
+	#build cluster
+	clusters =  buildHcluster(key,data,noCluster,dataName)
+	
+	#format result
+	finalResult = []
+	i = 0
+	for cluster in clusters[0]:
+		finalCluster = []
+		clusterQuestion = []
+		finalCluster.append(i)	# cluster ID 0 
+		i+=1
+		finalCluster.append(cluster[1])	# cluster name 1
+		for questionKey in cluster[0]:	
+			clusterQuestion.append(Question.objects.get(id = str(questionKey)))
+		finalCluster.append(clusterQuestion)		# cluster question 2
+		finalCluster.append(len(clusterQuestion))	# cluster size 3
+		finalCluster.append(len(clusterQuestion)*5+99)	# cluster font size for display 3
+		finalResult.append(finalCluster)
+	return finalResult
+	
 def buildCluster(clusterType,dataName,noCluster):
 	key,data = readData(dataName)
 	if clusterType == "K":
@@ -16,7 +58,8 @@ def buildCluster(clusterType,dataName,noCluster):
 		writeCluster(clusters,"H",dataName)
 		writeLog(clusters,"H",dataName,start,end)
 	else: print "Invalid cluster type"
-	return
+	return clusters
+	
 def buildKcluster(key,data,noCluster,dataName):
 	# train cluster
 	start = datetime.datetime.now()
@@ -78,10 +121,12 @@ def nameCluster(centroid,featureAll):
 		sname = ""
 		m = max(c)
 		index = [i for i, j in enumerate(c) if j == m]
+
 		for i in index:
 			theName = featureAll[i]
 			theName = theName.replace("_"," ").title()+", "	#for nice display
 			sname+=theName
+			break 				#only 1 name
 		sname = sname[:-2]
 		name.append(sname)
 	return name
