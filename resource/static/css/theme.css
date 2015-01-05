@@ -19,6 +19,7 @@ blockquote {
   border-left-color: #428BCA;
 }
 
+
 /* Displays light color line on hover at navbar links: vary by subject */
 @media (min-width: 768px) {
   #mainnavbar .navbar-nav > li > a:hover,
@@ -50,4 +51,16 @@ ul.ulnav   {
      display:none;
 }
 
-/* */
+/* ly */
+div.result
+{
+	border-bottom: 1px dashed #999;
+	padding-left: 0.5em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+p.footer {
+	font-weight: bold;
+	color:grey;
+}
+

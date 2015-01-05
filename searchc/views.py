@@ -211,6 +211,7 @@ def resultText(request,subj_id):
 	else:
 		finalCluster = [[]]
 	selectedCluster = finalCluster[clusterId]
+	
 	if len(questions) >= 1:
 		#prepare question display
 		for question in selectedCluster[2]:
@@ -218,7 +219,7 @@ def resultText(request,subj_id):
 			question.images = Image.objects.filter(qa_id = question.id)
 			if question.images.count() > 0:
 				question.image = question.images[0].imagepath
-			question.content_short = question.content[0:100]
+			question.content_short = question.content[0:270]
 		param['cluster'] = selectedCluster 
 		param['clusters'] = finalCluster 
 	param['type'] = type
@@ -235,12 +236,10 @@ def euclidean(x,y):
 	return sum
 	
 
-
-
 def star(rate):
 	stars = []
 	for s in range(rate):
-		stars.append("<i class='glyphicon glyphicon-star '></i>")
+		stars.append("<i class='glyphicon glyphicon-star text-yellow'></i>")
 	#for s in range(5-rate):
 	#	stars.append("<i class='glyphicon glyphicon-star-empty'></i>")
 	return stars

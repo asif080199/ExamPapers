@@ -422,6 +422,10 @@ cite {
   color: #428bca;
 }
 
+.text-yellow {		/*ly*/
+  color: #FACC2E;
+}
+
 .text-warning {
   color: #c09853;
 }

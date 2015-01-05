@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="col-sm-9">
+		{% include 'searchc/searchform.text.html' %}
+	</div>
+	<div class="col-sm-3">
+		<div class='nav nav-tabs'>
+			<li {% if type == "question" or type = None %} class="active" {% endif %}><a href="/{{cur.id}}/search/?type=question&tp={{tp}}&searchtext={{searchtext}}"><span>Questions</span></a></li>
+			<li {% if type == "image" %} class="active" {% endif %}><a href="/{{cur.id}}/search/?type=image&tp={{tp}}&searchtext={{searchtext}}"><span>Images</span></a></li>
+		</div>
+	</div>
+
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Clusters</h3>
+            </div>
+            <div class="panel-body">
+				{% for cluster in clusters %}
+					<!---<span class="glyphicon glyphicon-cloud text-primary"></span>-->
+					<font style = "font-size : {{cluster.4}}%" >
+					{% if cluster.0 != clusterId %}<a  href=" /{{cur.id}}/searchc/resultText/?query={{query}}&type=question&cluster={{cluster.0}}">{% endif %} 
+					{% if cluster.0 == clusterId %}<span class="text-muted"> {% endif %}{{cluster.1}} ({{cluster.3}}){% if t.id == tp %}</span> {% endif %}
+					{% if cluster.0 != clusterId %}</a>{% endif %} 
+					</font>
+					<br/>
+				{% endfor  %}
+			</div>
+          </div>
+	</div>
+	
+	<div class="col-sm-9">
+		<h2>Search Result</h2>
+		<hr/>
+		<div class="alert alert-block alert-info " style="padding:5px">
+			{% if tp != -1%}
+				<b>Cluster:</b> {{cluster.1}} 
+			{% endif %}
+		</div>
+				{% if type == 'question' %}
+					{%if not cluster %}
+						<div class="alert alert-block alert-danger" style="padding:5px">No result found</div>
+					{% else %}
+						{% for q in cluster.2 %}
+							<div class="well well-large" style="padding-top:0px;padding-bottom:3px;margin:0px;margin-bottom:10px">
+								<table  width = "100%" >
+									<tr>
+										<td width = "31%">									
+											<h4><a href = "/{{cur.id}}/view/{{q.id}}/"> Question {{q.question_no}} of {{q.paper}}:</a>	</h4>
+
+										</td>
+										<td width = "15%">									
+											{%for s in q.stars%}
+												{{s|safe}}
+											{%endfor%}
+										</td>
+										<td>
+											{{q.topic.title}} 
+										</td>
+										<td rowspan="2" align= 'center' width = '12%'>
+												<img src = "{{q.image}}" style="max-width:100px;max-height:100px" alt="">
+										</td>
+									</tr>
+									<tr>
+										<td colspan = "3">						
+											<i>{{q.content_short}}... </i> 
+										</td>
+									</tr>
+								</table>
+							</div>
+						{% endfor %}	
+					{% endif %}
+				{% endif %}
+				
+				{% if type == 'image' %}
+					<div class="row-fluid">
+					{% for q in questions %}
+						{%if tp == q.topic_id  or tp == -1 %}
+							{% for image in q.images %}
+								<div class="col-sm-4">							
+									<a  href="/{{cur.id}}/view/{{q.question_id}}/"><img src= "{{image.imagepath}}" class="img-thumbnail" alt="{{image.qa_id}}"/></a>
+								</div>
+								{% if forloop.counter|divisibleby:"3" %}
+								</div>
+								<div class="row-fluid">
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+					{% endfor %}
+					</div>
+					
+					</div>
+				{% endif %}
+			</div>
+			<!-- Next/Prev page links  -->
+		<small class="pull-right">
+					{% if questions.object_list and questions.paginator.num_pages > 1 %}
+					<div class="pagination" style="margin-top: 20px; margin-left: -20px; ">
+						<span class="step-links">
+							{% if questions.has_previous %}
+								<a href= "/{{cur.id}}/search/?type={{type}}&tp={{tp}}&searchtext={{searchtext}}&page={{ questions.previous_page_number }}">Newer entries &lt;&lt; </a>
+							{% endif %}
+
+							<span class="current">
+								&nbsp;Page {{ questions.number }} of {{ questions.paginator.num_pages }}
+							</span>
+
+							{% if questions.has_next %}
+								<a href="/{{cur.id}}/search/?type={{type}}&tp={{tp}}&searchtext={{searchtext}}&page={{ questions.next_page_number }}"> &gt;&gt; Older entries</a>
+							{% endif %}
+						</span>
+					</div>
+					{% endif %}
+    </div>
+	</small>
+{% endblock %}

@@ -43,7 +43,7 @@ def buildOnlineCluster(clusterType,dataName,allQuestion):
 			clusterQuestion.append(Question.objects.get(id = str(questionKey)))
 		finalCluster.append(clusterQuestion)		# cluster question 2
 		finalCluster.append(len(clusterQuestion))	# cluster size 3
-		finalCluster.append(len(clusterQuestion)*5+99)	# cluster font size for display 3
+		finalCluster.append(min(150,(int(float(len(clusterQuestion))/len(allQuestion)*len(clusters[0])*40 +80))))	# cluster font size for display 3
 		finalResult.append(finalCluster)
 	return finalResult
 	

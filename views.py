@@ -365,17 +365,18 @@ def search(request,subj_id,type,tp,searchtext):
 	for b in blocks:
 		b.topics = Topic.objects.filter(block = b.id)
 	
-	
 	#get all match question
 	questions = SearchQuerySet().autocomplete(content=input).filter(subject_id=subj_id)
-
+	
+	finalQuestions = []
 	if type == "question":
 		for question in questions:
+			question.linkId = question.id[22:]
 			question.stars = star(int(question.marks*5/16.0)+1)
 			question.images = Image.objects.filter(qa_id = question.question_id)
 			if question.images.count() > 0:
 				question.image = question.images[0].imagepath
-			question.content_short = question.content[0:100]
+			question.content_short = question.content[0:250]
 			
 		# question count
 		for b in blocks:
@@ -384,36 +385,33 @@ def search(request,subj_id,type,tp,searchtext):
 				for q in questions:
 					if q.topic == t.title:
 						t.count = t.count + 1
+						finalQuestions.append(q)
 				total+=t.count
-		
-		
 	elif type == "image":
 		for question in questions:
 			question.images = Image.objects.filter(qa_id = question.question_id)
 			question.count = question.images.count()
+			question.linkId = question.id[22:]
 		for b in blocks:
 			for t in b.topics:
 				t.count = 0
 				for q in questions:
 					if q.topic == t.title:
 						t.count = t.count + q.count
+						finalQuestions.append(q)
 			total+=t.count
-	#Do paging 
-	paginator = Paginator(questions, 10)
-		
-	try: page = int(request.GET.get("page", '1'))
-	except ValueError: page = 1
 
-	try:
-		questions = paginator.page(page)
-	except (InvalidPage, EmptyPage):
-		questions = paginator.page(paginator.num_pages)
+	if tp!= str(-1):
+		param['topic'] = Topic.objects.get(id = tp).title
+	else:
+		param['topic'] = "All"
 			
 	param['total'] = total
 	param['type'] = type
 	param['blocks'] = blocks
-	param['questions'] = questions
+	param['questions'] = finalQuestions
 	param['tp'] = int(tp)
+	
 	param['searchtext'] = input
 	return render(request,'search.html',param)
 
@@ -492,7 +490,7 @@ def statistics(request,subj_id,type):
 def star(rate):
 	stars = []
 	for s in range(rate):
-		stars.append("<i class='glyphicon glyphicon-star '></i>")
+		stars.append("<i class='glyphicon glyphicon-star text-yellow '></i>")
 	#for s in range(5-rate):
 	#	stars.append("<i class='glyphicon glyphicon-star-empty'></i>")
 	return stars
