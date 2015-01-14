@@ -27,6 +27,14 @@ addMaths_q_per_page=10
 def AddMaths_Admin(request,subj_id): #home
 	param={}
 	
+	questions = Question.objects.all()
+	for q in questions:
+		q.noTag = Tag.objects.filter(question_id = q.id).count()
+		solution = Solution.objects.filter(question_id = q.id).count()
+		q.solution = "Not available"
+		if solution >0:
+			q.solution = "Available"
+		q.display = q.content[:100]
 	param['papers']=list(Paper.objects.filter(subject_id=subj_id,number__gt=0).only('id','year','month','number').order_by('id').values())	
 	
 	topics=list(Topic.objects.filter(block__subject_id=subj_id).order_by('id').values())
@@ -37,7 +45,7 @@ def AddMaths_Admin(request,subj_id): #home
 		param['sol_type'].append({'id':k,'name':sol_format[k]})
 		
 	param['subj_id']=subj_id
-	
+	param['questions'] = questions
 	#for links
 	param['subject']=Subject.objects.all()
 	param.update(current(subj_id))
@@ -61,10 +69,11 @@ def AddMaths_Admin_ModifyQuestion(request,list_type,subj_id,page_no):	#math_admi
 	sel=[]
 	if list_type=='paper':
 		sel=list(Question.objects.filter(paper_id=list_id).only('id','paper_id_id','content','subtopic_id_id','type','topic_id_id').order_by('id').values())
-		page_title=Subject.objects.get(id=Paper.objects.get(id=list_id).subject_id).title + ' ' + Paper.objects.get(id=list_id).year + ' ' +  Paper.objects.get(id=list_id).month + ' Paper ' + str(Paper.objects.get(id=list_id).number)
+		page_title="Paper: " + Subject.objects.get(id=Paper.objects.get(id=list_id).subject_id).title + ' ' + Paper.objects.get(id=list_id).year + ' ' +  Paper.objects.get(id=list_id).month + ' Paper ' + str(Paper.objects.get(id=list_id).number)
 	elif list_type=='topic':		
 		sel=list(Question.objects.filter(topic_id=list_id).only('id','paper_id_id','content','subtopic_id_id','type', 'topic_id_id').order_by('id').values())
-		page_title=Topic.objects.get(id=list_id).title
+		page_title="Topic: " + Topic.objects.get(id=list_id).title
+		
 	elif list_type=='tag':
 		tag_list=list(tag.objects.filter(tag=list_id).order_by('question_id').values('question_id'))
 		qid_set=[]
@@ -98,7 +107,13 @@ def AddMaths_Admin_ModifyQuestion(request,list_type,subj_id,page_no):	#math_admi
 	
 	#For each question in page, insert required values
 	for i in range(0,len(page_items)):
-		page_items[i]['display']=page_items[i]['content']#[:100]+'\\]'
+		id = page_items[i]['id']
+		page_items[i]['noTag'] = (Tag.objects.filter(question_id = id).count())
+		answer = Solution.objects.filter(question_id = id).count()
+		page_items[i]['solution'] = "Not available"
+		if answer >0:
+			page_items[i]['solution'] = "Available"
+		page_items[i]['display']=page_items[i]['content'][:100]#[:100]+'\\]'
 		page_items[i]['paper']='_'
 		page_items[i]['subtopic']='_'
 		page_items[i]['topic']='_'
@@ -136,7 +151,7 @@ def AddMaths_Admin_ModifyQuestion(request,list_type,subj_id,page_no):	#math_admi
 	param['list_id']=list_id
 	param['list_type']=list_type
 	param['page_no']=int(page_no)
-	param['page_title']='Modifying ' + page_title
+	param['page_title']=  page_title
 	
 	param['subj_id']=subj_id
 	    
@@ -969,7 +984,7 @@ def AddMaths_Admin_TagList(request,subj_id):
 		for t in taglist:
 			t.content = process_tag(t)
 			#t.content ='\n'+t.content.replace(';','\n')
-		
+			t.noTag = Tag.objects.filter(tagdefinition = t.id).count()
 		param.update(current(subj_id))
 		#Do paging 
 		paginator = Paginator(taglist, 5)
@@ -996,7 +1011,8 @@ def AddMaths_Admin_DeleteTag(request,subj_id):
 		tags.delete()
 		tagdef.delete()
 	param.update(current(subj_id))
-	return render_to_response('/control/add_math_admin_taglist.html',param,RequestContext(request))
+	param['mes'] = "<div class='alert alert-success' >The tag has been removed successfully</div>"
+	return render_to_response('control/add_math_admin_taglist.html',param,RequestContext(request))
 
 #create/modify a tag	
 def AddMaths_Admin_TagForm(request,subj_id):

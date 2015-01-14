@@ -12,12 +12,15 @@
 			{% if cur != ''  %}
             {% if user.is_authenticated %}
 			<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><div style="color: white; font-size: 14px;">{{cur.title}}</div></b></a>
-              <ul class="dropdown-menu">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><div style="color: white; font-size: 14px;">A & H2 Mathematics</div></b></a>
+              <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><div style="color: white; font-size: 14px;">{{cur.title}}</div></b></a>-->
+              <!--
+			  <ul class="dropdown-menu">
                 {% for l in level  %}
 					<li><a href="/{{l.id}}/">{{l.title}}</a></li>  
 				{% endfor %}
               </ul>
+			  -->
             </li>
 			<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-zoom-in"></i> Search <b class="caret"></b></a>
@@ -31,6 +34,7 @@
 			</li>
 			<li><a href="/{{cur.id}}/study/?tp=-1"><span class="glyphicon glyphicon-tasks"></span> Concept</a></li>
 			<li><a href="/{{cur.id}}/qna/home"><span class="glyphicon glyphicon-globe"></span> Q&A</a></li>
+			<!--
 			<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-road"></i> Assessment <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -39,6 +43,7 @@
 					<li><a href="/{{cur.id}}/paper/home/"><span class="glyphicon glyphicon-file"></span> Paper</a></li>
                 </ul>
 			</li>
+			-->
             </li>
             {% endif %}
             {% if user.is_staff %}
@@ -46,10 +51,10 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-wrench"></i> Control <b class="caret"></b></a>
                 <ul class="dropdown-menu">
 					<li><a href="/{{cur.id}}/statistics/?type=practice"><span class="glyphicon glyphicon-tower"></span> Statistics</a></li>
-					<li><a href="/{{cur.id}}/control/home/"><span class="glyphicon glyphicon-star"></span> Manage Question</a></li>
-					<li><a href="/{{cur.id}}/control/math_admin_taglist/?type=K"><span class="glyphicon glyphicon-tag"></span> Manage Tags</a></li>
-					<li><a href="/{{cur.id}}/control/fsearch/home"><span class="glyphicon glyphicon-star"></span> Manage Index</a></li>
-					<li><a href="/{{cur.id}}/searchc/cluster"><span class="glyphicon glyphicon-certificate"></span> Manage Clusters</a></li>
+					<li><a href="/{{cur.id}}/control/home/"><span class="glyphicon glyphicon-star"></span> Question Database</a></li>
+					<li><a href="/{{cur.id}}/control/math_admin_taglist/?type=K"><span class="glyphicon glyphicon-tag"></span> Tag Database</a></li>
+					<li><a href="/{{cur.id}}/fsearch/reindex"><span class="glyphicon glyphicon-star"></span> Reindex</a></li>
+					<li><a href="/{{cur.id}}/searchc/cluster"><span class="glyphicon glyphicon-certificate"></span> Cluster Training and Info</a></li>
 					<li><a href="/admin/"><span class="glyphicon glyphicon-cog"></span> Django Admin</a></li>
                 </ul>
 			</li>
@@ -104,9 +109,8 @@
 
 <!-- General css --->	
 <link rel="stylesheet" href="/static/css/bootstrap.css">
-<link rel="stylesheet" href="/static/css/theme.css">
-
 <link rel="stylesheet" href="/static/css/ajaxcomment.css">
+<link rel="stylesheet" href="/static/css/theme.css">
 
 <!-- For mathquill --->	
 <link rel="stylesheet" type="text/css" href="/static/css/mathquill.css">
@@ -115,9 +119,15 @@
 <!-- CKEditor -->
 <script src="/static/javascript/ckeditor/ckeditor.js"></script>
 
-<!--Datatable-->
-<link rel="stylesheet" type="text/css" href="/static/css/dataTable.css">
-<script type="text/javascript" src="/static/javascript/dataTable.js"></script>
+<!--dataTable-->
+<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/static/css/dataTables.css">
+<script type="text/javascript" src="/static/javascript/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function() {
+	$('#adminTable').DataTable();
+} );
+</script>
 
 <!--Tag Form-->
 <link rel="stylesheet" href="/static/css/bootstrap-tagsinput.css">	

@@ -91,7 +91,7 @@ def resultFormula(request,subj_id):
 	"""
 	query = request.POST.get("query","")
 	queryVector =  extractFormulaFeature(query)
-	clusters = readCluster('K.50.formula')		# cluster name
+	clusters = readCluster('H.50.formula')		# cluster name
 	distance = []
 	
 	"""
@@ -117,7 +117,8 @@ def resultFormula(request,subj_id):
 		for id in cluster[0]:
 			formula = Formula.objects.get(indexid = id)
 			formula.question = Question.objects.get(id = formula.question_id)
-			formula.question.content_short = formula.question.content[:50]
+			formula.question.content_short = formula.question.content[:150]
+			formula.question.stars = star(int(formula.question.marks*5/16.0)+1)
 			formulaObjects.append(formula)
 		newCluster.append(i)				#index
 		newCluster.append(cluster[1][:50])		#name
@@ -143,7 +144,7 @@ def resultTag(request,subj_id):
 	queryVector = buildTagVector(tags)
 	
 	distance = []
-	clusters = readCluster('K.50.tag')		# cluster name
+	clusters = readCluster('H.50.tag')		# cluster name
 	for cluster in clusters:
 		distance.append(euclidean(queryVector,cluster[2]))	#distance to cluster		
 	arr = np.array(distance)
@@ -163,8 +164,11 @@ def resultTag(request,subj_id):
 		questionObjects = []
 		for id in cluster[0]:
 			question = Question.objects.get(id = id)
-			question.content_short = question.content[:50]
+			question.content_short = question.content[:150]
 			question.tags = Tag.objects.filter(question_id = question.id)
+			images = Image.objects.filter(qa_id = question.id)
+			if len(images)!=0:
+				question.image = images[0].imagepath
 			questionObjects.append(question)
 		newCluster.append(i)				#index
 		newCluster.append(cluster[1][:50])		#name
@@ -230,10 +234,9 @@ def resultText(request,subj_id):
 
 def euclidean(x,y):
 	sum = 0
-	for i in x:
-		for j in y:
-			sum+= (i-j)**2
-	return sum
+	for i in range(len(x)):			
+		sum+= (x[i]-y[i])**2
+	return sqrt(sum)
 	
 
 def star(rate):

@@ -1,38 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
-		<div class="container-fluid" style="margin-top:40px;">
-			<div class="row-fluid">
 				<h1>{{page_title}}</h1>
-				<div class="alert alert-info">
-					Total Questions: {{num_q}}
-				</div>
+				<hr class = "black">
 				<form action="/{{cur.id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{subj_id}}/{{list_id}}/-1/" method="get">
 					<input type="submit" class="btn btn-primary" id="submit"  name="attempt"  value="Insert New Question"/>
 				</form>
 				<br/>
-				<table width='100%' border='2'>
+				<table id="adminTable" class="display" cellspacing="0" width="100%">
+				<thead>
 					<tr>
 						<th>ID</th>
 						<th>Paper</th>
 						<th>Question Summary</th>
+						<th>Answer</th>
 						<th>Topic</th>
 						<th>Sub-Topic</th>
+						<th>#tag</th>
 						<th></th>
 					</tr>
-				{% for q in questions %}											
-					<form action="/{{cur.id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{subj_id}}/{{list_id}}/{{q.id}}/" method="get">
-							<tr>
-								<td>{{q.id}}</td>
-								<td>{{q.paper}}</td>
-								<td>{{q.display}}</td>
-								<td>{{q.topic}}</td>
-								<td>{{q.subtopic}}</td>
-								<td><input type="submit" class="btn btn-danger btn-sm" id="submit" name="attempt"  value="Modify"/></td>
-							</tr>
-					</form>												
+				</thead>
+				<tbody>
+				{% for q in questions %}			
+				<tr>
+					<td>{{q.id}}</td>
+					<td>{{q.paper}}</td>
+					<td>{{q.display}}...</td>
+					<td>{{q.solution}}</td>
+					<td>{{q.topic}}</td>
+					<td>{{q.subtopic}}</td>
+					<td>{{q.noTag}}</td>
+					<td><a href = "/{{cur.id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{subj_id}}/{{list_id}}/{{q.id}}/"><button class="btn btn-primary btn-sm">Edit</button></td>
+				</tr>										
 				{% endfor %}
+				</tbody>
 				</table>
-				<nav>
+				<nav class = "pull-right">
 					<ul class = "pagination">
 						{% for p in page_links %}
 							{% if page_no == p %}
@@ -43,7 +45,11 @@
 						{% endfor %}
 					</ul>
 				</nav>
-				<a href="/math_admin/{{subj_id}}/" class="btn btn-success">&laquo; Back to Admin List<a>
-			</div>
-		</div>
+				 <button onclick="goBack()" class="btn btn-success">&laquo; Back to Question Database</button>
+				<script>
+				function goBack() {
+					window.history.back()
+				}
+				</script>
+
 {% endblock %}

@@ -1,12 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-		<div class="container-fluid" style="margin-top:40px;">
-			<div class="row-fluid">
-				<h1>Admin Taglist</h1>
-				<hr>
-				<div class="row-fluid">
-					<h5>Tag Type (Now Viewing):</h5>
-				</div>
+				<h1>Tag Database</h1>
+				<hr class = "black">
+				{{mes|safe}}
 				<form name="papers" action="/{{cur.id}}/control/math_admin_taglist/" method="get">
 						<div class="col-sm-11">
 							<select name="type" class="form-control">
@@ -25,18 +21,24 @@
 					<div class="row-fluid">
 						<br/><br/><hr/>
 						<form name="add" action="/{{cur.id}}/control/math_admin_tag_form/" method="get">
-							<input type='submit' class='btn btn-primary' id='submit' name='submit' value='Add Tag'/>
+							<input type='submit' class='btn btn-primary' id='submit' name='submit' value='Insert New Tag'/>
 						</form>
 					</div>
+					<br/>
 					<form name="papers" action="/{{cur.id}}/control/math_admin_taglist/" method="get">
-						<table class="table">
+						<table id="adminTable" class="display" cellspacing="0" width="100%">
+						<thead>
 							<tr>
-								<th width="20%">Title</th>
-								<th width="20%">Type</th>
-								<th width="45%">Description</th>
-								<th width="15%">Action</th>
+								<th >Title</th>
+								<th >Type</th>
+								<th >Description</th>
+								<th >#tag</th>
+								<th ></th>
 							</tr>
-							{% for tag in taglist %}
+							
+						</thead>
+						<tbody>
+						{% for tag in taglist %}
 							<tr>
 								<td>{{tag.title}}</td>
 								<td>{{tag.type}}</td>
@@ -52,24 +54,32 @@
 									{% endfor %}
 									<br/>
 								</td>
-								<td><a class="btn btn-inverse" href="{{cur.id}}/control/math_admin_tag_form/?id={{tag.id}}">Edit</a> <a class="btn btn-danger" href="/{{cur.id}}/control/math_admin_tag_delete/?id={{tag.id}}" onclick='return window.confirm("Confirm Delete?")'>Delete</a></td>
+								<td>{{tag.noTag}}</td>
+								<td>
+									<table>
+										<tr>
+											<td><a class="btn btn-primary btn-sm" href="{{cur.id}}/control/math_admin_tag_form/?id={{tag.id}}">Edit</a></td>
+											<td><a class="btn btn-danger btn-sm" href="/{{cur.id}}/control/math_admin_tag_delete/?id={{tag.id}}" onclick='return window.confirm("Confirm Delete?")'>Delete</a></td>
+										</tr>
+									</table>
+								</td>
 							</tr>
 							{% endfor %}
+							</tbody>
 						</table>
 						
 					<form name="papers" action="/{{cur.id}}/control/math_admin_taglist/" method="get">
 				{% endif %}
 				</div>
-				<div class="clear"></div>
-			</div>
 			<div>
 				<!-- Next/Prev page links  -->
-					<small class="pull-right">
+				<div class="col-sm-9"></div>
+				<div class="col-sm-3">
 								{% if taglist.object_list and taglist.paginator.num_pages > 1 %}
 								<div class="pagination" style="margin-top: 20px; margin-left: -20px; ">
 									<span class="step-links">
 										{% if taglist.has_previous %}
-											<a href= "/{{cur.id}}/control/math_admin_taglist/?type={{type}}&submit=Submit&page={{ taglist.previous_page_number }}">Newer entries &lt;&lt; </a>
+											<a href= "/{{cur.id}}/control/math_admin_taglist/?type={{type}}&submit=Submit&page={{ taglist.previous_page_number }}">Back &lt;&lt; </a>
 										{% endif %}
 
 										<span class="current">
@@ -77,12 +87,11 @@
 										</span>
 
 										{% if taglist.has_next %}
-											<a href="/{{cur.id}}/control/math_admin_taglist/?type={{type}}&submit=Submit&page={{ taglist.next_page_number }}"> &gt;&gt; Older entries</a>
+											<a href="/{{cur.id}}/control/math_admin_taglist/?type={{type}}&submit=Submit&page={{ taglist.next_page_number }}"> &gt;&gt;Next</a>
 										{% endif %}
 									</span>
 								</div>
 								{% endif %}
 				</div>
 				</small>
-			</div>
 {% endblock %}

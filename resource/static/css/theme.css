@@ -64,3 +64,6 @@ p.footer {
 	color:grey;
 }
 
+hr.black { 
+	border-bottom: 1px double black;
+}

@@ -12,9 +12,11 @@
 {%  endblock %}
 {% block content %}	
 	<h1>Reindex</h1>
+	<hr class = "black">
 	<form action = "/{{cur.id}}/fsearch/reindex/" method = "post">
 		{% csrf_token %}
+		<div class='alert alert-warning' >All formula will be deleted and reindexed. The process will take ~30 minutes. Any interuption during the process will cause undesired result.</div>
 		<input type = "hidden" name = "trigger" value = "activate">
-		<input type = "Submit" class = "btn btn-default" value = "Reindex">
+		<input type = "Submit" class = "btn btn-primary" value = "Reindex">
 	</form>
 {% endblock %}

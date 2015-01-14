@@ -26,18 +26,34 @@
 		<h2>Search Result</h2>
 		<hr/>
 					{% for q in questions %}
-						<div class = "col-sm-12">
-							<div class="well well-large" style="padding-top:0px;padding-bottom:3px;margin:0px;margin-bottom:10px">
-								<table width = "100%">
+						<div class = "result">	
+								<table  width = "100%" style="padding:5px" >
 									<tr>
-										<td align = "center" width = "25%">$${{q.formula}}$$</td>
-										<td width = "60%"><h4><a href = "/{{cur.id}}/view/{{q.id}}/"> Question {{q.question_no}} of {{q.paper}}:</a>	</h4>
-												{{q.content}}</td>
-										<td align = "center"><img alt="" style="width:100px" src = "{{q.image.0.imagepath}}"/></td>
+										<td width = "20%" rowspan = "2">									
+											$${{q.formula}}$$
+										</td>
+										<td width = "37%">									
+											<b><a style="font-size:130%" href = "/{{cur.id}}/view/{{q.id}}/"> {{q.subtopic.title}} #{{q.question_no}}:</a></b>
+										</td>
+										<td width = "9%">									
+											{%for s in q.stars%}
+												{{s|safe}}
+											{%endfor%}
+										</td>
+										<td>
+											<p class="footer">{{q.topic.title}} </p>
+										</td>
+										<td rowspan="2" align= 'center' width = '12%'>
+												<img src = "{{q.image}}" style="max-width:100px;max-height:100px" alt="">
+										</td>
+									</tr>
+									<tr>
+										<td colspan = "3">						
+											<i>{{q.content}}... </i> 
+										</td>
 									</tr>
 								</table>
 							</div>
-						</div>
 					{% endfor %}
 				
 			</div>

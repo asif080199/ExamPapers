@@ -1,5 +1,7 @@
 {{object.content}}
 {{object.topic.title}}
 {{object.subtopic.title}}
-{{object.topic.subject.title}}
+{{object.topic.block.title}}
+{{object.topic.block.subject.title}}
+{{object.topic.block.subject.edu_level.title}}
 

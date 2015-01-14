@@ -2,6 +2,8 @@
 {% block content %}
 <div class="col-sm-12">
 	{% include 'searchc/searchform.formula.html' %}
+	<hr/>
+	<b>Search Result</b>
 	<div class="panel-group" id="accordion">
 		<div class="panel panel-default">
 			{% for c in resultCluster%}
@@ -15,29 +17,22 @@
 				<div id="collapse{{c.0}}" class="panel-collapse collapse">
 					<div class="panel-body">
 						{% for formula in c.2 %}
-						<div class = "col-sm-3">
-							<div class="well well-large" style="padding-top:0px;padding-bottom:3px;margin:0px;margin-bottom:10px">
-								$${{formula.formula}}$$
-							</div>
-						</div>
-						<div class = "col-sm-9">
-							<div class="well well-large" style="padding-top:0px;padding-bottom:3px;margin:0px;margin-bottom:10px">
-								<table  width = "100%" >
+						<div class = "result">
+							<table  width = "100%" style="padding:5px" >
 									<tr>
-										<td width = "31%">									
-											<h4><a href = "/{{cur.id}}/view/{{formula.question.id}}/"> Question {{formula.question.id}}:</a>	</h4>
-
+										<td width = "20%" rowspan = "2">									
+											$${{formula.formula}}$$
 										</td>
-										<td width = "15%">									
-											{%for s in q.stars%}
+										<td width = "40%">									
+											<b><a style="font-size:130%" href = "/{{cur.id}}/view/{{formula.question.id}}/"> {{formula.question.subtopic.title}} #{{formula.question.question_no}}:</a></b>
+										</td>
+										<td width = "9%">									
+											{%for s in formula.question.stars%}
 												{{s|safe}}
 											{%endfor%}
 										</td>
 										<td>
-											{{formula.question.topic.title}} 
-										</td>
-										<td rowspan="2" align= 'center' width = '12%'>
-												<img src = "{{formula.question.image}}" style="max-width:100px;max-height:100px" alt="">
+											<p class="footer">{{formula.question.topic.title}} </p>
 										</td>
 									</tr>
 									<tr>
@@ -47,7 +42,6 @@
 									</tr>
 								</table>
 							</div>
-						</div>
 						{% endfor%}
 					</div>
 				</div>

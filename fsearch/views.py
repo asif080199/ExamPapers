@@ -12,7 +12,7 @@ from DBManagement.models import *
 from ExamPapers.logic.common import *
 
 import asciitomathml.asciitomathml
-
+from ExamPapers.searchc.views import star
 from ExamPapers.fsearch.formula_searcher import search_content_formula
 from ExamPapers.fsearch.formula_indexer import *
 import re
@@ -61,8 +61,12 @@ def result(request, subj_id):
 	for r in response:
 		question = Question.objects.get(id = r[0])
 		question.formula = r[3]
-		question.image = Image.objects.filter(qa_id = question.id)
+		images = Image.objects.filter(qa_id = question.id)
+		if len(images) >0:
+			question.image = images[0].imagepath
+		question.stars =  star(int(question.marks*5/16.0)+1)
 		questions.append(question)
+		
 	#print questions 
 	#Do paging for questions entries
 	paginator = Paginator(questions, 10)
@@ -100,9 +104,6 @@ def index(formula_list):
 	#return render_to_response('fsearch/findex.html',param,RequestContext(request))
 
 def reindex(request,subj_id):
-	
-	
-	
 	param = {}
 	param.update(current(subj_id))
 	trigger = request.POST.get('trigger','')

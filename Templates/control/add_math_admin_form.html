@@ -289,23 +289,25 @@ captureInput();
 document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 }
 </script>
-<div class="container-fluid" style="margin-top:40px;">
 		<h1>Question Form</h1>
-		<hr/>
+		<hr class = "black">
 		<form id='preview_form' method='post' action='/{{subj_id}}/control/math_admin_modify/{{list_type}}/{{page_no}}/?list_id={{list_id}}'>
 			{% if question %}
-			<div class="container-fluid">
-				<div class="col-sm-1">Question:</div>
-				<div class="col-sm-11">{{question.id}}</div>
-			</div>
-			<div class = "container-fluid">
-				<div class="col-sm-1">Topic:</div>
-				<div class="col-sm-11">{{topic}}</div>
-			</div>
-			<div class = "container-fluid">
-				<div class="col-sm-1">Sub-Topic:</div>
-				<div class="col-sm-11">{{subtopic}}</div>
-			</div>
+			<table style="width:100%">
+				<tr>
+					<th width = "20%">Question:</th>
+					<td width = "80%">{{question.id}}</td>
+				</tr>
+				<tr>
+					<th>Topic:</th>
+					<td>{{topic}}</td>
+				</tr>
+				<tr>
+					<th>Sub-Topic:</th>
+					<td>{{subtopic}}</td>
+				</tr>
+			</table>
+			
 			{% else %}
 			<div class="container-fluid">
 				<div class="col-sm-1">Paper :</div>
@@ -369,42 +371,43 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 			</div>
 		{% endif %}
 		<div class="container-fluid" style="padding-top:30px">
-		<br/><br/>
-			<div class="col-sm-1">Question :</div>
-			<div class="col-sm-6">
-				<textarea id='q_content' name='q_content' cols='70' rows='10' class = "form-control">{{display}}</textarea>
-			</div>
-			<div class="col-sm-5">
-				<b>Question Preview:</b><br/>{{display}}
-			</div>
-			<div class="col-sm-1">.</div>
-			<div class="col-sm-11"><hr/></div>
-		</div>
-		<div class="container-fluid" style="padding-top:250px;padding-bottom:50px">
-			<div class="col-sm-1">Solution :</div>
-			<div class="col-sm-6">
-				<textarea id='answer' name='answer' cols='70' rows='10' class = "form-control">{{solution}}</textarea>
-			</div>
-			<div class="col-sm-5">
-				<b>Solution Preview:</b><br/><{{solution}}
-			</div>
-			<div class="col-sm-1">.</div>
-			<div class="col-sm-11"><hr/></div>
-		</div>
-		<input type="hidden" id='formulae' name='formulae' >
-		<div class="container-fluid" style="padding-top:220px">
-			<br/><br/>
-			<div class="col-sm-1">Source</div>
+		<hr/>
+			<table style="width:100%">
+				<tr>
+					<th width="50%">Question</th>
+					<th width="5%"></th>
+					<th width="45%">Question Preview</th>
+				</tr>
+				<tr>
+					<td><textarea id='q_content' name='q_content' cols='70' rows='10' class = "form-control">{{display}}</textarea></td>
+					<td></td>
+					<td>{{display}}</td>
+				</tr>
+			</table>
+			<hr/>
+			<table style="width:100%">
+				<tr>
+					<th width="50%">Solution</th>
+					<th width="5%"></th>
+					<th width="45%">Solution Preview</th>
+				</tr>
+				<tr>
+					<td><textarea id='answer' name='answer' cols='70' rows='10' class = "form-control">{{solution}}</textarea></td>
+					<td></td>
+					<td>{{solution}}</td>
+				</tr>
+			</table>
+			<input type="hidden" id='formulae' name='formulae' >
+			<hr/>
+			<div class="col-sm-1"><label>Source</label></div>
 			<div class="col-sm-3"><input class="form-control" type = "text" name = 'q_source' placeholder = "1-10" value = "{{source}}"></div>
-			<div class="col-sm-1">Difficulty</div>
+			<div class="col-sm-1"><label>Difficulty</label></div>
 			<div class="col-sm-3"><input class="form-control" type = "text" name = 'q_difficulty' placeholder = "1-10" value = "{{difficulty}}"></div>
-			<div class="col-sm-1">Marks</div>
+			<div class="col-sm-1"><label>Marks</label></div>
 			<div class="col-sm-3"><input id='marks' class="form-control" type = "text"  placeholder = "1-20" name ='marks' value = "{{marks}}"></div>
-		</div>
-	</div>
-	<div class="container-fluid" style="padding-top:250px">
-		<div class="col-sm-1">Tags :</div>
-		<div class="col-sm-9" style="margin-bottom:5px">
+			<hr/><hr/><hr/>
+			<label>Tags:</label>
+		
 		{% for t in tags %}
 			<div id='tagdiv'>
 				<select name='tag'>
@@ -421,9 +424,7 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 		<input type='button' id='addtagbtn' class="btn btn-primary" value='Add Existing Tag' onclick="addTag('e');"/> <input type='button' class="btn btn-success" id='addnewtagbtn' value='Add New Tag' onclick="addTag('n');"/>
 		</div>
 		</div>
-			<div class="container-fluid">
-
-		</div>
+			
 		<div class="form-actions">
 		<div class="col-sm-11" align="right">
 			{% csrf_token %}
@@ -471,5 +472,4 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 	</div>
 	<!--</form>-->
 	</div>
-</div>
 {% endblock %}

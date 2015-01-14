@@ -1,14 +1,48 @@
 {% extends 'base.html' %}
+{% block html_head %}
+
+{% endblock %}
 {% block content %}
-		<div class="container-fluid" style="margin-top:40px;">
-			<div class="row-fluid">
-					<h1>Modifying H2 Mathematics</h1>
-					<hr>
-						<form action="/{{cur.id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{subj_id}}/{{list_id}}/-1/" method="get">
-							<input type="submit" class="btn btn-primary" id="submit"  name="attempt"  value="Insert New Question"/>
-						</form>
-					<br/>
-					<h3>Choose by Paper:</h3>
+		<h1>Questions Database</h1>
+		<hr class = "black">
+			<form action="/{{cur.id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{subj_id}}/{{list_id}}/-1/" method="get">
+				<input type="submit" class="btn btn-primary" id="submit"  name="attempt"  value="Insert New Question"/>
+			</form>
+			<br/>
+			<table id="adminTable" class="display" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th></th>
+						<th>ID</th>
+						<th>Paper</th>
+						<th>Question Summary</th>
+						<th>Answer</th>
+						<th>Topic</th>
+						<th>Subtopic</th>
+						<th>#tag</th>
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody>
+						{% for q in questions%}
+							<tr>
+								<td>{{q.topic.block.subject.title}}</td>
+								<td>{{q.id}}</td>
+								<td>{{q.paper.paperset.title}} Paper {{q.paper.number}}</td>
+								<td>{{q.display}}...</td>
+								<td>{{q.topic}}</td>
+								<td>{{q.subtopic}}</td>
+								<td>{{q.solution}}</td>
+								<td>{{q.noTag}}</td>
+								<td><a href = "/{{cur.id}}/control/math_admin_form/1/3/3/1/{{q.id}}/"><button class="btn btn-primary btn-sm"/>Edit</button></a></td>
+							</tr>
+						{%endfor%}
+				</tbody>
+			</table>
+			<hr class = "black">
+			
+					<b>Browse by Paper:</b>
 					<form name="papers" action="/{{subj_id}}/control/math_admin_list/paper/1/" method="get">
 						<table width = "100%">
 							<tr>
@@ -25,7 +59,7 @@
 							</tr>
 						</table>
 					</form>
-					<h3>Choose by Topic:</h3>					
+					<b>Browse by Topic:</b>					
 					<form name="papers" action="/{{subj_id}}/control/math_admin_list/topic/1/" method="get">
 						<table width = "100%">
 								<tr>
@@ -44,5 +78,4 @@
 					
 					</form>	
 			</div>
-		</div>
 {% endblock %}

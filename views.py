@@ -358,15 +358,20 @@ def search(request,subj_id,type,tp,searchtext):
 	#update cur and subj	
 	param.update(current(subj_id))
 	
+	#get all level
+	levels = Education_Level.objects.all()
+	
 	#get all block 
-	blocks = Block.objects.filter(subject = subj_id)
-
+	for l in levels:
+		l.blocks = Block.objects.filter(subject__edu_level_id = l.id)
+		
 	#get all topics
-	for b in blocks:
-		b.topics = Topic.objects.filter(block = b.id)
+	for l in levels:
+		for b in l.blocks:
+			b.topics = Topic.objects.filter(block = b.id)
 	
 	#get all match question
-	questions = SearchQuerySet().autocomplete(content=input).filter(subject_id=subj_id)
+	questions = SearchQuerySet().autocomplete(content=input) #.filter(subject_id=subj_id)
 	
 	finalQuestions = []
 	if type == "question":
@@ -379,28 +384,33 @@ def search(request,subj_id,type,tp,searchtext):
 			question.content_short = question.content[0:250]
 			
 		# question count
-		for b in blocks:
-			for t in b.topics:
-				t.count = 0
-				for q in questions:
-					if q.topic == t.title:
-						t.count = t.count + 1
-						finalQuestions.append(q)
-				total+=t.count
+		for l in levels:
+			for b in l.blocks:
+				for t in b.topics:
+					t.count = 0
+					for q in questions:
+						if q.topic == t.title:
+							t.count = t.count + 1
+							finalQuestions.append(q)
+					total+=t.count
 	elif type == "image":
 		for question in questions:
 			question.images = Image.objects.filter(qa_id = question.question_id)
 			question.count = question.images.count()
 			question.linkId = question.id[22:]
-		for b in blocks:
-			for t in b.topics:
-				t.count = 0
-				for q in questions:
-					if q.topic == t.title:
-						t.count = t.count + q.count
-						finalQuestions.append(q)
-			total+=t.count
-
+		for l in levels:
+			for b in blocks:
+				for t in b.topics:
+					t.count = 0
+					for q in questions:
+						if q.topic == t.title:
+							t.count = t.count + q.count
+							finalQuestions.append(q)
+						if tp == 55:
+							print q
+						
+				total+=t.count
+	
 	if tp!= str(-1):
 		param['topic'] = Topic.objects.get(id = tp).title
 	else:
@@ -408,7 +418,7 @@ def search(request,subj_id,type,tp,searchtext):
 			
 	param['total'] = total
 	param['type'] = type
-	param['blocks'] = blocks
+	param['levels'] = levels
 	param['questions'] = finalQuestions
 	param['tp'] = int(tp)
 	
@@ -450,7 +460,7 @@ def statistics(request,subj_id,type):
 	all = 0
 	if type == "overview":
 		param['total'] = 0
-	blocks = Block.objects.filter(subject__id = subj_id)
+	blocks = Block.objects.all()
 	if type == "practice":
 		for b in blocks:
 			b.topics = Topic.objects.filter(block__id = b.id)
@@ -461,13 +471,13 @@ def statistics(request,subj_id,type):
 				t.d = Question.objects.filter(topic_id = t.id).filter(difficulty = 7).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 8).count()
 				t.e = Question.objects.filter(topic_id = t.id).filter(difficulty = 9).count() + Question.objects.filter(topic_id = t.id).filter(difficulty = 10).count()
 				
-		a = Question.objects.filter(difficulty = 0).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(topic_id = t.id).filter(topic__block__subject_id = subj_id).filter(difficulty = 1).count()+ Question.objects.filter(topic__block__subject_id = subj_id).filter(difficulty = 2).count()
-		b = Question.objects.filter(difficulty = 3).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(difficulty = 4).filter(topic__block__subject_id = subj_id).count()
-		c = Question.objects.filter(difficulty = 5).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(difficulty = 6).filter(topic__block__subject_id = subj_id).count()
-		d = Question.objects.filter(difficulty = 7).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(difficulty = 8).filter(topic__block__subject_id = subj_id).count()
-		e = Question.objects.filter(difficulty = 9).filter(topic__block__subject_id = subj_id).count() + Question.objects.filter(difficulty = 10).filter(topic__block__subject_id = subj_id).count() 
+		a = Question.objects.filter(difficulty = 0).all().count() + Question.objects.filter(topic_id = t.id).all().filter(difficulty = 1).count()+ Question.objects.all().filter(difficulty = 2).count()
+		b = Question.objects.filter(difficulty = 3).all().count() + Question.objects.filter(difficulty = 4).all().count()
+		c = Question.objects.filter(difficulty = 5).all().count() + Question.objects.filter(difficulty = 6).all().count()
+		d = Question.objects.filter(difficulty = 7).all().count() + Question.objects.filter(difficulty = 8).all().count()
+		e = Question.objects.filter(difficulty = 9).all().count() + Question.objects.filter(difficulty = 10).all().count() 
 		param['total'] = [a,b,c,d,e]
-		all = Question.objects.filter(topic__block__subject_id = subj_id).count()
+		all = Question.objects.all().count()
 	if type == "qna":
 		today = datetime.today()
 		for b in blocks:
