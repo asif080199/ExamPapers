@@ -15,13 +15,17 @@ urlpatterns = patterns('',
     (r'^$', views.home),
 	(r'^(?P<subj_id>\d*)/$', views.level),
 
+	#survey 
+	(r'^(?P<subj_id>\d*)/survey',views.survey),
+	
 	#search 
 	(r'^(?P<subj_id>\d*)/search/(?P<type>\d*)(?P<tp>\d*)(?P<searchtext>\d*)',views.search),
 	(r'^(?P<subj_id>\d*)/view/(?P<qid>\d*)/$', views.viewquestion),
 	
 	#study
 	(r'^(?P<subj_id>\d*)/study/(?P<tp>\d*)', views.study),	
-	
+	(r'^(?P<subj_id>\d*)/concept/(?P<conceptId>\d*)', views.concept),	
+	(r'^(?P<subj_id>\d*)/tag/(?P<tagId>\d*)', views.tag),	
 	#cat
 	url(r'^(?P<subj_id>\d*)/cat/', include('ExamPapers.cat.urls')),
 	
@@ -46,6 +50,7 @@ urlpatterns = patterns('',
 	
 	#qna
 	url(r'^(?P<subj_id>\d*)/qna/', include('ExamPapers.qna.urls')),
+
 	
 	#searchc
 	url(r'^(?P<subj_id>\d*)/searchc/', include('ExamPapers.searchc.urls')),
@@ -53,6 +58,7 @@ urlpatterns = patterns('',
 	
 	#control
 	url(r'^(?P<subj_id>\d*)/control/', include('ExamPapers.control.urls')),
+
 	
 	#practice
 	url(r'^(?P<subj_id>\d*)/practice/', include('ExamPapers.practice.urls')),

@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 {% block html_head %}
-	<script type = "text/javascript">
+    <script>
+		function toggleAns(button_id) {
+			var ele_name = "sol";
+			var ele = document.getElementById(ele_name);
+			var text = document.getElementById(button_id);
+			if(ele.style.display == "block") {
+					ele.style.display = "none";
+				text.value = "How to start?";
+			}
+			else {
+				ele.style.display = "block";
+				text.value = "Thank you";
+			}
+		}
 		function checkSubmit(){
 			var searchtext = document.getElementById("search_field").value;
 				if (searchtext==""){
@@ -8,17 +21,14 @@
 				}
 		}
 	</script>
-	
 {%  endblock %}
 {% block content %}
-<div class = "span12">
-		
-	<h1>Formula Index Search</h1>
-	<blockquote>
-		This search engine makes use of formula index. Formula index are built based on semantic, structure, variable and constant information of the mathematic formula.<br/>
-		Enter any mathematical formula using given editor or purely LaTeX MarkUp language to experience fast and accurate Formula Index Search.
-	</blockquote>
-	<hr/>
+<div class = "col-sm-12">
+	<br/><br/>
+		<div class ="text-center">
+			<a href = "/{{cur.id}}/"><img src="/static/images/logoF.png" width="250px"></a>
+		</div>
+	<br/><br/>
 	<form action="/{{cur.id}}/fsearch/result/" method="post" onSubmit =" return checkSubmit(this)" class="form-inline" role="form">
 		{% csrf_token %}
 		{% include "fsearch/t_formula_view.html" %}
@@ -33,11 +43,25 @@
 				</td>
 			</tr>
 		</table>
-	            
-		<hr/><div>Preview: </div><div id="outputNode" class="formula_view"></div>
+		<div>Preview: </div><div id="outputNode" class="formula_view"></div>
+		<br/>
 	</form>
+	<div style = "display:true;" id="sol">
+		<div class="well">
+			<p>Enter a formula and we will find related questions and concepts to help you understand it.</p>
+		
+			<p>If you have no idea how to start, click on any formula expression button or try entering below examples: </p>
+			<p class = "text-muted">
+				<span class="glyphicon glyphicon-align-justify"></span> "x^2"<br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "sin^2x"<br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "\int_{0}^{2} \frac{1}{2}xdx"
+			</p>
+			If you prefer to a text search, try <a href = "/{{cur.id}}/">this</a><br/>
+			If you prefer to start by learning concept and formula, try <a href = "/{{cur.id}}/study/home/">this</a><br/>
+		</div>
+	</div>
+	
 </div>
-
 	
 
 {% endblock %}

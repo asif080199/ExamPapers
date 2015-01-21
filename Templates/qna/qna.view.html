@@ -5,20 +5,51 @@
 		<!--End upload form--->
 		
 		<!--Story display--->
-		<div class="thumbnail" style="margin:3px;padding-top:3px;padding-bottom:20px;padding-right:10px;padding-left:10px">
+		<div class="thumbnail ftext" >
 			<h4>{{ask.title}}</h4>
-			{{ask.content|safe}}
-			{% for i in ask.image%}
-				<img src = "/{{i.imageurl}}" max-width = "200px">
-			{% endfor %}
+			<table>
+				<tr>
+					<td>
+						<table>
+							<tr><td>
+								<form action="/{{cur.id}}/qna/view/{{ask.id}}/" method="Post">
+									{% csrf_token %}
+									<input type="hidden" name="vote" value = "up">
+									<input type="image" src="/static/images/up.png" width="50px">
+								</form>
+							</td></tr>
+							<tr><td style="text-align:center;padding:0px"><label class="green">{{ask.voteUp}}</label></td></tr>
+							<tr><td style="text-align:center;padding:0px"><label class="red">{{ask.voteDown}}</label></td></tr>
+							<tr><td>
+								<form action="/{{cur.id}}/qna/view/{{ask.id}}/" method="Post">
+									{% csrf_token %}
+									<input type="hidden" name="vote" value = "down">
+									<input type="image" src="/static/images/down.png" width="50px">
+								</form>
+							</td></tr>
+						</table>
+					</td>
+					<td>{{ask.content|safe}}{% for i in ask.image%}
+							<img src = "/{{i.imageurl}}" max-width = "200px">
+						{% endfor %}</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						
+						
+						{% if ask.author = request.user%}
+							<small class="pull-left"><a href = "/{{cur.id}}/qna/edit/{{ask.id}}">Edit</a>&nbsp;&nbsp;<a href = "/{{cur.id}}/qna/delete/{{ask.id}}">Delete</a></small>
+						{% endif %}
+						<small class="pull-right"> By {{ask.author.first_name}} {{ask.author.last_name}} at {{ask.created}} </small>
+					</td>
+				</tr>
+			</table>
+
 			
-			{% if ask.author = request.user%}
-				<small class="pull-left"><a href = "/{{cur.id}}/qna/edit/{{ask.id}}">Edit</a>&nbsp;&nbsp;<a href = "/{{cur.id}}/qna/delete/{{ask.id}}">Delete</a></small>
-			{% endif %}
-			<small class="pull-right"> By {{ask.author.first_name}} {{ask.author.last_name}} at {{ask.created}} </small>
+			
 			
 		</div>
-		<div class="thumbnail" style="margin:3px;padding:10px">
+		<div class="thumbnail ftext">
 			<h4>Discussion</h4>
 			{% with ask as object %}{% include "comments.html" %}{% endwith %}
 		</div>

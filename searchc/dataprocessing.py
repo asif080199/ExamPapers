@@ -164,9 +164,9 @@ def extractFormulaFeature(query):
 	#print formula.variable
 	
 	for s in readFeature('semantic'):
-		line.append(min(1,formula.semantic.count(s)))
+		line.append(min(3,formula.semantic.count(s)))
 	for s in readFeature('structure'):
-		line.append(min(1,formula.structure.count(s)))
+		line.append(min(2,formula.structure.count(s)))
 	for c in readFeature('constant'):
 		line.append(min(1,formula.constant.count(c)))
 	for v in readFeature('variable'):

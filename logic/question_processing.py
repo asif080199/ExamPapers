@@ -27,6 +27,13 @@ def getViewQuestion(qid):
 	question.answer = "Not available"
 	if Answer.objects.filter(question = question.id).count != 0:
 		question.answer = Answer.objects.filter(question = question.id)
+	question.tag = Tag.objects.filter(question_id = question.id)
+	question.tagdef = []
+	for ta in question.tag:
+		tdeg = TagDefinition.objects.get(id = ta.tagdefinition.id)
+		if tdeg not in question.tagdef:
+			tdeg.title = tdeg.title.replace("_"," ")
+			question.tagdef.append(tdeg)
 	return question
 
 def formatContent(question,type):

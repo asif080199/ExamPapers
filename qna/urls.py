@@ -18,4 +18,5 @@ urlpatterns = patterns('ExamPapers.qna.views',
 	('view/(?P<askId>\d*)/$', views.qnaview),
 	('delete/(?P<askId>\d*)/$', views.qnadelete),
 	('account/', views.qnaaccount),
+	('admin/', views.qnaadmin),
 )

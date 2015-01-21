@@ -11,6 +11,19 @@ from qna.models import *
 from qna.forms import *
 import datetime
 
+def qnaadmin(request,subj_id):
+	param = {}
+	param.update(current(subj_id))
+	questions = Ask.objects.filter(subject_id = subj_id)
+	for q in questions:
+		q.display = q.content[:200]
+	param['questions'] = questions
+	return render_to_response(
+        'qna/qna.admin.html',
+        param,
+        context_instance=RequestContext(request)
+    )
+
 @login_required	
 def qnahome(request,subj_id,tp):
 	param = {}
@@ -121,15 +134,29 @@ def qnaview(request,subj_id,askId):
 	current_user = request.user.id
 	param = {}
 	param.update(qnatopic(subj_id))
+	param.update(current(subj_id))
+	param.update(qna(subj_id))
+	
 	a = Ask.objects.get(id= askId)
 	a.image = Askfile.objects.filter(ask = a)
+	
 	for i in a.image:
 		i.imageurl = i.docfile.url.replace("resource/","")
-	a.view = a.view+1
-	a.save()
-	param.update(current(subj_id))
+	
+	"Vote"
+	if request.POST.get("vote") != None:
+		vote = request.POST.get("vote")
+		if vote == "up":
+			a.voteUp = a.voteUp+1
+		elif vote == "down":
+			a.voteDown = a.voteDown+1
+		print a.voteUp
+		a.save()
+	else:
+		a.view = a.view+1
+		a.save()
+		
 	param['ask'] = a
-	param.update(qna(subj_id))
 	return render_to_response(
         'qna/qna.view.html',
         param,
@@ -146,7 +173,7 @@ def qnadelete(request,subj_id,askId):
 		i.imageurl = i.docfile.url.replace("resource/","")
 	a.view = a.view+1
 	a.delete()
-	return qnahome(request,subj_id)
+	return qnahome(request,subj_id,1)
 
 
 def qnaaccount(request,subj_id):
@@ -178,7 +205,6 @@ def qna(subj_id):
 	param['populars'] = populars
 	param['recents'] = recents
 	return param
-
 	
 def qnatopic(subj_id):
 	param = {}

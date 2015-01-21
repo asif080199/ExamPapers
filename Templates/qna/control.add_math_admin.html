@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block html_head %}
+
+{% endblock %}
+{% block content %}
+		<h1>Q&A Database</h1>
+		<hr class = "black">
+			<br/>
+			<table id="adminTable" class="display" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>#View</th>
+						<th>Title</th>
+						<th>Question Summary</th>
+						<th>#Vote Up</th>
+						<th>#Vote Down</th>
+						<th>#Created Date</th>
+					</tr>
+				</thead>
+
+				<tbody>
+						{% for q in questions%}
+							<tr>
+								<td>{{q.id}}</td>
+								<td>{{q.view}}</td>
+								<td><a href ="/{{cur.id}}/qna/view/{{q.id}}">{{q.title}}</a></td>
+								<td>{{q.display}}...</td>
+								<td>{{q.voteUp}}</td>
+								<td>{{q.voteDown}}</td>
+								<td>{{q.created}}</td>
+							</tr>
+						{%endfor%}
+				</tbody>
+			</table>
+			
+			</div>
+{% endblock %}

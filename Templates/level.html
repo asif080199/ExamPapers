@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 {% block html_head %}
-	<script type = "text/javascript">
+    <script>
+		function toggleAns(button_id) {
+			var ele_name = "sol";
+			var ele = document.getElementById(ele_name);
+			var text = document.getElementById(button_id);
+			if(ele.style.display == "block") {
+					ele.style.display = "none";
+				text.value = "How to start?";
+			}
+			else {
+				ele.style.display = "block";
+				text.value = "Thank you";
+			}
+		}
 		function checkSubmit(){
 			var searchtext = document.getElementById("search_field").value;
 				if (searchtext==""){
@@ -10,23 +23,40 @@
 	</script>
 {%  endblock %}
 {% block content %}
-<div class = "span12">
-	<h1>Text Index Search</h1>
-	<blockquote>
-		This search engine makes use of text index by Whoosh and Haystack. <br/>
-		Enter any text to experience the fast and accurate Text Index Search.
-	</blockquote>
-	<hr/>
+<div class = "col-sm-12">
+		<br/><br/>
+		<div class ="text-center">
+			<a href = "/{{cur.id}}/fsearch/home/"><img src="/static/images/logoT.png" width="250px"></a>
+		</div>
+	<br/><br/>
 	<form action="/{{cur.id}}/search/" method="get" onSubmit =" return checkSubmit(this)">
 		<input type = 'hidden' name ='type' value = 'question'>
 		<input type = 'hidden' name ='tp' value = -1>
 		<table width="100%">
 			<tr>
-				<td width="90%"><input	id="search_field" class = "form-control" width="100%" type="text" name="searchtext" placeholder="Enter key word"></td>
+				<td width="90%"><input	id="search_field" class = "form-control" width="100%" type="text" name="searchtext" placeholder="I need help in..."></td>
 				<td><input type="submit" id="search" class="btn btn-primary" value="Search" /></td>
+			
 			</tr>
 		</table>
 	</form>
+	<br/>
+	<div style = "display:true;" id="sol">
+		<div class="well">
+			<p>This is the first step for <font color="Red" size="4e"><b>L</b></font>earn from Example</p>
+			<p>Let us know your problem and we will give you relevant materials that may help. You can enter a topic name, concept, or a full question</p>
+		
+			<p>If you have no idea how to start, try entering below examples: </p>
+			<p class = "text-muted">
+				<span class="glyphicon glyphicon-align-justify"></span> "Circle"<br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "Binomial Distribution"<br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "A group of 12 people consists of 6 married couples. The group stand in a line. Find the number of different possible orders"
+			</p>
+			If you prefer to search a formula, try <a href = "/{{cur.id}}/fsearch/home/">this</a><br/>
+			If you prefer to start by learning concept and formula, try <a href = "/{{cur.id}}/study/home/">this</a><br/>
+		</div>
+	</div>
+	
 </div>
 
 

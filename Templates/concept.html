@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+	
+	<div class="col-sm-12">
+		{% if concept.type == "C" %}
+			<label class = "head">Concept:</label>
+		{% endif %}
+		{% if concept.type == "F" %}
+			<label class = "head">Formula:</label>
+		{% endif %}
+		<label class = "head">{{concept.title}}</label>
+	</div>
+
+	<div class="col-sm-9">
+				<div class="well">
+					<label class ="mini">Definition:  </label> {{concept.content}}
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+					  <h3 class="panel-title"><label>Related Video</label></h3>
+					</div>
+					<div class="panel-body">
+						<script src="/static/javascript/ytembed.js" type="text/javascript"></script>
+						<div id="youtubeDiv"></div>
+						<script>ytEmbed.init({'block':'youtubeDiv','type':'search','q':'{{concept.title}}','results': 1});</script>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+					  <h3 class="panel-title"><label>Question Sample</label></h3>
+					</div>
+					
+					<div class="panel-body">
+						{% if questions|length == 0 %}
+							<div class="alert alert-warning">There is no question found</div>
+						{% else %}
+							<ul>
+								{% for q in questions%}
+									<li><a href = "/{{cur.id}}/view/{{q.id}}">{{q.subtopic}} ##{{q.question_no}}</a></li>
+								{%endfor%}
+							</ul>
+						{% endif %}
+					</div>
+				</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+            <div class="panel-body">
+				{% for b in blocks %}
+					<b>{{b.title}}</b><br/>
+					 {% for t in b.topics %}
+						<ul class="ulnav">
+							{% if t.id != tp %}	
+								<li class ="linav"><a href = "/{{cur.id}}/study/?tp={{t.id}}">{{t.title}}</a></li>
+							{% endif%}
+							{% if t.id == tp %}	
+								<span class="text-muted"><li class ="linav">{{t.title}}</li></span>
+							{% endif%}
+						</ul><br/>
+					 {% endfor %}
+				{% endfor  %}
+			</div>
+          </div>
+	</div>
+{% endblock %}

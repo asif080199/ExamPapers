@@ -12,28 +12,24 @@
 			{% if cur != ''  %}
             {% if user.is_authenticated %}
 			<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><div style="color: white; font-size: 14px;">A & H2 Mathematics</div></b></a>
-              <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><div style="color: white; font-size: 14px;">{{cur.title}}</div></b></a>-->
-              <!--
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><div style="color: white; font-size: 14px;">{{cur.title}} Mathematics</div></b></a>
+       
 			  <ul class="dropdown-menu">
                 {% for l in level  %}
-					<li><a href="/{{l.id}}/">{{l.title}}</a></li>  
+					<li><a href="/{{l.id}}/">{{l.title}} Mathematics</a></li>  
 				{% endfor %}
               </ul>
-			  -->
             </li>
 			<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-zoom-in"></i> Search <b class="caret"></b></a>
                 <ul class="dropdown-menu">
 					<li><a href="/{{cur.id}}"><span class="glyphicon glyphicon-list-alt"></span> Text Index Search</a></li>
 					<li><a href="/{{cur.id}}/fsearch/home/"><span class="glyphicon glyphicon-list-alt"></span> Formula Index Search</a></li>
-					<li><a href="/{{cur.id}}/searchc/homeFormula/"><span class="glyphicon glyphicon-usd"></span> Formula Cluster Search</a></li>
-					<li><a href="/{{cur.id}}/searchc/homeTag/"><span class="glyphicon glyphicon-usd"></span> Tag Cluster Search</a></li>
-					<li><a href="/{{cur.id}}/searchc/homeText/"><span class="glyphicon glyphicon-leaf"></span> Cluster Result Search</a></li>
                 </ul>
 			</li>
-			<li><a href="/{{cur.id}}/study/?tp=-1"><span class="glyphicon glyphicon-tasks"></span> Concept</a></li>
+			<li><a href="/{{cur.id}}/study/?tp=-1"><span class="glyphicon glyphicon-tasks"></span> Explore</a></li>
 			<li><a href="/{{cur.id}}/qna/home"><span class="glyphicon glyphicon-globe"></span> Q&A</a></li>
+			
 			<!--
 			<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-road"></i> Assessment <b class="caret"></b></a>
@@ -48,16 +44,26 @@
             {% endif %}
             {% if user.is_staff %}
 			<li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-road"></i> Beta <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+					<li><a href="/{{cur.id}}/searchc/homeFormula/"><span class="glyphicon glyphicon-usd"></span> Formula Cluster Search</a></li>
+					<li><a href="/{{cur.id}}/searchc/homeTag/"><span class="glyphicon glyphicon-usd"></span> Tag Cluster Search</a></li>
+					<li><a href="/{{cur.id}}/searchc/homeText/"><span class="glyphicon glyphicon-leaf"></span> Cluster Result Search</a></li>
+                </ul>
+			</li>
+			<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-wrench"></i> Control <b class="caret"></b></a>
                 <ul class="dropdown-menu">
 					<li><a href="/{{cur.id}}/statistics/?type=practice"><span class="glyphicon glyphicon-tower"></span> Statistics</a></li>
 					<li><a href="/{{cur.id}}/control/home/"><span class="glyphicon glyphicon-star"></span> Question Database</a></li>
 					<li><a href="/{{cur.id}}/control/math_admin_taglist/?type=K"><span class="glyphicon glyphicon-tag"></span> Tag Database</a></li>
+					<li><a href="/{{cur.id}}/qna/admin/"><span class="glyphicon glyphicon-tag"></span> Q&A Database</a></li>
 					<li><a href="/{{cur.id}}/fsearch/reindex"><span class="glyphicon glyphicon-star"></span> Reindex</a></li>
 					<li><a href="/{{cur.id}}/searchc/cluster"><span class="glyphicon glyphicon-certificate"></span> Cluster Training and Info</a></li>
 					<li><a href="/admin/"><span class="glyphicon glyphicon-cog"></span> Django Admin</a></li>
                 </ul>
 			</li>
+			
             {% endif %}
 			{% endif %}
           </ul>

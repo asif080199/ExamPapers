@@ -20,6 +20,26 @@
 {% endblock %}
 
 {% block content %}
+	<div class = "col-sm-12"><label class="head">{{question.subtopic}} #  {{question.question_no}}</label></div>
+    <div class="col-sm-9">
+        <div class="accordion" id="accordion2">
+		
+		<div class="thumbnail ftext" >
+			
+			{{question.content|safe}}	
+			<hr/>
+			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
+			<div style = "display:none;" id="sol">
+				{{question.solution|safe}}
+			</div>
+		</div>
+		<div class="thumbnail ftext">
+			<h4>Discussion</h4>
+			{% with question as object %}{% include "comments.html" %}{% endwith %}
+		</div>
+        
+		</div>
+    </div>
 	<div class="col-sm-3">
 		<div class="panel panel-default">
             <div class="panel-heading">
@@ -37,29 +57,24 @@
 					<li><b>Subject:</b> {{cur}}</li>
 					<li><b>Topic:</b> {{question.topic}}</li>
 					<li><b>Subtopic:</b> {{question.subtopic}}</li>
+					<li><b>Tags:</b></li>
+				</ul>
+				{% for t in question.tagdef %}
+					<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-default btn-sm" style = "margin:2px">{{t.title}}</button></a>
+				{% endfor %}
+			</div>
+          </div>
+		  <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Similar question</h3>
+            </div>
+            <div class="panel-body">
+				<ul class="ulnav">
+					{% for q in questions%}
+					<li><a href = "/{{cur.id}}/view/{{q.id}}">{{q.subtopic}} #{{q.question_no}}</a></li>
+					{% endfor%}
 				</ul>
 			</div>
           </div>
-		  
 	</div>
-	
-    <div class="col-sm-9">
-        <div class="accordion" id="accordion2">
-		<h1>{{question.subtopic}} #  {{question.question_no}}</h1>
-		<div class="thumbnail" style="margin:3px;padding:10px">
-			
-			{{question.content|safe}}	
-			<hr/>
-			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
-			<div style = "display:none;" id="sol">
-				{{question.solution|safe}}
-			</div>
-		</div>
-		<div class="thumbnail" style="margin:3px;padding:10px">
-			<h4>Discussion</h4>
-			{% with question as object %}{% include "comments.html" %}{% endwith %}
-		</div>
-        
-		</div>
-    </div>
 {% endblock %}

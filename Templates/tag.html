@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="col-sm-12">
+		<label class = "head">Tag: {{tag.title}}</label>
+	</div>
+	<div class="col-sm-9">
+		<hr style="margin:0px;padding:0px">
+		{% for q in tag.questions %}
+		
+							<div class = "result">	
+								<table  width = "100%" style="padding:5px" >
+									<tr>
+										<td width = "37%">									
+											<b><a style="font-size:130%" href = "/{{cur.id}}/view/{{q.id}}/"> {{q.subtopic.title}} #{{q.question_no}}:</a></b>
+										</td>
+										<td width = "9%">									
+											{%for s in q.stars%}
+												{{s|safe}}
+											{%endfor%}
+										</td>
+										<td>
+											<p class="footer">{{q.topic.title}} </p>
+										</td>
+										<td rowspan="2" align= 'center' width = '12%'>
+												<img src = "{{q.image}}" style="max-width:100px;max-height:100px" alt="">
+										</td>
+									</tr>
+									<tr>
+										<td colspan = "3">						
+											<i>{{q.content_short}}... </i> 
+										</td>
+									</tr>
+									<tr>
+										<td colspan = "3">
+											{% for t in q.tagdef%}
+												<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-default btn-sm" style = "margin:2px">{{t.title}}</button></a>
+											{% endfor%}
+										</td>
+									</tr>
+								</table>
+							</div>
+					{% endfor %}</div>
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Related tags</h3>
+            </div>
+            <div class="panel-body">
+				{% for t in rtag%}
+					<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-default btn-sm" style = "margin:2px">{{t.title}}</button></a>
+				{% endfor%}
+			</div>
+		</div>
+	</div>			
+				
+{% endblock %}

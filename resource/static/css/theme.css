@@ -55,7 +55,7 @@ ul.ulnav   {
 div.result
 {
 	border-bottom: 1px dashed #999;
-	padding-left: 0.5em;
+	padding-left: 0em;
 	padding-top: 1em;
 	padding-bottom: 1em;
 }
@@ -66,4 +66,40 @@ p.footer {
 
 hr.black { 
 	border-bottom: 1px double black;
+}
+
+hr.blue { 
+	border-bottom: 4px solid #4682B4 ;
+}
+#youtubeImage {width: 200px;}
+label.mini {
+	font-weight: bold;
+	font-size: 16px;
+}
+label.head {
+	font-weight: bold;
+	font-size: 30px;
+}
+label.head2 {
+	font-weight: normal;
+	font-size: 28px;
+}
+label.head3 {
+	font-weight: normal;
+	font-size: 34px;
+}
+label.green {
+	font-weight: bold;
+	font-size: 16px;
+	color: green;
+	padding:0px;
+}
+label.red {
+	font-weight: bold;
+	font-size: 16px;
+	color: red;
+	padding:0px;
+}
+.ftext {
+	padding:15px;
 }

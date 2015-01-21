@@ -17,6 +17,8 @@ class Ask(models.Model):
 	view = models.IntegerField(default = 0)
 	topic = models.ForeignKey(Topic, null=False)
 	subject = models.ForeignKey(Subject, null=False)
+	voteUp = models.IntegerField(default = 0)
+	voteDown = models.IntegerField(default = 0)
 	def __str__(self):
 		return str(self.title)
 

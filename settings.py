@@ -4,19 +4,12 @@ import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-PROJECT_NAME = 'StudyMath'
+PROJECT_NAME = 'LOPA Math'
 ADMINS = (
     #('Your Name', 'your_email@example.com'),
 )
 
-# Email settings
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'clangkts@gmail.com'
-EMAIL_HOST_PASSWORD = 'Dr0wssap'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-MANAGERS = ADMINS
-DAJAXICE_MEDIA_PREFIX="dajaxice"
+
 
 #local database
 DATABASES = {
@@ -192,9 +185,13 @@ HAYSTACK_CONNECTIONS = {
 # Email settings
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mathexpa@gmail.com'
-EMAIL_HOST_PASSWORD = 'DrJohnHui'
+#EMAIL_HOST_PASSWORD = 'DrJohnHui'
+EMAIL_HOST_PASSWORD ='pmiupgjfucylnuss'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+MANAGERS = ADMINS
+DAJAXICE_MEDIA_PREFIX="dajaxice"
+
 
 # Extra user profile data for users
 AUTH_PROFILE_MODULE = 'DBManagement.UserProfile'

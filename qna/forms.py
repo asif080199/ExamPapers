@@ -15,4 +15,4 @@ class DocumentForm(forms.ModelForm):
 		self.fields.insert(0, 'topic', forms.ModelChoiceField(queryset=Topic.objects.filter(block__subject=self.initial['subj_id_pass'])))
 	class Meta:
 		model = Ask
-		exclude = ('view','subject','author','created')
+		exclude = ('view','subject','author','created','voteUp','voteDown')

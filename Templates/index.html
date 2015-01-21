@@ -1,56 +1,35 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% extends 'base.html' %}
+{% block content %}
+	<div class = "col-sm-6">
+		
+		<h2>See how LOPA Math can help you to achieve excellence in study...</h2>
+		<img src =  "/static/images/lopa.png" width = "250px">
+		<br/><br/>
+		<p>LOPA Math provides you sample that similar to your problem so that you can learn in problem based style, together with related concept and formula you need for problem solving.</p>
+		<p>With this simple and easy learning system, you can better find resource, organize your concept understanding and practice to ace your study</p>
+		<!--
+		<div class="well" style="padding:7px">
+			<img src =  "/static/images/logo.png" width = "100px"> is an Academic Project of Final Year Undergraduate
+		</div>
+		-->
+	</div>
+	<div class = "col-sm-6">
+		<div class="well" style ="padding-bottom:60px">
+			<iframe width="490" height="315" src="//www.youtube.com/embed/VOmkO-nBu5Q" frameborder="0" allowfullscreen></iframe>
+			<hr/>
+			<h2>Get Me Started With:</h2>
+			<br/>
+		<div class="col-sm-6">
+			<div class="text-right"><a href="/1" class="btn btn-primary btn-lg" role="button">Advance Mathematics!</a></div>
+        </div>
+        <div class="col-sm-6">
+			<div class="text-right"><a href="/3" class="btn btn-primary  btn-lg" role="button">High Level Mathematics!</a></div>
+        </div>
+		</div>
+	</div>
+	
+	
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Online Assessment System</title>
-	</head>
-    {% include 'header.html' %}
-	<body>
-	<div class="container">
-	<div class="well">
-        <h1>Welcome to StudyMath! <small class="pull-right"> Beta 1.0</small></h1>
-        <p>StudyMath provide you mathematics study and practice in O level, A level and H2 level. We give you the tool. Let's study and ace your exam. All the best!</p> 
-		<p><strong>To get started, please select the mathematics level you want to work on</strong></p>
-    </div>
-	<div class="12">
-		<div class="col-sm-3">
-          <div class="thumbnail">
-            <div class="caption">
-              <h1 align='center'>PSLE Math</h1>
-              <p><strong>PSLE</strong> mathematics is Primary School Mathematic. In Singapore education system, it equivalents to primary school level  mathematics</p>
-              <div class="text-right"><a href="/4" class="btn btn-primary" role="button">Get started!</a></div>
-            </div>
-          </div>
-        </div>
-		<div class="col-sm-3">
-          <div class="thumbnail">
-            <div class="caption">
-              <h1 align='center'>E Math</h1>
-              <p><strong>E</strong> mathematics is Elementary Mathematic. In Singapore education system, it equivalents to O level elementary mathematics</p>
-              <div class="text-right"><a href="/1" class="btn btn-primary" role="button">Get started!</a></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="thumbnail">
-            <div class="caption">
-              <h1 align='center'>A Math</h1>
-              <p><strong>A</strong> mathematics is Advanced Mathematic. In Singapore education system, it equivalents to O level advance mathematics</p>
-              <div class="text-right"><a href="/2" class="btn btn-primary" role="button">Get started!</a></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="thumbnail">
-            <div class="caption">
-              <h1 align='center'>H2 Math</h1>
-              <p><strong>H2</strong> mathematics is High Level Mathematic. In Singapore education system, it equivalents to A level mathematics</p>
-              <div class="text-right"><a href="/3" class="btn btn-primary" role="button">Get started!</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-	  </div>
-	  
-	</body>
-</html>
+
+        
+{% endblock %}

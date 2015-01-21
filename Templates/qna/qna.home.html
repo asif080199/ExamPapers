@@ -1,6 +1,5 @@
 {% extends 'qna/qna.base.html' %}
 {% block qnacontent %}
-		
 		{% if asks %}
 			{% for s in asks %}
 				<div class="thumbnail" style="padding:10px;margin:0px;margin-bottom:10px">
@@ -17,7 +16,7 @@
 				</div>
 			{% endfor %}
 		{% else %}
-			<p>No Q&A found.</p>
+			<div class="alert alert-warning"> No Q&A found.</div>
 		{% endif %}
 		<!-- Next/Prev page links  -->
 		<small class="pull-right">
