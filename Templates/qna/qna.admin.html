@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+				<h1>QnA Database</h1>
+				<hr class = "black">
+			
+				<br/>
+				<table id="adminTable" class="display" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Title</th>
+						<th>Question Summary</th>
+						<th>#View</th>
+						<th>#Vote Up</th>
+						<th>#Vote Down</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for q in questions %}			
+				<tr>
+					<td>{{q.id}}</td>
+					<td><a href = "/{{cur.id}}/qna/view/{{q.id}}">{{q.title}}</a></td>
+					<td>{{q.display}}...</td>
+					<td>{{q.view}}</td>
+					<td>{{q.voteUp}}</td>
+					<td>{{q.voteDown}}</td>
+					<td><a href = "/{{cur.id}}/control/math_admin_form///3//-1/?attempt=Insert+New+Question" target="_blank"><button class="btn btn-primary btn-sm">Create Question Content</button></td>
+				</tr>										
+				{% endfor %}
+				</tbody>
+				</table>
+				<nav class = "pull-right">
+					<ul class = "pagination">
+						{% for p in page_links %}
+							{% if page_no == p %}
+								<li class="active"><a href="#">{{p}}</a></li>
+							{% else %}
+								<li class="disable"><a href='/{{cur.id}}/control/math_admin_list/{{list_type}}/{{p}}/?list_id={{list_id}}'>{{p}}</a></li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</nav>
+				 <button onclick="goBack()" class="btn btn-success">&laquo; Back to Question Database</button>
+				<script>
+				function goBack() {
+					window.history.back()
+				}
+				</script>
+
+{% endblock %}

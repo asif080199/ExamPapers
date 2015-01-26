@@ -288,6 +288,9 @@ function delete_page(){
 captureInput();
 document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 }
+<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
+</script>
+<script type="text/javascript">
         function input(){
 			  var str = document.getElementById("q_content").value;
 			  var outnode = document.getElementById("q_display");
@@ -315,36 +318,25 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 			  document.getElementById("q_sdisplay").style.display = "";
         }
 </script>
+<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
+
 		<h1>Question Form</h1>
+		
 		<hr class = "black">
+		{{mes|safe}}
 		<form id='preview_form' method='post' action='/{{subj_id}}/control/math_admin_modify/{{list_type}}/{{page_no}}/?list_id={{list_id}}'>
 			{% if question %}
-			<div class="col-sm-1"><label>Question:</label></div>
-			<div class="col-sm-11">{{question.id}}</div>
-			<hr/><hr/>
 			<div class="col-sm-12">
-			<div class="col-sm-1"><label>Topic:</label></div>
-			<div class="col-sm-11">
-				<select name='topic' class="form-control">
-					{% for t in topics %}
-						<option {%if topic == t.title%}selected{%endif%} value='{{t.id}}'>{{t.title}}</option>
-					{% endfor %}
-				</select>
+				<table style="width:100%">
+					<tr>
+						<th width = "20%">Question:</th>
+						<td width = "80%">{{question.id}}</td>
+					</tr>
+				</table>
 			</div>
-			<div class="col-sm-1"><label>Subtopic:</label></div>
-			<br/><br/>
-			<div class="col-sm-11">
-				<select name='subtopic' class="form-control">
-							{% for t in subtopics %}
-								<option {%if subtopic == t.title%}selected{%endif%} value='{{t.id}}'>{{t.title}}</option>
-							{% endfor %}
-						</select>
-			</div>
-
-		</div>
 			{% else %}
-			<div class="container-fluid">
-				<div class="col-sm-1">Paper :</div>
+			<div class="col-sm-12">
+				<div class="col-sm-1"><label>Paper:</label></div>
 				<div class="col-sm-4">
 					<select name='paper_year' class="form-control">
 						{% for y in year_list %}
@@ -381,10 +373,29 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 						<option value='9'>9</option>
 					</select>
 				</div>
-			</div>
-			
-			
+		</div>
 		{% endif %}
+		<br/><br/>
+		<div class="col-sm-12">
+			<div class="col-sm-1"><label>Topic:</label></div>
+			<div class="col-sm-11">
+				<select name='topic' class="form-control">
+					{% for t in topics %}
+						<option {%if topic == t.title%}selected{%endif%} value='{{t.id}}'>{{t.title}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="col-sm-1"><label>Subtopic:</label></div>
+			<br/><br/>
+			<div class="col-sm-11">
+				<select name='subtopic' class="form-control">
+							{% for t in subtopics %}
+								<option {%if subtopic == t.title%}selected{%endif%} value='{{t.id}}'>{{t.title}}</option>
+							{% endfor %}
+						</select>
+			</div>
+
+		</div>
 		<div class="container-fluid" style="padding-top:30px">
 		<hr/>
 			<table style="width:100%">

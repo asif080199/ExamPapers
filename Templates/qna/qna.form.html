@@ -1,7 +1,7 @@
 {% extends 'qna/qna.base.html' %}
 {% block qnacontent %}
 		{{ form.errors }}
-    
+    <div class="alert alert-info" role="alert">Hi there! Thank you for helping us grow our data base by <a href = "/{{cur.id}}/qna/form">Ask Question</a></div>
 		<form   method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 			<p>{{ form.non_field_errors }}</p>
