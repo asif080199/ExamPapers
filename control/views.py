@@ -171,7 +171,7 @@ def AddMaths_Admin_QuestionForm(request,list_type,page_no,list_id,subj_id,questi
 		param['source']=param['question'].source
 		param['difficulty']=param['question'].difficulty
 		param['topic']=param['question'].topic.title
-		param['subtopic']=param['question'].subtopic
+		param['subtopic']=param['question'].subtopic.title
 		param['paper']=Paper.objects.get(id=param['question'].paper_id)
 		param['marks']=param['question'].marks
 		param['display']='\n'+param['question'].content.replace(';','\n')
@@ -197,7 +197,7 @@ def AddMaths_Admin_QuestionForm(request,list_type,page_no,list_id,subj_id,questi
 	
 	#for new questions (additional info to select)
 	param['year_list']=range(1995,datetime.datetime.now().year) #up till previous year
-	topics=list(Topic.objects.filter(block__subject_id=subj_id).order_by('-id').filter(block__subject_id = subj_id).values())
+	topics=list(Topic.objects.filter(block__subject_id=subj_id).order_by('-id').values())
 	#topics.reverse()
 	param['topics']=[]
 	for t in topics:
@@ -212,6 +212,10 @@ def AddMaths_Admin_QuestionForm(request,list_type,page_no,list_id,subj_id,questi
 	param['subject']=Subject.objects.all()
 	param.update(current(subj_id))
 	#for csrf for preview page
+	print list_type
+	print "-----"
+	if list_type == 8:
+		param['mes'] = "<div class='alert alert-success' role='alert'>Your question has been updated successfully</div>"
 	return render_to_response('control/add_math_admin_form.html',param,RequestContext(request))
 	
 #delete question
@@ -844,6 +848,8 @@ def process_solution(q):
 def AddMaths_qChange(request,list_type,page_no,subj_id):
 
 	q_id=request.POST.get('a_q_id','')
+	q_topic=request.POST.get('topic','')
+	q_subtopic=request.POST.get('subtopic','')
 	q_content=request.POST.get('a_content','')
 	q_sol=request.POST.get('a_sol','')
 	q_formula=request.POST.get('a_formula','')
@@ -916,7 +922,8 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):
 	q_item.marks=q_marks
 	q_item.input=q_input
 	q_item.type=q_type
-	q_item.type_answer=q_ans
+	q_item.topic=Topic.objects.get(id = q_topic)
+	q_item.subtopic=Subtopic.objects.get(id = q_subtopic)
 
 	
 	#must include
@@ -958,6 +965,7 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):
 		cur_answer = Solution(question_id=q_item, content=q_sol)
 		cur_answer.save()
 
+	
 	#formula update and indexing
 	
 	#formulae=formula.objects.filter(question_id=q_item.id)
@@ -970,7 +978,7 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):
 
 	#index(request)
 		
-	return add_math_question(request,list_type,subj_id,page_no)
+	return AddMaths_Admin_QuestionForm(request,8,1,1,subj_id,q_id)
 
 #display tag list	
 def AddMaths_Admin_TagList(request,subj_id):

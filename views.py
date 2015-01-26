@@ -478,7 +478,8 @@ def viewquestion(request,subj_id,qid):
 	question = getViewQuestion(qid)
 	param['question'] = question
 	questions = Question.objects.filter(topic = question.topic).exclude(id = question.id)
-	param['questions'] = questions
+	param['questions'] = questions[:5]
+	param['moreQuestions'] = questions[5:]
 	return render(request,'viewquestion.html',param)
 	
 def test(request,subj_id):

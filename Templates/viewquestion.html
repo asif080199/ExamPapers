@@ -17,6 +17,16 @@
 			}
 		}
 	</script>
+	<script>
+		function toggleSim(button_id) {
+			var ele_name = "sim";
+			var ele = document.getElementById(ele_name);
+			var text = document.getElementById(button_id);
+			if(ele.style.display != "inline") {
+				ele.style.display = "inline";
+			}
+		}
+	</script>
 {% endblock %}
 
 {% block content %}
@@ -74,7 +84,14 @@
 					<li><a href = "/{{cur.id}}/view/{{q.id}}">{{q.subtopic}} #{{q.question_no}}</a></li>
 					{% endfor%}
 				</ul>
-			</div>
+				<div style = "display:none;" id="sim">
+					<ul class="ulnav">
+						{% for q in moreQuestions%}
+						<li><a href = "/{{cur.id}}/view/{{q.id}}">{{q.subtopic}} #{{q.question_no}}</a></li>
+						{% endfor%}
+					</ul>
+				</div>
+				<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleSim(this.id);"  value="See more..."/>
           </div>
 	</div>
 {% endblock %}
