@@ -18,9 +18,16 @@ urlpatterns = patterns('',
 	#survey 
 	(r'^(?P<subj_id>\d*)/survey',views.survey),
 	
+	#contribute
+	url(r'^(?P<subj_id>\d*)/contribute/', include('ExamPapers.contribute.urls')),
+	
 	#search 
 	(r'^(?P<subj_id>\d*)/search/(?P<type>\d*)(?P<tp>\d*)(?P<searchtext>\d*)',views.search),
 	(r'^(?P<subj_id>\d*)/view/(?P<qid>\d*)/$', views.viewquestion),
+	
+	#search tag
+	(r'^(?P<subj_id>\d*)/searchTag/$',views.searchTag),
+	(r'^(?P<subj_id>\d*)/resultTag/(?P<type>\d*)(?P<tp>\d*)(?P<query>\d*)',views.resultTag),
 	
 	#study
 	(r'^(?P<subj_id>\d*)/study/(?P<tp>\d*)', views.study),	

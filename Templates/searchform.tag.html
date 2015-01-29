@@ -1,0 +1,22 @@
+<form action="/{{cur.id}}/resultTag/" method="get" onSubmit =" return checkSubmit(this)">
+	{% csrf_token %}
+	<table >
+		<tr>
+			<td><input width="100%" class = "form-control"  type="text"  name = "query"  placeholder = "Add tag for searching" value = "{{queryo}}" data-role="tagsinput">	
+				<div id ="fb-root"></div> </td>
+			<td><input type="submit" id="search" class="btn btn-primary" value="Search" /></td>
+			<input type ="hidden" name="type" value="{{type}}">
+			<input type ="hidden" name="tp" value="{{tp}}">
+		</tr>
+	</table>
+	
+	
+</form>
+
+   
+		
+  
+
+   
+    
+

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block content %}
+<script>
+	function input(){
+			  var str = document.getElementById("q_content").value;
+			  var outnode = document.getElementById("q_display");
+			  var n = outnode.childNodes.length;
+			  for (var i=0; i<n; i++)
+				outnode.removeChild(outnode.firstChild);
+			  outnode.appendChild(document.createTextNode(str));
+			  //AMprocessNode(outnode);
+			  MathJax.Hub.Queue(["Typeset",MathJax.Hub,outnode]);
+			  $("#outputMathML").val($("#outputNode").html());
+
+			  document.getElementById("q_display").style.display = "";
+        }
+		function input2(){
+			  var str = document.getElementById("q_solution").value;
+			  var outnode = document.getElementById("q_sdisplay");
+			  var n = outnode.childNodes.length;
+			  for (var i=0; i<n; i++)
+				outnode.removeChild(outnode.firstChild);
+			  outnode.appendChild(document.createTextNode(str));
+			  //AMprocessNode(outnode);
+			  MathJax.Hub.Queue(["Typeset",MathJax.Hub,outnode]);
+			  $("#outputMathML").val($("#outputNode").html());
+
+			  document.getElementById("q_sdisplay").style.display = "";
+        }
+</script>
+<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
+	<h1>Contribute Question Content</h1>
+	<hr class = "black">
+	
+    <div class="alert alert-info" role="alert">Hi there! Thank you for helping us grow our data base by contributing content</a></div>
+	<form   method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="col-sm-1"><label>Subject:</label></div>
+		<div class="col-sm-11">
+			{{ form.subject }} 
+		</div>
+		
+		<div class ="col-sm-12">
+			<font color = "red">{{ form.title.errors }}</font>
+		</div>
+		<br/><br/>
+		<div class="col-sm-1"><label>Topic:</label></div>
+		<div class="col-sm-11">
+			{{ form.topic }} 
+		</div>
+		<div class ="col-sm-12">
+			<font color = "red">{{ form.topic.errors }}</font>
+		</div>
+		<br/><br/>
+		<div class="col-sm-1"><label>Subtopic:</label></div>
+		<div class="col-sm-11">
+			{{ form.subtopic }} 
+		</div>
+		<div class ="col-sm-12">
+			<font color = "red">{{ form.subtopic.errors }} </font>
+		</div>
+		<br/><br/>
+		<div class="col-sm-1"><label>Resource:</label></div>
+		<div class="col-sm-11">
+			{{ form.source }} 
+		</div>
+		<div class ="col-sm-12">
+			<font color = "red">{{ form.source.errors }}</font>
+		</div>
+		<br/><br/>
+		<div class="col-sm-1"><label>Title:</label></div>
+		<div class="col-sm-11">
+			{{ form.title }} 
+		</div>
+		<div class ="col-sm-12">
+			<font color = "red">{{ form.title.errors }}</font>
+		</div>
+		<br/><br/>
+		<div class = "col-sm-12">
+			<table style="width:100%">
+				<tr>
+					<th width="50%">Question</th>
+					<th width="5%"></th>
+					<th width="45%">Question Preview</th>
+				</tr>
+				<tr>
+					<td>{{ form.content }} 
+					<a href="javascript:OpenLatexEditor('testbox','html','')">Launch LaTex Equation Editor</a>
+					</td>
+					
+					<td></td>
+					<td><div id="q_display"></div>
+					</td>
+				</tr>
+			</table>
+			<hr/>
+			<table style="width:100%">
+				<tr>
+					<th width="50%">Solution</th>
+					<th width="5%"></th>
+
+					<th width="45%">Solution Preview</th>
+				</tr>
+				<tr>
+					<td>{{ form.solution }} 
+					<a href="javascript:OpenLatexEditor('testbox','html','')">Launch LaTex Equation Editor</a>
+					</td>
+					<td></td>
+					<td><div id="q_sdisplay"></div></td>
+				</tr>
+			</table>
+		</div>
+		<br/>
+		<div class="col-sm-1"><label>Image:</label></div>
+		<div class="col-sm-11">
+			<table >
+				<tr>
+					<td width = "35%">{{ form.docfile }}</td>
+					<td style="text-align:right" width = "75%"><small align = "right">Need to show a graph? Try <a   target="_blank" href = "http://web.geogebra.org/chromeapp/">Geogebra</a></small></td>
+				</tr>
+			</table>
+		</div>
+		<br/>	<br/>	
+		<input type = "submit" style="width:100%" class="btn btn-primary" value = "Submit">
+	</form>
+{% endblock %}

@@ -141,6 +141,7 @@ INSTALLED_APPS = (
 	'mptt', #for threaded comments
 	#'upload',	#for file upload
 	'qna',
+	'contribute',
 	'django_cleanup',
 )
 

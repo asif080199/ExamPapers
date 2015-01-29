@@ -315,13 +315,19 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 			  document.getElementById("q_sdisplay").style.display = "";
         }
 </script>
+<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
 		<h1>Question Form</h1>
 		<hr class = "black">
 		<form id='preview_form' method='post' action='/{{subj_id}}/control/math_admin_modify/{{list_type}}/{{page_no}}/?list_id={{list_id}}'>
+			
+			
+			
+			
 			{% if question %}
 			<div class="col-sm-1"><label>Question:</label></div>
 			<div class="col-sm-11">{{question.id}}</div>
 			<hr/><hr/>
+			{% endif%}
 			<div class="col-sm-12">
 			<div class="col-sm-1"><label>Topic:</label></div>
 			<div class="col-sm-11">
@@ -342,9 +348,10 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 			</div>
 
 		</div>
-			{% else %}
-			<div class="container-fluid">
-				<div class="col-sm-1">Paper :</div>
+		<br/><br/>
+			{% if not question %}
+			<div class="col-sm-12">
+				<div class="col-sm-1"><label>Paper:</label></div>
 				<div class="col-sm-4">
 					<select name='paper_year' class="form-control">
 						{% for y in year_list %}

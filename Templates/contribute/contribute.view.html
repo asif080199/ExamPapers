@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load dajaxice_templatetags %}
+{% block html_head %}
+    {% dajaxice_js_import %}
+    <script>
+		function toggleAns(button_id) {
+			var ele_name = "sol";
+			var ele = document.getElementById(ele_name);
+			var text = document.getElementById(button_id);
+			if(ele.style.display == "block") {
+					ele.style.display = "none";
+				text.value = "View Solution";
+			}
+			else {
+				ele.style.display = "block";
+				text.value = "Hide Solution";
+			}
+		}
+	</script>
+	<script>
+		function toggleSim(button_id) {
+			var ele_name = "sim";
+			var ele = document.getElementById(ele_name);
+			var text = document.getElementById(button_id);
+			if(ele.style.display != "inline") {
+				ele.style.display = "inline";
+			}
+		}
+	</script>
+{% endblock %}
+
+{% block content %}
+	
+	<div class = "col-sm-12"><label class="head">{{question.title}}</label></div>
+    <div class="col-sm-9">
+        <div class="alert alert-info">This question is contributed by user and not yet available in main database</div>
+		
+		<div class="thumbnail ftext" >
+			
+			{{question.content|safe}}	
+			{%for i in question.image%}
+				<img src = "/{{i.imageurl}}" width = "300px">	
+			{%endfor%}
+			
+			<hr/>
+			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
+			<div style = "display:none;" id="sol">
+				{{question.solution|safe}}
+			</div>
+		</div>
+        
+    </div>
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Question Info</h3>
+            </div>
+            <div class="panel-body">
+				<ul class="ulnav">
+					<li><b>Title:</b> {{question.title}} </li>
+					<li><b>Subject:</b> {{cur.title}} Mathematics</li>
+					<li><b>Topic:</b> {{question.topic}}</li>
+					<li><b>Subtopic:</b> {{question.subtopic}}</li>
+					<li><b>Author:</b> {{question.author}}</li>
+					<li><b>Created Date:</b> {{question.created}}</li>
+				</ul>
+			</div>
+          </div>
+	</div>
+{% endblock %}

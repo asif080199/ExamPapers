@@ -57,14 +57,9 @@
             </div>
             <div class="panel-body">
 				<ul class="ulnav">
-					<li><b>ID:</b> {{question.id}}</li>
+					<li><b>Name:</b> {{question.subtopic}} #{{question.question_no}}</li>
 					<li><b>Difficulty :</b> {%for s in question.stars%}{{s|safe}}{%endfor%}</li>
-					
-					<li><b>Category:</b>{% for at in question.distinct_anstype %}
-											{{at}},
-										{% endfor %}
-					</li>
-					<li><b>Subject:</b> {{cur}}</li>
+					<li><b>Subject:</b> {{cur.title}} Mathematics</li>
 					<li><b>Topic:</b> {{question.topic}}</li>
 					<li><b>Subtopic:</b> {{question.subtopic}}</li>
 					<li><b>Tags:</b></li>
@@ -93,5 +88,6 @@
 				</div>
 				<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleSim(this.id);"  value="See more..."/>
           </div>
+	</div>
 	</div>
 {% endblock %}

@@ -1104,5 +1104,3 @@ def process_tag(t):
 	#In cases where image is not found, 'missing image' text is used
 	return display	
 	
-	
-	

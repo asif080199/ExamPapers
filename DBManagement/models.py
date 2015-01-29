@@ -17,7 +17,7 @@ class Subject(models.Model):
 	edu_level = models.ForeignKey(Education_Level, null=True)
 	description = models.TextField('description', null=True)
 	def __str__(self):
-		return str(self.id)
+		return str(self.title)
 
 class Block(models.Model):
 	id = models.IntegerField('id', primary_key=True, null=False)

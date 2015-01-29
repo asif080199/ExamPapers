@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block html_head %}
+ <script>
+		function toggleAns(button_id) {
+			var ele_name = "sol";
+			var ele = document.getElementById(ele_name);
+			var text = document.getElementById(button_id);
+			if(ele.style.display == "block") {
+					ele.style.display = "none";
+				text.value = "How to start?";
+			}
+			else {
+				ele.style.display = "block";
+				text.value = "Thank you";
+			}
+		}
+		function checkSubmit(){
+			var searchtext = document.getElementById("search_field").value;
+				if (searchtext==""){
+					return false;
+				}
+		}
+	</script>
+{%  endblock %}
+{% block content %}
+<div class = "col-sm-12">
+		<br/><br/>
+		<div class ="text-center">
+			<table align="center" style="padding:0px">
+				<tr>
+					<td colspan="3"><a href = "/"><img src="/static/images/logo1.png" width="305px"></a></td>
+				</tr>
+				<tr>
+					<td><a href = "/{{cur.id}}/fsearch/home/"><button style = "width:100px;background-color:black;color:white " class="btn ">Text</button></a></td>
+					<td><a href = "/{{cur.id}}/fsearch/home/"><button style = "width:100px;background-color:black;color:white " class="btn ">Formula</button></a></td>
+					<td><a href = "/{{cur.id}}/searchTag"><button style = "width:100px;background-color:black;color:white " class="btn "><font color = "#BFFF00">Tag</font></button></a></td>
+				</tr>
+			</table>
+		</div>
+	<br/><br/>
+	{% include 'searchform.tag.html' %}
+	<br/>
+	<div style = "display:true;" id="sol">
+		<div class="well">
+			<p>This is the first step for <font color="Red" size="4e"><b>L</b></font>earn from Example</p>
+			<p>Let us know your problem and we will give you relevant materials that may help. Enter tags and related question will be found</p>
+		
+			<p>If you have no idea how to start, try entering below examples: </p>
+			<p class = "text-muted">
+				<span class="glyphicon glyphicon-align-justify"></span> "circle" < enter > "center" < enter ><br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "integral" < enter > "area" < enter ><br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "diagram" < enter > "square" < enter ><br/>
+			</p>
+			If you prefer to do a text search, try <a href = "/{{cur.id}}/">this</a><br/>
+			If you prefer to search a formula, try <a href = "/{{cur.id}}/fsearch/home/">this</a><br/>
+			If you prefer to start by learning concept and formula, try <a href = "/{{cur.id}}/study/home/">this</a><br/>
+		</div>
+	</div>
+	
+</div>
+
+
+{% endblock %}

@@ -558,3 +558,95 @@ def survey(request,subj_id):
 	param = {}
 	param.update(current(subj_id))
 	return render(request,'survey.html',param)
+
+
+#search tag
+	
+def searchTag(request,subj_id):
+	param={}
+	param.update(current(subj_id))
+	param['type'] = "question"
+	param['tp'] = -1
+	return render(request,'level.tag.html',param)
+
+def resultTag(request,subj_id,query,tp,type):
+	total = 0
+	param={}
+	input = ""
+	tp = -1
+	if request.GET.get("query") != None:
+		input = request.GET.get("query").replace(","," ")
+	if request.GET.get("type") != None:
+		type = request.GET.get("type")		
+	if request.GET.get("tp") != None:
+		tp = request.GET.get("tp")	
+	
+	#update cur and subj	
+	param.update(current(subj_id))
+	
+	
+	#get all block 
+	blocks = Block.objects.filter(subject_id = subj_id)
+		
+	#get all topics
+	for b in blocks:
+		b.topics = Topic.objects.filter(block = b.id)
+	
+	#get all match question
+	questions = SearchQuerySet().autocomplete(content=input).filter(subject_id=subj_id)
+	
+	finalQuestions = []
+	if type == "question":
+		# question count
+		for b in blocks:
+			for t in b.topics:
+				t.count = 0
+				for q in questions:
+					if q.topic == t.title:
+						t.count = t.count + 1
+						q.linkId = q.id[22:]
+						q.stars = star(int(q.marks*5/16.0)+1)
+						q.images = Image.objects.filter(qa_id = q.question_id)
+						if q.images.count() > 0:
+							q.image = q.images[0].imagepath
+						q.content_short = q.content[0:250]
+						
+						q.tag = Tag.objects.filter(question_id = q.linkId)
+						q.tagdef = []
+						for ta in q.tag:
+							tdeg = TagDefinition.objects.get(id = ta.tagdefinition.id)
+							tdeg.title = tdeg.title.replace("_"," ")
+							q.tagdef.append(tdeg)
+					
+						finalQuestions.append(q)
+				total+=t.count
+				
+			
+	elif type == "image":
+		for question in questions:
+			question.images = Image.objects.filter(qa_id = question.question_id)
+			question.count = question.images.count()
+			question.linkId = question.id[22:]
+		for b in blocks:
+			for t in b.topics:
+				t.count = 0
+				for q in questions:
+					if q.topic == t.title:
+						t.count = t.count + q.count
+						finalQuestions.append(q)
+			total+=t.count
+	
+	if tp!= str(-1):
+		param['topic'] = Topic.objects.get(id = tp).title
+	else:
+		param['topic'] = "All"
+		
+	param['blocks'] = blocks
+	param['total'] = total
+	param['type'] = type
+	param['questions'] = finalQuestions
+	param['tp'] = int(tp)
+	
+	param['query'] = input
+	param['queryo'] = request.GET.get("query")
+	return render(request,'search.tag.html',param)

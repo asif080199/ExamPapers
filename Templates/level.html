@@ -26,7 +26,18 @@
 <div class = "col-sm-12">
 		<br/><br/>
 		<div class ="text-center">
-			<a href = "/{{cur.id}}/fsearch/home/"><img src="/static/images/logoT.png" width="250px"></a>
+			<table align="center" style="padding:0px">
+				<tr>
+					<td colspan="3"><a href = "/"><img src="/static/images/logo1.png" width="305px"></a></td>
+				</tr>
+				<tr>
+					<td><a href = "/{{cur.id}}/fsearch/home/"><button style = "width:100px;background-color:black;color:white " class="btn "><font color = "#BFFF00">Text</font></button></a></td>
+					<td><a href = "/{{cur.id}}/fsearch/home/"><button style = "width:100px;background-color:black;color:white " class="btn ">Formula</button></a></td>
+					<td><a href = "/{{cur.id}}/searchTag"><button style = "width:100px;background-color:black;color:white " class="btn ">Tag</button></a></td>
+				</tr>
+			</table>
+			
+			
 		</div>
 	<br/><br/>
 	<form action="/{{cur.id}}/search/" method="get" onSubmit =" return checkSubmit(this)">
