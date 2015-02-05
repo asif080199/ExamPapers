@@ -63,13 +63,20 @@ def form(request,subj_id):
 				
 				newstory = QuestionC(created =datetime.datetime.now() ,solution = solution,content = content,author = request.user,title = title,subject_id = subject,topic_id = topic, subtopic_id = subtopic)
 				newstory.save()
-				if request.FILES.get("docfile")!=None:
-					print "hahahah"
-					newpic = FileC(docfile = request.FILES['docfile'])
+				if request.FILES.get("docfile1")!=None:
+					newpic = FileC(docfile = request.FILES['docfile1'])
 					newpic.questionC = newstory
 					newpic.save()
-					print "_--------------------"
-					print newpic
+				if request.FILES.get("docfile2")!=None:
+					newpic = FileC(docfile = request.FILES['docfile2'])
+					newpic.questionC = newstory
+					newpic.save()
+				if request.FILES.get("docfile3")!=None:
+					newpic = FileC(docfile = request.FILES['docfile3'])
+					newpic.questionC = newstory
+					newpic.save()
+					newpic.questionC = newstory
+					newpic.save()
 				return  HttpResponseRedirect('/'+str(subj_id)+'/contribute/view/'+str(newstory.id))
 	else:	
 			form = ContributeForm(initial = {'subj_id_pass' : subj_id}) 
@@ -82,12 +89,12 @@ def form(request,subj_id):
 	)
 
 @login_required		
-def edit(request,subj_id,QuestionCId):
+def edit(request,subj_id,cId):
 	param = {}
 	param.update(current(subj_id))
 	
 	
-	QuestionC = QuestionC.objects.get(pk=int(QuestionCId)) #get current object
+	qC = QuestionC.objects.get(id=(cId)) #get current object
 			
 	if request.method == "POST":
 		form = ContributeForm(request.POST, request.FILES ,initial = {'subj_id_pass' : subj_id})	
@@ -95,19 +102,32 @@ def edit(request,subj_id,QuestionCId):
 		if form.is_valid():
 					sub = Subject.objects.get(id = subj_id)
 					t = request.POST['topic']
-					QuestionC.content =  request.POST['content']
-					QuestionC.title = request.POST['title']
-					QuestionC.topic_id = t
-					QuestionC.save()
-					if request.FILES.get("docfile")!=None:
-						newpic = QuestionCfile(docfile = request.FILES['docfile'])
-						oldpic = QuestionCfile.objects.filter(QuestionC = QuestionC)
+					qC.content =  request.POST['content']
+					qC.title = request.POST['title']
+					qC.topic_id = t
+					qC.save()
+					if request.FILES.get("docfile1")!=None:
+						newpic = FileC(docfile = request.FILES['docfile1'])
+						oldpic = FileC.objects.filter(questionC = qC)
 						oldpic.delete()
-						newpic.QuestionC = QuestionC
+						newpic.questionC = qC
 						newpic.save()
-					return  HttpResponseRedirect('/'+str(subj_id)+'/contribute/view/'+str(QuestionC.id))
+					if request.FILES.get("docfile2")!=None:
+						newpic = FileC(docfile = request.FILES['docfile2'])
+						oldpic = FileC.objects.filter(questionC = qC)
+						oldpic.delete()
+						newpic.questionC = qC
+						newpic.save()
+					if request.FILES.get("docfile3")!=None:
+						newpic = FileC(docfile = request.FILES['docfile3'])
+						oldpic = FileC.objects.filter(questionC = qC)
+						oldpic.delete()
+						newpic.questionC = qC
+						newpic.save()
+
+					return  HttpResponseRedirect('/'+str(subj_id)+'/contribute/view/'+str(qC.id))
 	else:	
-				form = ContributeForm(instance = QuestionC, initial = {'subj_id_pass' : subj_id}) 
+				form = ContributeForm(instance = qC, initial = {'subj_id_pass' : subj_id}) 
 	param['form'] = form
 	return render_to_response(
 					'contribute/contribute.form.html',
@@ -122,8 +142,7 @@ def view(request,subj_id,cId):
 	
 	param.update(current(subj_id))
 	
-	
-	a = QuestionC.objects.get(id= cId)
+	a = QuestionC.objects.get(id = cId)
 	a.image = FileC.objects.filter(questionC = a)
 	
 	for i in a.image:

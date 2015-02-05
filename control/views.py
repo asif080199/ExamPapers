@@ -1,14 +1,14 @@
 from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponseRedirect,HttpResponse
-from ExamPapers.DBManagement.models import *
 from django.template import RequestContext
+from django.core.paginator import Paginator
+from ExamPapers.DBManagement.models import *
 import datetime
 from ExamPapers.logic.common import *
 from ExamPapers.logic.question_processing import *
 from logic.common import *
-import string
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ExamPapers.fsearch.views import index
+from django.db.models import Q
 
 #set Additional Maths folder
 add_math_img='/static/image/'
@@ -19,38 +19,34 @@ sol_format={'v':'Values','r':'Ratio','c':'Coordinates','m':'Matrix','i':'Inequal
 #Add Maths question page settings
 addMaths_q_per_page=10
 
-#param.update(current(subj_id))
-
-
 
 # Question Admin
-def AddMaths_Admin(request,subj_id): #home
+def AddMaths_Admin(request,subj_id): #home	
 	param={}
+	param['papers']=list(Paper.objects.filter(subject_id=subj_id,number__gt=0).only('id','year','month','number').order_by('id').values())	
 	
-	questions = Question.objects.all()
+	topics=list(Topic.objects.filter(block__subject_id=subj_id).order_by('id').values())
+	param['topics']=topics
+	questions = Question.objects.filter(topic__block__subject_id = subj_id)
+
+		
 	for q in questions:
 		q.noTag = Tag.objects.filter(question_id = q.id).count()
 		solution = Solution.objects.filter(question_id = q.id).count()
 		q.solution = "Not available"
 		if solution >0:
 			q.solution = "Available"
-		q.display = q.content[:100]
-	param['papers']=list(Paper.objects.filter(subject_id=subj_id,number__gt=0).only('id','year','month','number').order_by('id').values())	
-	
-	topics=list(Topic.objects.filter(block__subject_id=subj_id).order_by('id').values())
-	param['topics']=topics
-	
-	param['sol_type']=[]
-	for k in sol_format.keys():
-		param['sol_type'].append({'id':k,'name':sol_format[k]})
+		q.display = q.content[:100]	
 		
-	param['subj_id']=subj_id
 	param['questions'] = questions
-	#for links
-	param['subject']=Subject.objects.all()
 	param.update(current(subj_id))
 	return render_to_response('control/control.add_math_admin.html',param, context_instance=RequestContext(request))
 
+	
+	
+	
+	
+	
 #list questions to modify
 def AddMaths_Admin_ModifyQuestion(request,list_type,subj_id,page_no):	#math_admin_list
     
@@ -160,66 +156,10 @@ def AddMaths_Admin_ModifyQuestion(request,list_type,subj_id,page_no):	#math_admi
 	param.update(current(subj_id))
 	return render_to_response('control/add_math_admin_qList.html',param, context_instance=RequestContext(request))
 
-#a form to add and modify questions
-def AddMaths_Admin_QuestionForm(request,list_type,page_no,list_id,subj_id,question_id):	#form
-	param={}
-	
-	#if less than 0, insert new question
-	param['question']=None
-	if(int(question_id)>=0):
-		param['question']=Question.objects.get(id=question_id)
-		param['source']=param['question'].source
-		param['difficulty']=param['question'].difficulty
-		param['topic']=param['question'].topic.title
-		param['subtopic']=param['question'].subtopic.title
-		param['paper']=Paper.objects.get(id=param['question'].paper_id)
-		param['marks']=param['question'].marks
-		param['display']='\n'+param['question'].content.replace(';','\n')
-		if len(Solution.objects.filter(question_id=question_id)) == 1:
-			param['solution']='\n'+Solution.objects.get(question_id=question_id).content.replace(';','\n')
-		
-		#param['formula'] = '\n'
-		#if len(formula.objects.filter(question_id=question_id)) > 0:
-		#	formula_list = formula.objects.filter(question_id=question_id).values()
-		#	for f in formula_list:
-		#		param['formula'] += f['formula']+'\n'
-		
-		param['tags']=Tag.objects.select_related().filter(question_id=question_id)
-		param['tagdefs']=TagDefinition.objects.all()
-		
 
-	else:
-		param['tagdefs']=TagDefinition.objects.all()
-		
-	param['list_type']=list_type
-	param['page_no']=page_no
-	param['list_id']=list_id
-	
-	#for new questions (additional info to select)
-	param['year_list']=range(1995,datetime.datetime.now().year) #up till previous year
-	topics=list(Topic.objects.filter(block__subject_id=subj_id).order_by('-id').values())
-	#topics.reverse()
-	param['topics']=[]
-	for t in topics:
-		param['topics'][0:0]=list(Topic.objects.filter(id=t['id']).values())
-	param['subtopics']=[]
-	for t in topics:		
-		param['subtopics'][0:0]=list(Subtopic.objects.filter(topic_id=t['id']).values() )
-		
-	param['subj_id']=subj_id
-	
-	#for links
-	param['subject']=Subject.objects.all()
-	param.update(current(subj_id))
-	#for csrf for preview page
-	print list_type
-	print "-----"
-	if list_type == 8:
-		param['mes'] = "<div class='alert alert-success' role='alert'>Your question has been updated successfully</div>"
-	return render_to_response('control/add_math_admin_form.html',param,RequestContext(request))
-	
+
 #delete question
-def AddMaths_qDelete(request,list_type,page_no,subj_id): #no page return
+def AddMaths_qDelete(request,subj_id): #no page return
 	q_id=request.POST.get('d_q_id','')
 	print q_id
 	print "___________"
@@ -230,148 +170,15 @@ def AddMaths_qDelete(request,list_type,page_no,subj_id): #no page return
 	#delete answer
 	ans=Solution.objects.filter(question_id=q_id)
 	ans.delete();
-	
+	param={}
+	param.update(current(subj_id))
 	#delete relevant tags
 	tags=Tag.objects.filter(question_id=q_id)
 	tags.delete();
 	
 	return add_math_question(request,list_type,subj_id,page_no)
 	
-#accept values from form to insert or modify question
-def AddMaths_qChange(request,list_type,page_no,subj_id):	#no page return
-	q_id=request.POST.get('a_q_id','')
-	q_content=request.POST.get('a_content','')
-	q_sol=request.POST.get('a_sol','')
-	q_input=request.POST.get('a_input','')
-	q_type=request.POST.get('a_type','')
-	q_ans=request.POST.get('a_ans','')
-	q_tag=request.POST.get('a_tag','')
-	q_new_tag=request.POST.get('a_new_tag','')
-	q_marks=request.POST.get('a_marks','')
-	q_source=request.POST.get('q_source','')
-	q_difficulty=request.POST.get('q_difficulty','')
-	q_item=None
-	if(q_id!=''):
-		q_item=Question.objects.get(id=q_id)
-	else:
-		#question number
-		q_no=1
-		#for new question, find or insert paper
-		q_year=request.POST.get('paper_year','')
-		q_month=request.POST.get('paper_month','')
-		q_num=request.POST.get('paper_num','')
-		q_topic=request.POST.get('paper_topic','')
-		q_subtopic=request.POST.get('paper_subtopic','')
-		q_paper_id=q_year
-		if(q_month=='11' and q_num=='1'):
-			q_paper_id=q_paper_id+'01'
-		elif(q_month=='11' and q_num=='2'):
-			q_paper_id=q_paper_id+'02'
-		q_paper_id=q_paper_id+'{0:0>3}'.format(subj_id)
-		cur_paper=Paper.objects.filter(id=q_paper_id)
-		if(len(cur_paper)==0):
-			cur_paper=Paper()
-			cur_paper.id=q_paper_id
-			cur_paper.year=q_year
-			cur_paper.month=q_month
-			cur_paper.month=q_month
-			cur_paper.number=q_num
-			cur_paper.subject=Subject.objects.get(id=subj_id)
-			#create paperset
-			cur_paperset = Paperset()
-			cur_paperset.title = str(q_year)+" "+cur_paper.month
-			cur_paperset.subject = cur_paper.subject
-			cur_paperset.save()
-			cur_paper.paperset = cur_paperset
-			cur_paper.save()
-			
-		else:
-			q_no=len(Question.objects.filter(paper_id=q_paper_id))+1
-			
-		q_item=Question()
-		#generate id
-		q_item.id=q_year
-		if(q_month=='11' and q_num=='1'):
-			q_item.id=q_item.id+'01'
-		elif(q_month=='11' and q_num=='2'):
-			q_item.id=q_item.id+'02'
-		q_item.id=q_item.id+'{0:0>3}'.format(subj_id)
-		q_item.id=q_item.id+'{0:0>3}'.format(q_no)
-		q_item.source = q_source
-		q_item.difficulty = q_difficulty
-		#end
-		q_item.topic_id=Topic.objects.get(id=q_topic).id
-		q_item.subtopic_id=Subtopic.objects.get(id=q_subtopic).id
-	
-		q_item.paper_id=Paper.objects.get(id=q_paper_id)
-		q_item.question_no=q_no
-		
-	q_item.content=q_content
-	q_item.marks=q_marks
-	q_item.input=q_input
-	q_item.type=q_type
-	q_item.type_answer=q_ans
 
-	
-	#must include
-	q_item.q_category=''
-	q_item.q_type='exam'
-	q_item.difficulty_level=''
-	q_item.num_views='0'
-	
-	q_item.save()
-	
-	#tag update
-	oldtags =Tag.objects.filter(question_id=q_item.id)
-	oldtags.delete()
-	
-	#existing tag format
-	etags = q_tag.split(';') #split into tags
-	for etag in etags:
-		if etag != '':
-			if len(TagDefinition.objects.filter(id=int(etag))) > 0: #verify tag exists
-				tagdef = TagDefinition.objects.get(id=int(etag))
-				new_etag_record = Tag(question=q_item, tagdefinition=tagdef)
-				new_etag_record.save()
-	#new tag format
-	ntags = q_new_tag.split('||') #split into tags
-	for ntag in ntags:
-		columns = ntag.split(';')
-		if len(columns) == 3: #title, content, type
-			new_ntag_record = TagDefinition(title=columns[0], content=columns[1], type=columns[2])
-			new_ntag_record.save() #create the new tag first
-			new_etag_record = Tag(question=q_item, tagdefinition=new_ntag_record)
-			new_etag_record.save() #save the relationship with the question
-	
-	#answer update
-	if len(Solution.objects.filter(question_id=q_item.id)) > 0: #update existing
-		cur_answer = Solution.objects.get(question_id=q_item.id)
-		cur_answer.content = q_sol
-		cur_answer.save()
-	else:
-		cur_answer = Solution(question_id=q_item, content=q_sol)
-		cur_answer.save()
-
-	
-	
-	
-	#formulae=Formula.objects.filter(question_id=q_item.id)
-	#formulae.delete();
-	#q_formula_list = q_formula.split(';')
-	#for f in q_formula_list:
-	#	if f != '':
-	#		cur_formula = formula(question_id=q_item.id, formula=f, status=0)
-	#		cur_formula.save()
-
-	#index(request)
-		
-	return add_math_question(request,list_type,subj_id,page_no)
-
-
-
-	
-	
-	
 
 #menu page to select topic or paper
 def AMaths_Menu(request,subj_id):
@@ -592,77 +399,7 @@ def add_math_question(request,list_type,subj_id,page_no):
 	return render_to_response('control/add_math_question.html',param,RequestContext(request))
 
 
-def add_math_concept_tag(request,subj_id, page_no):
-	param={}
-	#for topic dropdown
-	param['topics'] = topic.objects.filter(subject_id_id=subj_id)
-	tag_id = []
-	if request.GET.get("tag_id") != None:
-		tag_id.append(request.GET.get("tag_id"))
 
-	tag_list=list(tag.objects.filter(tag_id__in=tag_id).order_by('question_id').values('question_id'))
-
-	qid_set=[]
-	for tagitem in tag_list:
-		qid_set.append(tagitem['question_id'])
-	global_sel = list(question.objects.filter(id__in=qid_set).only('id','content','question_no','marks').order_by('id').values())
-
-	no_of_qn = len(global_sel)
-	addMaths_q_per_page = 10
-	page_items=[]
-	for i in range(0,addMaths_q_per_page):
-		if( (i + addMaths_q_per_page * (int(page_no) - 1))<no_of_qn):
-			page_items.append(global_sel[i + addMaths_q_per_page * (int(page_no)-1)])
-
-	no_pages=no_of_qn/addMaths_q_per_page
-	if((no_of_qn % addMaths_q_per_page)!=0):
-		no_pages=no_pages+1
-	page_links=[]
-	for i in range(1,no_pages+1):
-		page_links.append(i)
-
-	for q in page_items:
-		q['taglist']=[]
-		q['topic']=topic.objects.get(id=q['topic_id_id']).title
-		q['subtopic']=subtopic.objects.get(id=q['subtopic_id_id']).title
-		p=paper.objects.get(id=q['paper_id_id'])
-		q['paper']=str(p.year) + ' ' + p.month + ' Paper ' + str(p.number)
-		q['display']=process_question(q)
-		q['displayans']=''
-		if len(answer.objects.filter(question_id=q['id'])) > 0:
-			ans=list(answer.objects.filter(question_id=q['id']).values())[0]
-			q['displayans']=process_solution(ans)
-		taglist = tag.objects.filter(question_id=q['id']).order_by('tag__title')
-		if len(taglist) != 0:
-			for t in taglist:
-				q['taglist'].append(t)
-
-	tagObjs = list(tag_definitions.objects.filter(id__in=tag_id).values())
-
-	topic_ids = []
-	for t in tagObjs:
-		topic_ids.append(t['topic_id'])
-
-	relevanttags = []
-	relevanttags=(list(tag_definitions.objects.filter(topic__in=topic_ids).order_by('id').values()))
-	
-	param['questions']=page_items
-	param['page_links']=page_links
-	param['page_no']=int(page_no)
-	param['num_q']=no_of_qn
-	param['global_total']=len(global_sel)
-	#fix tags into url get
-	urltag=''
-	for t in tag_id:
-		urltag += 'tag_id=' + t + '&'
-	urltag=urltag[0:len(urltag)-1]
-	param['urltags']=urltag
-	param['type']=type
-	param['cur_subj'] = subject.objects.get(id=3)
-	param['selected_tag'] = tagObjs
-	param['relevanttags'] = relevanttags
-
-	return render_to_response('control/add_math_concept_question.html',param)
 	
 #Display question selected from question list
 
@@ -844,141 +581,7 @@ def process_solution(q):
 	#	display.append(item)
 	return display
 	
-#accept values from form to insert or modify question
-def AddMaths_qChange(request,list_type,page_no,subj_id):
 
-	q_id=request.POST.get('a_q_id','')
-	q_topic=request.POST.get('topic','')
-	q_subtopic=request.POST.get('subtopic','')
-	q_content=request.POST.get('a_content','')
-	q_sol=request.POST.get('a_sol','')
-	q_formula=request.POST.get('a_formula','')
-	q_input=request.POST.get('a_input','')
-	q_type=request.POST.get('a_type','')
-	q_ans=request.POST.get('a_ans','')
-	q_tag=request.POST.get('a_tag','')
-	q_new_tag=request.POST.get('a_new_tag','')
-	q_marks=request.POST.get('a_marks','')
-	q_source=request.POST.get('q_source','')
-	q_difficulty=request.POST.get('q_difficulty','')
-	
-	q_item=None
-	if(q_id!=''):
-		q_item=Question.objects.get(id=q_id)
-	else:
-		#question number
-		q_no=1
-		#for new question, find or insert paper
-		q_year=request.POST.get('paper_year','')
-		q_month=request.POST.get('paper_month','')
-		q_num=request.POST.get('paper_num','')
-		q_topic=request.POST.get('paper_topic','')
-		q_subtopic=request.POST.get('paper_subtopic','')
-		q_paper_id=q_year
-		if(q_month=='11' and q_num=='1'):
-			q_paper_id=q_paper_id+'01'
-		elif(q_month=='11' and q_num=='2'):
-			q_paper_id=q_paper_id+'02'
-		q_paper_id=q_paper_id+'{0:0>3}'.format(subj_id)
-		cur_paper=Paper.objects.filter(id=q_paper_id)
-		if(len(cur_paper)==0):
-			cur_paper=Paper()
-			cur_paper.id=q_paper_id
-			cur_paper.year=q_year
-			cur_paper.month=q_month
-			cur_paper.month=q_month
-			cur_paper.number=q_num
-			cur_paper.subject=Subject.objects.get(id=subj_id)
-			#create paperset
-			cur_paperset = Paperset()
-			cur_paperset.title = str(q_year)+" "+cur_paper.month
-			cur_paperset.subject = cur_paper.subject
-			cur_paperset.save()
-			cur_paper.paperset = cur_paperset
-			cur_paper.save()
-			
-		else:
-			q_no=len(Question.objects.filter(paper_id=q_paper_id))+1
-			
-		q_item=Question()
-		#generate id
-		q_item.id=q_year
-		if(q_month=='11' and q_num=='1'):
-			q_item.id=q_item.id+'01'
-		elif(q_month=='11' and q_num=='2'):
-			q_item.id=q_item.id+'02'
-		q_item.id=q_item.id+'{0:0>3}'.format(subj_id)
-		q_item.id=q_item.id+'{0:0>3}'.format(q_no)
-		q_item.source = q_source
-		q_item.difficulty = q_difficulty
-		#end
-		q_item.topic_id=Topic.objects.get(id=q_topic).id
-		q_item.subtopic_id=Subtopic.objects.get(id=q_subtopic).id
-	
-		q_item.paper_id=Paper.objects.get(id=q_paper_id)
-		q_item.question_no=q_no
-		
-	q_item.content=q_content
-	q_item.marks=q_marks
-	q_item.input=q_input
-	q_item.type=q_type
-	q_item.topic=Topic.objects.get(id = q_topic)
-	q_item.subtopic=Subtopic.objects.get(id = q_subtopic)
-
-	
-	#must include
-	q_item.q_category=''
-	q_item.q_type='exam'
-	q_item.difficulty_level=''
-	q_item.num_views='0'
-	
-	q_item.save()
-	
-	#tag update
-	oldtags =Tag.objects.filter(question_id=q_item.id)
-	oldtags.delete()
-	
-	#existing tag format
-	etags = q_tag.split(';') #split into tags
-	for etag in etags:
-		if etag != '':
-			if len(TagDefinition.objects.filter(id=int(etag))) > 0: #verify tag exists
-				tagdef = TagDefinition.objects.get(id=int(etag))
-				new_etag_record = Tag(question=q_item, tagdefinition=tagdef)
-				new_etag_record.save()
-	#new tag format
-	ntags = q_new_tag.split('||') #split into tags
-	for ntag in ntags:
-		columns = ntag.split(';')
-		if len(columns) == 3: #title, content, type
-			new_ntag_record = TagDefinition(title=columns[0], content=columns[1], type=columns[2])
-			new_ntag_record.save() #create the new tag first
-			new_etag_record = Tag(question=q_item, tagdefinition=new_ntag_record)
-			new_etag_record.save() #save the relationship with the question
-	
-	#answer update
-	if len(Solution.objects.filter(question_id=q_item.id)) > 0: #update existing
-		cur_answer = Solution.objects.get(question_id=q_item.id)
-		cur_answer.content = q_sol
-		cur_answer.save()
-	else:
-		cur_answer = Solution(question_id=q_item, content=q_sol)
-		cur_answer.save()
-
-	
-	#formula update and indexing
-	
-	#formulae=formula.objects.filter(question_id=q_item.id)
-	#formulae.delete();
-	#q_formula_list = q_formula.split(';')
-	#for f in q_formula_list:
-	#	if f != '':
-	#		cur_formula = formula(question_id=q_item.id, formula=f, status=0)
-	#		cur_formula.save()
-
-	#index(request)
-		
-	return AddMaths_Admin_QuestionForm(request,8,1,1,subj_id,q_id)
 
 #display tag list	
 def AddMaths_Admin_TagList(request,subj_id):
@@ -1103,4 +706,192 @@ def process_tag(t):
 	#The 'type' helps identify images (1 for text, 2 for image)
 	#In cases where image is not found, 'missing image' text is used
 	return display	
+
+def AddMaths_Admin_QuestionForm(request,list_type,page_no,list_id,subj_id,question_id):	#form
+	param={}
 	
+	#if less than 0, insert new question
+	param['question']=None
+	if(int(question_id)>=0):
+		param['question']=Question.objects.get(id=question_id)
+		param['source']=param['question'].source
+		param['difficulty']=param['question'].difficulty
+		param['topic']=param['question'].topic.title
+		param['subtopic']=param['question'].subtopic.title
+		param['paper']=Paper.objects.get(id=param['question'].paper_id)
+		param['marks']=param['question'].marks
+		param['display']='\n'+param['question'].content.replace(';','\n')
+		if len(Solution.objects.filter(question_id=question_id)) == 1:
+			param['solution']='\n'+Solution.objects.get(question_id=question_id).content.replace(';','\n')
+		
+		#param['formula'] = '\n'
+		#if len(formula.objects.filter(question_id=question_id)) > 0:
+		#	formula_list = formula.objects.filter(question_id=question_id).values()
+		#	for f in formula_list:
+		#		param['formula'] += f['formula']+'\n'
+		
+		param['tags']=Tag.objects.select_related().filter(question_id=question_id)
+		param['tagdefs']=TagDefinition.objects.all()
+		
+
+	else:
+		param['tagdefs']=TagDefinition.objects.all()
+		
+	param['list_type']=list_type
+	param['page_no']=page_no
+	param['list_id']=list_id
+	
+	#for new questions (additional info to select)
+	param['year_list']=range(1995,datetime.datetime.now().year) #up till previous year
+	topics=list(Topic.objects.filter(block__subject_id=subj_id).order_by('-id').filter(block__subject_id = subj_id).values())
+	#topics.reverse()
+	param['topics']=[]
+	for t in topics:
+		param['topics'][0:0]=list(Topic.objects.filter(id=t['id']).values())
+	param['subtopics']=[]
+	for t in topics:		
+		param['subtopics'][0:0]=list(Subtopic.objects.filter(topic_id=t['id']).values() )
+		
+	param['subj_id']=subj_id
+	
+	#for links
+	param['subject']=Subject.objects.all()
+	param.update(current(subj_id))
+	#for csrf for preview page
+	return render_to_response('control/add_math_admin_form.html',param,RequestContext(request))
+	
+	
+def AddMaths_qChange(request,list_type,page_no,subj_id):
+
+	q_id=request.POST.get('a_q_id','')
+	q_content=request.POST.get('a_content','')
+	q_sol=request.POST.get('a_sol','')
+	q_formula=request.POST.get('a_formula','')
+	q_input=request.POST.get('a_input','')
+	q_type=request.POST.get('a_type','')
+	q_ans=request.POST.get('a_ans','')
+	q_tag=request.POST.get('a_tag','')
+	q_topic=request.POST.get('paper_topic','')
+	
+	q_subtopic=request.POST.get('paper_subtopic','')
+	q_new_tag=request.POST.get('a_new_tag','')
+	q_marks=request.POST.get('a_marks','')
+	q_source=request.POST.get('q_source','')
+	q_difficulty=request.POST.get('q_difficulty','')
+	
+	q_item=None
+	if(q_id!=''):
+		q_item=Question.objects.get(id=q_id)
+	else:
+		#question number
+		q_no=1
+		#for new question, find or insert paper
+		q_year=request.POST.get('paper_year','')
+		q_month=request.POST.get('paper_month','')
+		q_num=request.POST.get('paper_num','')
+		q_topic=request.POST.get('paper_topic','')
+		q_subtopic=request.POST.get('paper_subtopic','')
+		q_paper_id=q_year
+		if(q_month=='11' and q_num=='1'):
+			q_paper_id=q_paper_id+'01'
+		elif(q_month=='11' and q_num=='2'):
+			q_paper_id=q_paper_id+'02'
+		q_paper_id=q_paper_id+'{0:0>3}'.format(subj_id)
+		cur_paper=Paper.objects.filter(id=q_paper_id)
+		if(len(cur_paper)==0):
+			cur_paper=Paper()
+			cur_paper.id=q_paper_id
+			cur_paper.year=q_year
+			cur_paper.month=q_month
+			cur_paper.month=q_month
+			cur_paper.number=q_num
+			cur_paper.subject=Subject.objects.get(id=subj_id)
+			#create paperset
+			cur_paperset = Paperset()
+			cur_paperset.title = str(q_year)+" "+cur_paper.month
+			cur_paperset.subject = cur_paper.subject
+			cur_paperset.save()
+			cur_paper.paperset = cur_paperset
+			cur_paper.save()
+			
+		else:
+			q_no=len(Question.objects.filter(paper_id=q_paper_id))+1
+			
+		q_item=Question()
+		#generate id
+		q_item.id=q_year
+		if(q_month=='11' and q_num=='1'):
+			q_item.id=q_item.id+'01'
+		elif(q_month=='11' and q_num=='2'):
+			q_item.id=q_item.id+'02'
+		q_item.id=q_item.id+'{0:0>3}'.format(subj_id)
+		q_item.id=q_item.id+'{0:0>3}'.format(q_no)
+		q_item.source = q_source
+		q_item.difficulty = q_difficulty
+		#end
+	
+		q_item.paper_id=Paper.objects.get(id=q_paper_id)
+		q_item.question_no=q_no
+	
+	
+	q_item.topic_id=Topic.objects.get(id=q_topic).id
+	q_item.subtopic_id=Subtopic.objects.get(id=q_subtopic).id
+	q_item.content=q_content
+	q_item.marks=q_marks
+	q_item.input=q_input
+	q_item.type=q_type
+	q_item.type_answer=q_ans
+
+	
+	#must include
+	q_item.q_category=''
+	q_item.q_type='exam'
+	q_item.difficulty_level=''
+	q_item.num_views='0'
+	
+	q_item.save()
+	
+	#tag update
+	oldtags =Tag.objects.filter(question_id=q_item.id)
+	oldtags.delete()
+	
+	#existing tag format
+	etags = q_tag.split(';') #split into tags
+	for etag in etags:
+		if etag != '':
+			if len(TagDefinition.objects.filter(id=int(etag))) > 0: #verify tag exists
+				tagdef = TagDefinition.objects.get(id=int(etag))
+				new_etag_record = Tag(question=q_item, tagdefinition=tagdef)
+				new_etag_record.save()
+	#new tag format
+	ntags = q_new_tag.split('||') #split into tags
+	for ntag in ntags:
+		columns = ntag.split(';')
+		if len(columns) == 3: #title, content, type
+			new_ntag_record = TagDefinition(title=columns[0], content=columns[1], type=columns[2])
+			new_ntag_record.save() #create the new tag first
+			new_etag_record = Tag(question=q_item, tagdefinition=new_ntag_record)
+			new_etag_record.save() #save the relationship with the question
+	
+	#answer update
+	if len(Solution.objects.filter(question_id=q_item.id)) > 0: #update existing
+		cur_answer = Solution.objects.get(question_id=q_item.id)
+		cur_answer.content = q_sol
+		cur_answer.save()
+	else:
+		cur_answer = Solution(question_id=q_item, content=q_sol)
+		cur_answer.save()
+
+	#formula update and indexing
+	
+	#formulae=formula.objects.filter(question_id=q_item.id)
+	#formulae.delete();
+	#q_formula_list = q_formula.split(';')
+	#for f in q_formula_list:
+	#	if f != '':
+	#		cur_formula = formula(question_id=q_item.id, formula=f, status=0)
+	#		cur_formula.save()
+
+	#index(request)
+		
+	return add_math_question(request,list_type,subj_id,page_no)

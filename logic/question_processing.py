@@ -1,14 +1,10 @@
 from __future__ import division
 from ExamPapers.DBManagement.models import *
-from sympy import *
-from sympy.parsing.sympy_parser import parse_expr
 from ExamPapers.DBManagement.models import Image
 from ExamPapers.settings import ROOT_PATH
 import re
 import math
 
-from ExamPapers.logic.question_processing import *
-from ExamPapers.logic.ans_check import *
 
 def getViewQuestion(qid):
 	"""

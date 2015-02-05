@@ -33,8 +33,10 @@
 	<hr class = "black">
 	
     <div class="alert alert-info" role="alert">Hi there! Thank you for helping us grow our data base by contributing content</a></div>
+	
 	<form   method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
+	<div class="well">
 		<div class="col-sm-1"><label>Subject:</label></div>
 		<div class="col-sm-11">
 			{{ form.subject }} 
@@ -76,6 +78,8 @@
 			<font color = "red">{{ form.title.errors }}</font>
 		</div>
 		<br/><br/>
+		</div>
+		
 		<div class = "col-sm-12">
 			<table style="width:100%">
 				<tr>
@@ -89,11 +93,25 @@
 					</td>
 					
 					<td></td>
-					<td><div id="q_display"></div>
+					<td><div id="q_display">{{q.content}}</div>
 					</td>
 				</tr>
 			</table>
-			<hr/>
+			<br/>
+			<div class="col-sm-1"><label>Question Images:</label></div>
+			<div class="col-sm-11">
+				<table >
+					<tr>
+						<td width = "20%">{{ form.docfile1 }}</td>
+						<td width = "20%">{{ form.docfile2 }}</td>
+						<td width = "20%">{{ form.docfile3 }}</td>
+						<td style="text-align:right" width = "40%"><small align = "right">Need to show a graph? Try <a   target="_blank" href = "http://web.geogebra.org/chromeapp/">Geogebra</a></small></td>
+					</tr>
+				</table>
+			</div>
+			<br/><br/><hr>
+		</div>
+		<div class="col-sm-12">
 			<table style="width:100%">
 				<tr>
 					<th width="50%">Solution</th>
@@ -111,16 +129,8 @@
 			</table>
 		</div>
 		<br/>
-		<div class="col-sm-1"><label>Image:</label></div>
-		<div class="col-sm-11">
-			<table >
-				<tr>
-					<td width = "35%">{{ form.docfile }}</td>
-					<td style="text-align:right" width = "75%"><small align = "right">Need to show a graph? Try <a   target="_blank" href = "http://web.geogebra.org/chromeapp/">Geogebra</a></small></td>
-				</tr>
-			</table>
-		</div>
-		<br/>	<br/>	
+
+		<br/><br/><hr>
 		<input type = "submit" style="width:100%" class="btn btn-primary" value = "Submit">
 	</form>
 {% endblock %}

@@ -1,6 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
 <script type="text/javascript">
+        function input(){
+			  var str = document.getElementById("q_content").value;
+			  var outnode = document.getElementById("q_display");
+			  var n = outnode.childNodes.length;
+			  for (var i=0; i<n; i++)
+				outnode.removeChild(outnode.firstChild);
+			  outnode.appendChild(document.createTextNode(str));
+			  //AMprocessNode(outnode);
+			  MathJax.Hub.Queue(["Typeset",MathJax.Hub,outnode]);
+			  $("#outputMathML").val($("#outputNode").html());
+
+			  document.getElementById("q_display").style.display = "";
+        }
+		function input2(){
+			  var str = document.getElementById("q_solution").value;
+			  var outnode = document.getElementById("q_sdisplay");
+			  var n = outnode.childNodes.length;
+			  for (var i=0; i<n; i++)
+				outnode.removeChild(outnode.firstChild);
+			  outnode.appendChild(document.createTextNode(str));
+			  //AMprocessNode(outnode);
+			  MathJax.Hub.Queue(["Typeset",MathJax.Hub,outnode]);
+			  $("#outputMathML").val($("#outputNode").html());
+
+			  document.getElementById("q_sdisplay").style.display = "";
+        }
 function removeTable(b_elem){
 var t=b_elem.parentNode;
 while(t.tagName.toLowerCase()!='table'){
@@ -288,70 +314,41 @@ function delete_page(){
 captureInput();
 document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 }
-        function input(){
-			  var str = document.getElementById("q_content").value;
-			  var outnode = document.getElementById("q_display");
-			  var n = outnode.childNodes.length;
-			  for (var i=0; i<n; i++)
-				outnode.removeChild(outnode.firstChild);
-			  outnode.appendChild(document.createTextNode(str));
-			  //AMprocessNode(outnode);
-			  MathJax.Hub.Queue(["Typeset",MathJax.Hub,outnode]);
-			  $("#outputMathML").val($("#outputNode").html());
-
-			  document.getElementById("q_display").style.display = "";
-        }
-		function input2(){
-			  var str = document.getElementById("q_solution").value;
-			  var outnode = document.getElementById("q_sdisplay");
-			  var n = outnode.childNodes.length;
-			  for (var i=0; i<n; i++)
-				outnode.removeChild(outnode.firstChild);
-			  outnode.appendChild(document.createTextNode(str));
-			  //AMprocessNode(outnode);
-			  MathJax.Hub.Queue(["Typeset",MathJax.Hub,outnode]);
-			  $("#outputMathML").val($("#outputNode").html());
-
-			  document.getElementById("q_sdisplay").style.display = "";
-        }
 </script>
-<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
 		<h1>Question Form</h1>
 		<hr class = "black">
-		<form id='preview_form' method='post' action='/{{subj_id}}/control/math_admin_modify/{{list_type}}/{{page_no}}/?list_id={{list_id}}'>
-			
-			
-			
-			
+		<form id='preview_form' method='post' action='/{{cur.id}}/control/math_admin_modify/{{list_type}}/{{page_no}}/?list_id={{list_id}}'>
 			{% if question %}
-			<div class="col-sm-1"><label>Question:</label></div>
-			<div class="col-sm-11">{{question.id}}</div>
-			<hr/><hr/>
-			{% endif%}
-			<div class="col-sm-12">
-			<div class="col-sm-1"><label>Topic:</label></div>
-			<div class="col-sm-11">
-				<select name='topic' class="form-control">
-					{% for t in topics %}
-						<option {%if topic == t.title%}selected{%endif%} value='{{t.id}}'>{{t.title}}</option>
-					{% endfor %}
-				</select>
-			</div>
-			<div class="col-sm-1"><label>Subtopic:</label></div>
-			<br/><br/>
-			<div class="col-sm-11">
-				<select name='subtopic' class="form-control">
-							{% for t in subtopics %}
-								<option {%if subtopic == t.title%}selected{%endif%} value='{{t.id}}'>{{t.title}}</option>
-							{% endfor %}
+			<table style="width:100%">
+				<tr>
+					<th width = "20%">Question:</th>
+					<td width = "80%">{{question.id}}</td>
+				</tr>
+				<tr>
+					<th>Topic:</th>
+					<td>
+						<select class="form-control" name="paper_topic">
+							{% for t in topics%}
+								<option {%if t.title == topic%}selected{%endif%} value = {{t.id}}>{{t.title}}</option>
+							{% endfor%}
 						</select>
-			</div>
-
-		</div>
-		<br/><br/>
-			{% if not question %}
-			<div class="col-sm-12">
-				<div class="col-sm-1"><label>Paper:</label></div>
+					</td>
+				</tr>
+				<tr>
+					<th>Sub-Topic:</th>
+					<td>
+						<select class="form-control" name="paper_subtopic">
+							{% for t in subtopics%}
+								<option {%if t.title == subtopic%}selected{%endif%} value = {{t.id}}>{{t.title}}</option>
+							{% endfor%}
+						</select>
+					</td>
+				</tr>
+			</table>
+			
+			{% else %}
+			<div class="container-fluid">
+				<div class="col-sm-1">Paper :</div>
 				<div class="col-sm-4">
 					<select name='paper_year' class="form-control">
 						{% for y in year_list %}
@@ -390,7 +387,26 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 				</div>
 			</div>
 			
-			
+			<div class="container-fluid">
+				<br/><br/>
+				<div class="col-sm-1">Topic</div>
+				<div class="col-sm-11">
+					<select name='paper_topic' class="form-control">
+						{% for t in topics %}
+							<option value='{{t.id}}'>{{t.title}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<br/><br/>
+				<div class="col-sm-1">Sub-Topic :</div>
+				<div class="col-sm-11">
+					<select name='paper_subtopic' class="form-control">
+						{% for t in subtopics %}
+							<option value='{{t.id}}'>{{t.title}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
 		{% endif %}
 		<div class="container-fluid" style="padding-top:30px">
 		<hr/>
@@ -401,13 +417,9 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 					<th width="45%">Question Preview</th>
 				</tr>
 				<tr>
-					<td><textarea onKeyUp="input()" id='q_content' name='q_content' cols='70' rows='10' class = "form-control">{{display}}</textarea>
-					<a href="javascript:OpenLatexEditor('testbox','html','')">Launch LaTex Equation Editor</a>
-					</td>
-					
+					<td><textarea onKeyUp="input()" id='q_content' name='q_content' cols='70' rows='10' class = "form-control">{{display}}</textarea></td>
 					<td></td>
-					<td><div id="q_display">{{display}}</div>
-					</td>
+					<td><div id = "q_display">{{display}}</div></td>
 				</tr>
 			</table>
 			<hr/>
@@ -415,15 +427,12 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 				<tr>
 					<th width="50%">Solution</th>
 					<th width="5%"></th>
-
 					<th width="45%">Solution Preview</th>
 				</tr>
 				<tr>
-					<td><textarea onKeyUp="input2()" id='q_solution' name='answer' cols='70' rows='10' class = "form-control">{{solution}}</textarea>
-					<a href="javascript:OpenLatexEditor('testbox','html','')">Launch LaTex Equation Editor</a>
-					</td>
+					<td><textarea id='q_solution' onKeyUp="input2()" name='answer' cols='70' rows='10' class = "form-control">{{solution}}</textarea></td>
 					<td></td>
-					<td><div id="q_sdisplay">{{solution}}</div></td>
+					<td><div id = "q_sdisplay">{{solution}}</div></td>
 				</tr>
 			</table>
 			<input type="hidden" id='formulae' name='formulae' >
@@ -472,9 +481,9 @@ document.getElementById('d_q_id').value=document.getElementById('p_q_id').value;
 			</div>
 		</form>
 		<div class="col-sm-1">
-		<form action="/math_admin_form/{{list_type}}/{{page_no}}/{{subj_id}}/{{list_id}}/-1/" method="get">
+		<form action="/{{cur.id}}/control/math_admin_delete/" method="post">
 			{% csrf_token %}
-			<input type='hidden' id='d_q_id' name='d_q_id'/>
+			<input type='hidden' id='d_q_id' name='d_q_id' value='{{question.id}}'/>
 			<div class="col-sm-1" align="right">
 				<input type='submit' class='btn btn-danger' value='Delete'onclick="if(confirm('Are you sure you want to delete the question?')) alert('Click OK to confirm!'); else return false"/>
 			</div>

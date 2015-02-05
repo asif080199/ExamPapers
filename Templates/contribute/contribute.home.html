@@ -24,7 +24,8 @@
 					<td>{{q.author}}</td>
 					<td>{{q.created}}</td>
 					<td>{{q.image}}</td>
-					<td><a href = "/{{cur.id}}/contribute/delete/{{q.id}}/" ><button class="btn btn-danger btn-sm">Delete</button></td>
+					<td><a href = "/{{cur.id}}/contribute/edit/{{q.id}}/" ><button class="btn btn-warning btn-sm">Edit</button>
+					<a href = "/{{cur.id}}/contribute/delete/{{q.id}}/" ><button class="btn btn-danger btn-sm">Delete</button></td>
 				</tr>										
 				{% endfor %}
 				</tbody>

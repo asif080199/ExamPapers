@@ -32,9 +32,12 @@ import math, re, random, sys
 from datetime import timedelta
 from django.utils import timezone
 
-from ExamPapers.logic.common import *
 from ExamPapers.logic.question_processing import *
-
+def current(subj_id):
+	param = {}
+	param['cur'] = Subject.objects.get(id = subj_id)
+	param['level'] = Subject.objects.all()
+	return param
 """
 -------------------------------------
 Account
@@ -374,7 +377,7 @@ def tag(request,subj_id,tagId):
 		q.tagdef = []
 		for ta in q.tag:
 			tdeg = TagDefinition.objects.get(id = ta.tagdefinition.id)
-			print ta
+			##print ta
 			if tdeg not in q.tagdef:
 				tdeg.title = tdeg.title.replace("_"," ")
 				q.tagdef.append(tdeg)

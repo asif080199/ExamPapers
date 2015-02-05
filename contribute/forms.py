@@ -6,10 +6,13 @@ from django.core.exceptions import ValidationError
 
 
 class ContributeForm(forms.ModelForm):
-	docfile = forms.FileField(label='Select a file',help_text='max. 42 megabytes',required=False)
+	docfile1 = forms.FileField(label='Select a file',help_text='max. 42 megabytes',required=False)
+	docfile2 = forms.FileField(label='Select a file',help_text='max. 42 megabytes',required=False)
+	docfile3 = forms.FileField(label='Select a file',help_text='max. 42 megabytes',required=False)
+
 	title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder' : 'Title'}),required = True)
-	content = forms.CharField(widget=forms.Textarea(attrs={'onKeyUp':  "input()" , 'id' : 'q_content' , 'class' : 'form-control'}),required = True)
-	solution = forms.CharField(widget=forms.Textarea(attrs={'onKeyUp':  "input2()" , 'id' : 'q_solution' , 'class' : 'form-control'}),required = True)
+	content = forms.CharField(widget=forms.Textarea(attrs={'onKeyUp':  "input()" , 'onLoad':  "input1()" ,'id' : 'q_content' , 'class' : 'form-control'}),required = True)
+	solution = forms.CharField(widget=forms.Textarea(attrs={'onKeyUp':  "input2()" ,'onLoad':  "input2()" , 'id' : 'q_solution' , 'class' : 'form-control'}),required = True)
 	source = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder' : 'Source'}),required = True)
 	#hidden
 	def __init__(self, *args, **kwargs):

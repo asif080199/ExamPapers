@@ -5,9 +5,7 @@
 {% block content %}
 		<h1>Questions Database</h1>
 		<hr class = "black">
-			<form action="/{{cur.id}}/control/math_admin_form/{{list_type}}/{{page_no}}/{{subj_id}}/{{list_id}}/-1/" method="get">
-				<input type="submit" class="btn btn-primary" id="submit"  name="attempt"  value="Insert New Question"/>
-			</form>
+			
 			<br/>
 			<table id="adminTable" class="display" cellspacing="0" width="100%">
 				<thead>
@@ -43,7 +41,7 @@
 			<hr class = "black">
 			
 					<b>Browse by Paper:</b>
-					<form name="papers" action="/{{subj_id}}/control/math_admin_list/paper/1/" method="get">
+					<form name="papers" action="/{{cur.id}}/control/math_admin_list/paper/1/" method="get">
 						<table width = "100%">
 							<tr>
 								<td width = "90%">
@@ -60,7 +58,7 @@
 						</table>
 					</form>
 					<b>Browse by Topic:</b>					
-					<form name="papers" action="/{{subj_id}}/control/math_admin_list/topic/1/" method="get">
+					<form name="papers" action="/{{cur.id}}/control/math_admin_list/topic/1/" method="get">
 						<table width = "100%">
 								<tr>
 									<td width = "90%">

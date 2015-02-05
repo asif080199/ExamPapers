@@ -33,12 +33,7 @@ urlpatterns = patterns('',
 	(r'^(?P<subj_id>\d*)/study/(?P<tp>\d*)', views.study),	
 	(r'^(?P<subj_id>\d*)/concept/(?P<conceptId>\d*)', views.concept),	
 	(r'^(?P<subj_id>\d*)/tag/(?P<tagId>\d*)', views.tag),	
-	#cat
-	url(r'^(?P<subj_id>\d*)/cat/', include('ExamPapers.cat.urls')),
-	
-	#paper
-	url(r'^(?P<subj_id>\d*)/paper/', include('ExamPapers.paper.urls')),
-	
+
 	#statistics
 	(r'^(?P<subj_id>\d*)/statistics/(?P<type>\d*)', views.statistics),	
 	
@@ -66,10 +61,6 @@ urlpatterns = patterns('',
 	#control
 	url(r'^(?P<subj_id>\d*)/control/', include('ExamPapers.control.urls')),
 
-	
-	#practice
-	url(r'^(?P<subj_id>\d*)/practice/', include('ExamPapers.practice.urls')),
-	
 	#fsearch
 	url(r'^(?P<subj_id>\d*)/fsearch/', include('ExamPapers.fsearch.urls')),
 	
