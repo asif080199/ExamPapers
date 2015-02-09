@@ -479,6 +479,9 @@ def viewquestion(request,subj_id,qid):
 	param = {}
 	param.update(current(subj_id))
 	question = getViewQuestion(qid)
+	print "----------------------"
+	print question.images
+	print "----------------------"
 	param['question'] = question
 	questions = Question.objects.filter(topic = question.topic).exclude(id = question.id)
 	param['questions'] = questions[:5]

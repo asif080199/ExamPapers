@@ -762,8 +762,9 @@ def AddMaths_Admin_QuestionForm(request,list_type,page_no,list_id,subj_id,questi
 	
 	
 def AddMaths_qChange(request,list_type,page_no,subj_id):
-
+	
 	q_id=request.POST.get('a_q_id','')
+
 	q_content=request.POST.get('a_content','')
 	q_sol=request.POST.get('a_sol','')
 	q_formula=request.POST.get('a_formula','')
@@ -778,6 +779,8 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):
 	q_marks=request.POST.get('a_marks','')
 	q_source=request.POST.get('q_source','')
 	q_difficulty=request.POST.get('q_difficulty','')
+	#aImage = request.FILES['sentFile']
+	#print aImage.name
 	
 	q_item=None
 	if(q_id!=''):
@@ -798,6 +801,7 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):
 			q_paper_id=q_paper_id+'02'
 		q_paper_id=q_paper_id+'{0:0>3}'.format(subj_id)
 		cur_paper=Paper.objects.filter(id=q_paper_id)
+		
 		if(len(cur_paper)==0):
 			cur_paper=Paper()
 			cur_paper.id=q_paper_id
@@ -807,6 +811,7 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):
 			cur_paper.number=q_num
 			cur_paper.subject=Subject.objects.get(id=subj_id)
 			#create paperset
+			
 			cur_paperset = Paperset()
 			cur_paperset.title = str(q_year)+" "+cur_paper.month
 			cur_paperset.subject = cur_paper.subject
@@ -841,8 +846,34 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):
 	q_item.input=q_input
 	q_item.type=q_type
 	q_item.type_answer=q_ans
-
 	
+	if request.FILES:
+		folder = ""
+		f = request.FILES['sentFile']
+		
+		type=request.POST.get('type','Question')
+		if q_item.topic.block.subject.id == 0:
+			path = "/static/image/amath/extra/"
+		elif q_item.topic.block.subject.id == 1:
+			path = "/static/image/emath/extra/"
+		elif q_item.topic.block.subject.id == 2:
+			path = "/static/image/h2math/extra/"
+		elif q_item.topic.block.subject.id == 3:
+			path = "/static/image/psle/extra/"
+
+		des = 'resource'+path+f.name
+		savePath = path+f.name
+		destination = open(des, 'wb+')
+		for chunk in f.chunks():
+			destination.write(chunk)
+		destination.close()
+		
+		new = Image()
+		new.qa=type
+		new.qa_id = q_item
+		new.imagepath = savePath
+		new.save()
+		
 	#must include
 	q_item.q_category=''
 	q_item.q_type='exam'

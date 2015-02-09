@@ -1,1 +1,0 @@
-This folder contains code for assessment logic

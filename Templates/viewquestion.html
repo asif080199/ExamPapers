@@ -37,10 +37,20 @@
 		<div class="thumbnail ftext" >
 			
 			{{question.content|safe}}	
+			{% for i in question.images%}
+				{%if i.qa == 'Question'%}
+					<br/><img src={{i.imagepath}} max-height="200px">
+				{%endif %}				
+			{% endfor %}
 			<hr/>
 			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
 			<div style = "display:none;" id="sol">
 				{{question.solution|safe}}
+				{% for i in question.images%}
+				{%if i.qa ==  'Solution'%}
+					<br/><img src={{i.imagepath}}>
+				{%endif %}				
+			{% endfor %}
 			</div>
 		</div>
 		<div class="thumbnail ftext">

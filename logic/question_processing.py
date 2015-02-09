@@ -21,6 +21,7 @@ def getViewQuestion(qid):
 	question.stars = star((question.marks+1)/2)
 	question.solution = formatContent(question,"Solution")
 	question.answer = "Not available"
+	question.images = Image.objects.filter(qa_id = question)
 	if Answer.objects.filter(question = question.id).count != 0:
 		question.answer = Answer.objects.filter(question = question.id)
 	question.tag = Tag.objects.filter(question_id = question.id)
