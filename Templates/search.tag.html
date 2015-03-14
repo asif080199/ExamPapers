@@ -1,16 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
-	<div class="col-sm-9">
-		{% include 'searchform.tag.html' %}
-	</div>
+	
 	<div class="col-sm-3">
 		<div class='nav nav-tabs'>
 			<li {% if type == "question" or type = None %} class="active" {% endif %}><a href="/{{cur.id}}/resultTag/?type=question&tp={{tp}}&query={{query}}"><span>Questions</span></a></li>
 			<li {% if type == "image" %} class="active" {% endif %}><a href="/{{cur.id}}/resultTag/?type=image&tp={{tp}}&query={{query}}"><span>Images</span></a></li>
 		</div>
+		<div class="panel panel-default">
+            <div class="panel-body">
+				{% for b in blocks %}
+					<b>{{b.title}}</b><br/>
+					 <ul class="ulnav">
+					 {% for t in b.topics %}
+						{%if t.count > 0%}
+							<li class="linav2"><a href=" /{{cur.id}}/resultTag/?type={{type}}&tp={{t.id}}&query={{query}}"> {% if t.id == tp %}<span class="text-muted"> {% endif %}{{t.title}} ({{t.count}}){% if t.id == tp %}</span> {% endif %}</a></li>
+							{% for q in t.questions%}
+								{{q}}
+							{%endfor%}
+						{% endif %}
+					 {% endfor %}
+					</ul>
+				{% endfor %}
+			</div>
+          </div>
+		  <div class="alert alert-warning">
+			Can't find any similar problem? Create <a href = "/{{cur.id}}/qna/form">new problem</a> in <a href = "/{{cur.id}}/qna/home">Q&A forum </a>for public help.
+		  </div>
 	</div>
-
-	
+	<div class="col-sm-9">
+		{% include 'searchform.tag.html' %}
+	</div>
 	
 	<div class="col-sm-9">
 		<label class = "head">Search Result:</label> (Topic: {% if tp == -1 %} All topics{% endif %}
@@ -73,26 +92,5 @@
 		{% endif %}
 	</div>
 	
-	<div class="col-sm-3">
-		<div class="panel panel-default">
-            <div class="panel-body">
-				{% for b in blocks %}
-					<b>{{b.title}}</b><br/>
-					 <ul class="ulnav">
-					 {% for t in b.topics %}
-						{%if t.count > 0%}
-							<li class="linav2"><a href=" /{{cur.id}}/resultTag/?type={{type}}&tp={{t.id}}&query={{query}}"> {% if t.id == tp %}<span class="text-muted"> {% endif %}{{t.title}} ({{t.count}}){% if t.id == tp %}</span> {% endif %}</a></li>
-							{% for q in t.questions%}
-								{{q}}
-							{%endfor%}
-						{% endif %}
-					 {% endfor %}
-					</ul>
-				{% endfor %}
-			</div>
-          </div>
-		  <div class="alert alert-warning">
-			Can't find any similar problem? Create <a href = "/{{cur.id}}/qna/form">new problem</a> in <a href = "/{{cur.id}}/qna/home">Q&A forum </a>for public help.
-		  </div>
-	</div>
+	
 {% endblock %}

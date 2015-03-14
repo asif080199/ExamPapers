@@ -16,6 +16,7 @@ from ExamPapers.searchc.views import star
 from ExamPapers.fsearch.formula_searcher import search_content_formula
 from ExamPapers.fsearch.formula_indexer import *
 import re
+from datetime import datetime
 
 @login_required	
 def home(request,subj_id):
@@ -25,6 +26,7 @@ def home(request,subj_id):
 	return render(request,'fsearch/home.html', param)
 
 def result(request, subj_id):
+	a = datetime.now()
 	param={}
 	param.update(current(subj_id))
 	
@@ -82,6 +84,11 @@ def result(request, subj_id):
 	param['questions'] = questions
 	param['total'] = total_rs
 	param['query'] = original
+	b = datetime.now()
+	c = b - a
+	print "--------------"
+	print c
+	print "--------------"
 	return render_to_response('fsearch/result.html', param, context_instance=RequestContext(request))
 
 def index(formula_list):

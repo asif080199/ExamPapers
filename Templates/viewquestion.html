@@ -31,35 +31,7 @@
 
 {% block content %}
 	<div class = "col-sm-12"><label class="head">{{question.subtopic}} #  {{question.question_no}}</label></div>
-    <div class="col-sm-9">
-        <div class="accordion" id="accordion2">
-		
-		<div class="thumbnail ftext" >
-			
-			{{question.content|safe}}	
-			{% for i in question.images%}
-				{%if i.qa == 'Question'%}
-					<br/><img src={{i.imagepath}} max-height="200px">
-				{%endif %}				
-			{% endfor %}
-			<hr/>
-			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
-			<div style = "display:none;" id="sol">
-				{{question.solution|safe}}
-				{% for i in question.images%}
-				{%if i.qa ==  'Solution'%}
-					<br/><img src={{i.imagepath}}>
-				{%endif %}				
-			{% endfor %}
-			</div>
-		</div>
-		<div class="thumbnail ftext">
-			<h4>Discussion</h4>
-			{% with question as object %}{% include "comments.html" %}{% endwith %}
-		</div>
-        
-		</div>
-    </div>
+    
 	<div class="col-sm-3">
 		<div class="panel panel-default">
             <div class="panel-heading">
@@ -100,4 +72,33 @@
           </div>
 	</div>
 	</div>
+	<div class="col-sm-9">
+        <div class="accordion" id="accordion2">
+		
+		<div class="thumbnail ftext" >
+			
+			{{question.content|safe}}	
+			{% for i in question.images%}
+				{%if i.qa == 'Question'%}
+					<br/><img src={{i.imagepath}} max-height="200px">
+				{%endif %}				
+			{% endfor %}
+			<hr/>
+			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
+			<div style = "display:none;" id="sol">
+				{{question.solution|safe}}
+				{% for i in question.images%}
+				{%if i.qa ==  'Solution'%}
+					<br/><img src={{i.imagepath}}>
+				{%endif %}				
+			{% endfor %}
+			</div>
+		</div>
+		<div class="thumbnail ftext">
+			<h4>Discussion</h4>
+			{% with question as object %}{% include "comments.html" %}{% endwith %}
+		</div>
+        
+		</div>
+    </div>
 {% endblock %}

@@ -23,6 +23,7 @@ from ExamPapers.searchc.clustering import *
 import asciitomathml.asciitomathml
 import numpy as np
 import re
+from datetime import datetime
 
 def cluster(request,subj_id):	#cluster admin
 	param = {}
@@ -70,6 +71,19 @@ def cluster(request,subj_id):	#cluster admin
 def homeFormula(request,subj_id):
 	param = {}
 	param.update(current(subj_id))
+	clusters = readCluster('A.68.formula')
+
+	final = []
+	for cluster in clusters:
+		content = []
+		ids = cluster[0]
+		print ids
+		for id in ids:
+			print Formula.objects.get(indexid= id).indexid
+			print Formula.objects.get(indexid= id).formula
+		final.append(content)
+		
+	param['clusters'] = final
 	return render(request,'searchc/home.formula.html',param) 	
 def homeTag(request,subj_id):
 	param = {}
@@ -91,7 +105,7 @@ def resultFormula(request,subj_id):
 	"""
 	query = request.POST.get("query","")
 	queryVector =  extractFormulaFeature(query)
-	clusters = readCluster('H.50.formula')		# cluster name
+	clusters = readCluster('A.68.formula')		# cluster name
 	distance = []
 	
 	"""
@@ -100,7 +114,7 @@ def resultFormula(request,subj_id):
 	for cluster in clusters:
 		distance.append(euclidean(queryVector,cluster[2]))	#distance to cluster		
 	arr = np.array(distance)
-	index =  arr.argsort()[:7]
+	index =  arr.argsort()[:1]
 	
 	"""
 	Format result

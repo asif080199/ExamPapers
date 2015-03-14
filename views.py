@@ -4,7 +4,7 @@ from DBManagement.models import *
 from qna.models import *
 from haystack.query import SearchQuerySet
 import datetime
-
+from datetime import datetime
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import RequestContext
 from django.template.loader import render_to_string
@@ -38,6 +38,12 @@ def current(subj_id):
 	param['cur'] = Subject.objects.get(id = subj_id)
 	param['level'] = Subject.objects.all()
 	return param
+
+def test(request):
+	param['formula'] = FormulaG.objects.all()
+	return param
+
+	
 """
 -------------------------------------
 Account
@@ -393,6 +399,7 @@ Search
 """	
 @login_required			
 def search(request,subj_id,type,tp,searchtext):
+	a = datetime.now()
 	total = 0
 	param={}
 	input = ""
@@ -417,6 +424,7 @@ def search(request,subj_id,type,tp,searchtext):
 	
 	#get all match question
 	questions = SearchQuerySet().autocomplete(content=input).filter(subject_id=subj_id)
+	
 	
 	finalQuestions = []
 	if type == "question":
@@ -464,7 +472,11 @@ def search(request,subj_id,type,tp,searchtext):
 		param['topic'] = Topic.objects.get(id = tp).title
 	else:
 		param['topic'] = "All"
-		
+	b = datetime.now()
+	c = b - a
+	print "--------------"
+	print c
+	print "--------------"
 	param['blocks'] = blocks
 	param['total'] = total
 	param['type'] = type
@@ -472,6 +484,14 @@ def search(request,subj_id,type,tp,searchtext):
 	param['tp'] = int(tp)
 	
 	param['searchtext'] = input
+	print "Hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+	print "----------------------"
+	print len(questions)
+	for q in questions:
+		formula = Formula.objects.filter(question = q.id)
+		for f in formula:
+			print f
+	print "----------------------"
 	return render(request,'search.html',param)
 
 @login_required		

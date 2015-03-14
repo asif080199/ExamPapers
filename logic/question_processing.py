@@ -42,21 +42,26 @@ def formatContent(question,type):
 	images = list(Image.objects.filter(qa_id=question.id, qa=type).only('id','imagepath').order_by('id').values())
 	
 	if type == "Question":
+		'''
 		for i in images:
 			html_img = "<tempimage style = 'max-width:400px' src='" + i['imagepath'] + "' alt='" + i['imagepath'] + "' />"
 			question.content = question.content.replace('img', html_img, 1)
 		question.content = question.content.replace('<tempimage', '<img')
+		'''
 		question.content = question.content.replace(';','<br/>')
 		print question.content
 		return question.content
 	if type =="Solution":
+		
 		solutionContent = "Not available"
 		if Solution.objects.filter(question_id = question.id).count() != 0:
 			solutionContent  = Solution.objects.get(question_id = question.id).content
+		'''
 		for i in images:
 			html_img = "<tempimage style = 'max-width:400px' src='" + i['imagepath'] + "' alt='" + i['imagepath'] + "' />"
 			solutionContent = solutionContent.replace('img', html_img, 1)
 		solutionContent = solutionContent.replace('<tempimage', '<img')
+		'''
 		solutionContent = solutionContent.replace(';','<br/>')
 		return solutionContent
 		

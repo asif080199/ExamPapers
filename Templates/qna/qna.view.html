@@ -7,7 +7,7 @@
 		<!--Story display--->
 		<div class="thumbnail ftext" >
 			<h4>{{ask.title}}</h4>
-			<table>
+			<table width="100%"> 
 				<tr>
 					<td>
 						<table>
@@ -29,18 +29,18 @@
 							</td></tr>
 						</table>
 					</td>
-					<td>{{ask.content|safe}}{% for i in ask.image%}
+					<td >{{ask.content|safe}}{% for i in ask.image%}
 							<img src = "/{{i.imageurl}}" max-width = "200px">
 						{% endfor %}</td>
 				</tr>
 				<tr>
-					<td colspan="2">
+					<td colspan="2" width="100%">
 						
-						
+						<small class="pull-right"> By {{ask.author.first_name}} {{ask.author.last_name}} at {{ask.created}} </small>
 						{% if ask.author = request.user%}
 							<small class="pull-left"><a href = "/{{cur.id}}/qna/edit/{{ask.id}}">Edit</a>&nbsp;&nbsp;<a href = "/{{cur.id}}/qna/delete/{{ask.id}}">Delete</a></small>
 						{% endif %}
-						<small class="pull-right"> By {{ask.author.first_name}} {{ask.author.last_name}} at {{ask.created}} </small>
+						
 					</td>
 				</tr>
 			</table>

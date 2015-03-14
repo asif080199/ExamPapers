@@ -130,6 +130,7 @@ def extractFormulaFeature(query):
 				f = semantic_rep(f)
 				if  f != "":
 					formula.semantic.append(f)
+	'''
 	#structure
 	if formula.structure_term!= '[]':
 		f_structure_array = formula.structure_term
@@ -153,6 +154,7 @@ def extractFormulaFeature(query):
 			f = var_rep(f)
 			if f != "":
 				formula.variable.append(f)
+	'''
 	"""
 	Step 4: Build vector
 	"""
@@ -165,17 +167,19 @@ def extractFormulaFeature(query):
 	
 	for s in readFeature('semantic'):
 		line.append(min(3,formula.semantic.count(s)))
+	'''
 	for s in readFeature('structure'):
 		line.append(min(2,formula.structure.count(s)))
 	for c in readFeature('constant'):
 		line.append(min(1,formula.constant.count(c)))
 	for v in readFeature('variable'):
 		line.append(min(1,formula.variable.count(v)))
+	'''
 	return  line
 def buildFormulaVector():
 	#extract feature term
 	semantic,structure,constant,variable = get_formula_feature_term()
-	featureAll = semantic + structure +constant + variable
+	featureAll = semantic #+ structure +constant + variable
 	with open(path+'/data/all.feature','w') as outfile:
 		json.dump(featureAll,outfile)
 	
@@ -197,6 +201,7 @@ def buildFormulaVector():
 					f = semantic_rep(f)
 					if  f != "":
 						formula.semantic.append(f)
+		'''
 		#structure
 		if formula.structure_term!= '[]':
 			f_structure_array = formula.structure_term[1:-1].split(',')
@@ -218,7 +223,7 @@ def buildFormulaVector():
 				f = var_rep(f)
 				if f != "":
 					formula.variable.append(f)
-	
+		'''
 
 	#------------------ Build data vector ------------------------------
 	term_matrix = []
@@ -228,12 +233,14 @@ def buildFormulaVector():
 		print line
 		for s in semantic:
 			line.append(min(1,f.semantic.count(s)))
+		'''
 		for s in structure:
 			line.append(min(1,f.structure.count(s)))
 		for c in constant:
 			line.append(min(1,f.constant.count(c)))
 		for v in variable:
 			line.append(min(1,f.variable.count(v)))
+		'''
 		term_matrix.append(line)
 		
 	with open(path+'/data/data.vector','w') as outfile:

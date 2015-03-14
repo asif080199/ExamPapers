@@ -1,0 +1,54 @@
+K	49
+Date:	2015-02-22
+Time:	14:49:13.101000
+Duration:	0:00:01.468000
+-------------------
+14	Mfrac
+71	Var
+24	-, Mfenced$-, Mfenced$Var
+57	Mfrac$Mrow$Cn
+28	Msup, Msup$Cn, Msup$Var
+16	Msup, Mfenced, Mfenced$Msup
+26	Mfrac$Mfenced$Cn, Mfrac$Mrow$Cn, Var, Mfenced$Var
+14	Mfrac
+26	Msup$Mrow$Cn
+15	Mfrac, Mfrac$Mrow$, Mfrac$Mrow$Mfenced$Var
+8	Msup$Mfenced$Var
+29	Msub$Var
+11	Mfrac
+59	Mfenced, Mfenced$Var
+8	Mfrac, Mfrac$Mrow$, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Mfenced$Var
+4	Mfrac, Msub, +, Mfenced, Mfrac$Mfenced, Mfrac$Mfenced$+, Mfrac$Mfenced$Cn, Msub$Mrow$Cn, Mfrac$Mfenced$Var, Msub$Mrow$Var
+16	Mfrac, Mfrac$Mrow$Msup
+15	Mfrac
+33	Var
+3	E
+29	Msup, -, Msup$Cn, Msup$Var
+21	E, Msup$E
+4	Mfenced, E, Mfenced$Mfenced, Mfenced$, Mfenced$Mfenced$, Var, Mfenced$Var, Mfenced$Mfenced$Var
+5	Mfrac$Mrow$
+158	Var
+18	Msup$Mrow$Cn
+13	Msup, Mfenced, Msup$Mfenced
+2	Mfrac, +, Msup, Mfenced, E, Mfrac$Mrow$, Mfrac$Mrow$+, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$E, Mfrac$Mrow$Mfenced$, Mfrac$Mrow$Mfenced$Mfrac, Mfrac$Mrow$Mfenced$Mfrac$Mrow$+, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$Mfrac, Mfrac$Mrow$Msup$Mfenced$, Mfrac$Mrow$Msup$Mfenced$Mfrac, Mfrac$Mfenced$Cn, Mfrac$Mrow$Cn, Mfrac$Mrow$Msup$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Cn, Mfrac$Mrow$Msup$Mfenced$Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$Mfrac$Mfenced$Cn, Var, Mfrac$Mrow$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mrow$Msup$Mfenced$Mfrac$Mrow$Var, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$Mfrac$Mrow$Var
+3	Mfrac, +, Mfenced, Mfrac$Mfenced, Mfrac$Mrow$Mfenced$+, Mfrac$Mfenced$Mfenced, Mfrac$Mfenced$Mfenced$+, Mfrac$Mfenced$Cn, Mfrac$Mrow$Cn, Mfrac$Mfenced$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mfenced$Mfenced$Var
+12	Mfenced$+, Mfenced$Msup$Cn
+6	Msup, #8721, Cn, Msup$Var
+24	Mfrac
+3	Mfrac, +, Mfenced, #8721, Munderover, Mfrac$Mrow$Mfenced$+, Munderover$#8721;, Munderover$Mrow$=, Mfrac$Mfenced$Cn, Mfrac$Mrow$Cn, Munderover$Mrow$Cn, Mfrac$Mrow$Mfenced$Var, Munderover$Mrow$Var
+9	Mfrac
+5	Mfrac, Mfenced, Mfrac$Mfenced, Mfrac$Mfenced$Mfenced, Mfrac$Mrow$Var, Mfrac$Mfenced$Mfenced$Var
+6	Msubsup$Mrow$
+7	Msub$Mrow$+
+12	Mfenced
+6	Msup, Mfenced, #8721, Munderover, Munderover$#8721;, Munderover$Mrow$=, Munderover$Mrow$Cn, Munderover$Mrow$Var
+6	Mfrac, Msup, Mfenced, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$Msup$Cn, Mfrac$Mrow$Msup$Mfenced$Cn, Var
+1	Mfrac, +, -, Mfenced, Cos, Sin, #8747, Mfrac$Mfenced, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Mfenced$+, Msubsup$#8747;, Mfrac$Mfenced$Mfenced, Mfrac$Mfenced$Mfenced$, Mfrac$Mrow$Mfenced$, Mfrac$Mrow$Mfenced$Cos, Mfrac$Mrow$Mfenced$Sin, Msubsup$, Mfrac$Mfenced$Mfenced$Cos, Mfrac$Mfenced$Mfenced$-, Mfrac$Mfenced$Mfenced$Sin, Mfrac$Mfenced$Cn, Mfrac$Mrow$Cn, Mfrac$Mfenced$Mfenced$Cn, Msubsup$Cn, Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mfenced$Mfenced$Var
+22	Msup
+24	Var
+16	Mfenced$+
+11	Mfrac
+2	Msub, Msup, Sin, #8747, Msub$Msup$#8747;, Msub$Msup, Msub$Msup$Mrow$, Msub$Cn, Var, Msub$Msup$Mrow$Var
+2	Mfrac, -, Mfenced, E, Mfenced$, Mfenced$Mfrac, Mfenced$Mfrac$Mfenced, Mfenced$Mfrac$Mrow$-, Mfenced$Mfrac$Mfenced$-, Mfenced$Mfrac$Mfenced$Cn, Mfenced$Mfrac$Mrow$Cn, Var, Mfenced$Var, Mfenced$Mfrac$Mrow$Var, Mfenced$Mfrac$Mfenced$Var
+5	Mfenced$Msub$Cn
+2	Msub, Msup, Mfenced, #8747, Msub$Msup$#8747;, Msub$Msup, Msub$Msup$Mrow$, Msup$Mrow$Cn, Msub$Mrow$Cn, Msub$Msup$Mrow$Mfrac$Mfenced$Cn, Msub$Msup$Mrow$Mfrac$Mrow$Cn, Mfenced$Var, Msub$Msup$Mrow$Var

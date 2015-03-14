@@ -10,7 +10,25 @@
 		{% endif %}
 		<label class = "head">{{concept.title}}</label>
 	</div>
-
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+            <div class="panel-body">
+				{% for b in blocks %}
+					<b>{{b.title}}</b><br/>
+					 {% for t in b.topics %}
+						<ul class="ulnav">
+							{% if t.id != tp %}	
+								<li class ="linav"><a href = "/{{cur.id}}/study/?tp={{t.id}}">{{t.title}}</a></li>
+							{% endif%}
+							{% if t.id == tp %}	
+								<span class="text-muted"><li class ="linav">{{t.title}}</li></span>
+							{% endif%}
+						</ul><br/>
+					 {% endfor %}
+				{% endfor  %}
+			</div>
+          </div>
+	</div>
 	<div class="col-sm-9">
 				<div class="well">
 					<label class ="mini">Definition:  </label> {{concept.content}}
@@ -43,23 +61,5 @@
 					</div>
 				</div>
 	</div>
-	<div class="col-sm-3">
-		<div class="panel panel-default">
-            <div class="panel-body">
-				{% for b in blocks %}
-					<b>{{b.title}}</b><br/>
-					 {% for t in b.topics %}
-						<ul class="ulnav">
-							{% if t.id != tp %}	
-								<li class ="linav"><a href = "/{{cur.id}}/study/?tp={{t.id}}">{{t.title}}</a></li>
-							{% endif%}
-							{% if t.id == tp %}	
-								<span class="text-muted"><li class ="linav">{{t.title}}</li></span>
-							{% endif%}
-						</ul><br/>
-					 {% endfor %}
-				{% endfor  %}
-			</div>
-          </div>
-	</div>
+	
 {% endblock %}

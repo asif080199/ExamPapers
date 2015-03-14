@@ -1,0 +1,54 @@
+H	49
+Date:	2015-02-22
+Time:	14:49:23.163000
+Duration:	0:00:00.766000
+-------------------
+61	Msup, Msup$Cn, Msup$Var
+5	Mfrac, -, Mfenced, #8747, Mfrac$Mfenced$Cn, Var
+45	Var
+24	Msup, E, Msup$E
+51	Mfrac$Mfenced$Cn
+47	Msup
+79	Var
+5	Msub, +, Mfenced, Mfrac$Mfenced$Cn, Msub$Mrow$Cn, Msub$Mrow$Var
+5	Mfrac, +, Msup, Mfenced, Mfrac$Mfenced, Mfenced$+, Mfenced$Cn, Mfrac$Mrow$Var, Mfrac$Mfenced$Var
+22	Mfrac, Msup, Mfenced, Mfrac$Mfenced
+8	Mfrac, Mfrac$Mrow$Cn, Mfrac$Mrow$Var
+21	Mfrac, Mfenced, Mfrac$Mfenced
+52	Mfenced, Mfenced$Var
+19	Msup, Mfenced, Msup$Mfenced
+5	Mfrac, +, Msup, Mfenced, Mfrac$Mrow$, Mfrac$Mfenced, Mfrac$Mfenced$Msup, Mfrac$Mfenced$Cn, Mfrac$Mfenced$Msup$Cn, Mfrac$Mrow$Msqrt$Mrow$Cn, Mfrac$Mfenced$Msup$Var
+13	Mfrac, Mfrac$Mfenced$Cn, Mfrac$Mrow$Var
+4	Msub, Msup, #8747, Msub$Msup$#8747;, Msub$Msup, Msub$Msup$Mrow$, Msub$Msup$Mrow$Var
+13	Mfrac, Mfenced, Mfrac$Mrow$, Mfrac$Mfenced, Mfrac$Mrow$Mfenced, Mfrac$Mfenced$, Mfrac$Mfenced$Mfenced, Mfrac$Mrow$Var, Mfrac$Mfenced$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mfenced$Mfenced$Var
+10	Msup, Mfenced, Mfenced$Cn, Mfenced$Var
+6	-, Msup$Mrow$-, Msup$Mrow$Cn
+19	Mfrac, Mfenced, Mfrac$Mfenced
+6	Mfenced, #8747, Var
+19	Mfenced, Var, Mfenced$Var
+10	Mfrac, +, Mfenced, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Mfenced$+, Mfrac$Mfenced$Cn
+3	-, Mfenced, E, Mfenced$, Mfenced$Mfrac$Mfenced$Cn, Mfenced$Mfrac$Mrow$Cn, Var, Mfenced$Var
+7	+
+4	Msup, Mfenced, Msup$Mfenced
+5	Msup, Mfenced, #8721, Munderover, Msup$Mfenced, Munderover$#8721;, Munderover$Mrow$=, Munderover$Mrow$Cn, Msup$Mfenced$Cn, Msup$Mfenced$Var, Munderover$Mrow$Var
+9	Mfrac, Msup, Mfenced, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced
+23	Mfenced, Mfenced$Var
+22	+, Mfenced, Mfenced$Var
+2	Mfrac, +, Msup, Mfenced, E, Mfrac$Mrow$, Mfrac$Mrow$+, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$E, Mfrac$Mrow$Mfenced$, Mfrac$Mrow$Mfenced$Mfrac, Mfrac$Mrow$Mfenced$Mfrac$Mrow$+, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$Mfrac, Mfrac$Mrow$Msup$Mfenced$, Mfrac$Mrow$Msup$Mfenced$Mfrac, Mfrac$Mfenced$Cn, Mfrac$Mrow$Cn, Mfrac$Mrow$Msup$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Cn, Mfrac$Mrow$Msup$Mfenced$Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$Mfrac$Mfenced$Cn, Var, Mfrac$Mrow$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mrow$Msup$Mfenced$Mfrac$Mrow$Var, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Msup$Mfenced$Mfrac$Mrow$Var
+9	+, Mfenced, Mfenced$Mrow$+, Mfenced$Mrow$Var
+3	Mfrac, +, Msup, Mfenced, E, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$E, Mfrac$Mrow$Msup$Mfenced$+, Mfrac$Mrow$Msup$Mfenced$Msup, Mfrac$Mrow$Msup$, Mfrac$Mrow$Mfenced$, Mfrac$Mrow$Msup$Mfenced$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mfenced$Cn, Mfrac$Mrow$Msup$Mfenced$Msup$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Cn, Mfrac$Mrow$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mrow$Msup$Mfenced$Msup$Var
+7	#8594, Mover, Mover$#8594;, Mover$Mrow$Var
+5	Mfrac, +, Mfenced, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Mfenced$+, Mfrac$Mfenced$Cn, Mfrac$Mrow$Cn, Mfrac$Mrow$Mfenced$Cn, Mfrac$Mrow$Mfenced$Var
+7	Mfrac, Msup, Mfenced, Mfrac$Mrow$, Mfrac$Mfenced, Mfrac$Mrow$Mfenced, Mfrac$Mfenced$Msup, Mfrac$Mrow$Msup, Mfrac$Mfenced$, Mfrac$Mfenced$Msup$Mfenced, Mfrac$Mrow$Var, Mfrac$Mfenced$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mrow$Msup$Var, Mfrac$Mfenced$Msup$Mfenced$Var
+15	Msup, Mfenced, Mfenced$Msup
+8	Mfrac, +, Msup, Mfenced, Mfrac$Mfenced, Mfrac$Mrow$Var, Msup$Var, Mfrac$Mfenced$Var
+20	Msup, Msup$Mrow$Var
+9	Mfrac, Msup, Mfrac$Mrow$Msup, Mfrac$Mfenced$Cn
+129	Var
+6	#8747, Msubsup, Msubsup$#8747;, Msubsup$Mrow$, Var, Msubsup$Mrow$Var
+5	Mfenced, E, Mfenced$Mfenced, Mfenced$, Mfenced$E, Var, Mfenced$Var, Mfenced$Mfenced$Var
+2	Mfrac, +, Msup, Mfenced, Mfrac$Mfenced, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Mfenced$+, Mfrac$Mfenced$Msup, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$Msup$Mfenced$Mfenced, Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Cn, Mfrac$Mrow$Msup$Mfenced$Mfenced$Cn, Mfrac$Mfenced$Msup$Cn, Mfrac$Mrow$Msup$Cn, Var, Mfenced$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mrow$Msup$Mfenced$Mfenced$Var, Mfrac$Mfenced$Msup$Var
+28	Msub, Msub$Var
+4	+, Mfenced, Ln, Mfenced$Mrow$, Mfenced$Mrow$Ln, Mfenced$Mrow$Mfenced, Mfenced$Mrow$Mfenced$Mrow$+, Mfenced$Mrow$Mfenced$Mrow$Cn, Mfenced$Mrow$Mfenced$Mrow$Var
+25	Var
+5	Msub, Mfenced, Mfenced$Msub, Mfenced$Msub$Cn, Mfenced$Msub$Var

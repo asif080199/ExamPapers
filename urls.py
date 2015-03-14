@@ -53,11 +53,9 @@ urlpatterns = patterns('',
 	#qna
 	url(r'^(?P<subj_id>\d*)/qna/', include('ExamPapers.qna.urls')),
 
-	
 	#searchc
 	url(r'^(?P<subj_id>\d*)/searchc/', include('ExamPapers.searchc.urls')),
-	
-	
+		
 	#control
 	url(r'^(?P<subj_id>\d*)/control/', include('ExamPapers.control.urls')),
 

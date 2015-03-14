@@ -1,0 +1,25 @@
+H	20
+Date:	2015-02-20
+Time:	15:25:31.130000
+Duration:	0:00:00.604000
+-------------------
+36	Mfenced
+56	Mfrac
+73	Mfrac$Mfenced$Cn
+24	Msup, Mfenced, Msup$Mfenced
+149	Var
+27	Mfrac, Mfenced, Mfrac$Mfenced$Cn
+48	Msub
+45	Mfenced, Mfenced$Var
+53	Msup$Mrow$Cn
+13	+, Mfenced
+25	Msup, Mfenced
+12	Mfrac, Msup, Mfenced, Mfrac$Mfenced, Mfrac$Mrow$Var, Mfrac$Mfenced$Var
+79	Mfenced, Mfenced$Var
+136	Var
+61	Msup, Msup$Cn, Msup$Var
+5	Mfrac, +, Msup, Mfenced, E, Mfrac$Mrow$Mfenced, Mfrac$Mrow$Msup, Mfrac$Mrow$Msup$Mfenced, Mfrac$Mrow$E, Mfrac$Mrow$Mfenced$, Mfrac$Mrow$Mfenced$Mfrac$Mfenced$Cn, Mfrac$Mrow$Mfenced$Mfrac$Mrow$Cn, Mfrac$Mrow$Var, Mfrac$Mrow$Mfenced$Var
+24	Msup, E, Msup$E
+13	Mfrac, Mfenced, Mfrac$Mrow$, Mfrac$Mfenced, Mfrac$Mrow$Mfenced, Mfrac$Mfenced$, Mfrac$Mfenced$Mfenced, Mfrac$Mrow$Var, Mfrac$Mfenced$Var, Mfrac$Mrow$Mfenced$Var, Mfrac$Mfenced$Mfenced$Var
+12	#8747, Var
+20	Msup, Msup$Mrow$Var

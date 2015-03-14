@@ -126,7 +126,7 @@ def nameCluster(centroid,featureAll):
 			theName = featureAll[i]
 			theName = theName.replace("_"," ").title()+", "	#for nice display
 			sname+=theName
-			break 				#only 1 name
+			#break 				#only 1 name
 		sname = sname[:-2]
 		name.append(sname)
 	return name

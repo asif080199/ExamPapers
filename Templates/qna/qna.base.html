@@ -4,10 +4,6 @@
 	<div class = "col-sm-12">
 	<label class = "head" style="">Q&A Open Forum</label>
 	</div>
-	<div class="col-sm-9">
-		{% block qnacontent %}
-		{% endblock %}
-	</div>
 	<div class="col-sm-3">
 		<form action = "/{{cur.id}}/qna/form/">
 			<input type="submit" style = "display:block;width:100%" class="btn btn-primary" value = "Ask Question"><br/>
@@ -56,7 +52,10 @@
 			</div>
           </div>
 	</div>
-
+	<div class="col-sm-9">
+		{% block qnacontent %}
+		{% endblock %}
+	</div>
 
 {% endblock %}
 

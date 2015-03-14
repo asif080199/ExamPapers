@@ -3,11 +3,31 @@
 	<div class ="col-sm-12">
 		<label class = "head">Concept and Formula</label>
 	</div>
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+            
+            <div class="panel-body">
+				{% for b in blocks %}
+					<b>{{b.title}}</b><br/>
+					 {% for t in b.topics %}
+						<ul class="ulnav">
+							{% if t.id != tp %}	
+								<li class ="linav"><a href = "/{{cur.id}}/study/?tp={{t.id}}">{{t.title}}</a></li>
+							{% endif%}
+							{% if t.id == tp %}	
+								<span class="text-muted"><li class ="linav">{{t.title}}</li></span>
+							{% endif%}
+						</ul><br/>
+					 {% endfor %}
+				{% endfor  %}
+			</div>
+          </div>
+	</div>
 	<div class="col-sm-9">
 		
 		{% if tp == -1 %}
-				<div class="alert alert-warning"> Select a topic <p class = "glyphicon glyphicon-chevron-right"></p><p class = "glyphicon glyphicon-chevron-right"></p>
-				<p class = "glyphicon glyphicon-chevron-right"></p></div>
+				<div class="alert alert-warning">  <p class = "glyphicon glyphicon-chevron-left"></p><p class = "glyphicon glyphicon-chevron-left"></p>
+				<p class = "glyphicon glyphicon-chevron-left"></p> Select a topic</div>
 		{% elif content|length > 0 %}
 			<div class="alert alert-info">Topic: {{topic}}</div>
 			<div class = "col-sm-6" style="padding:0px">
@@ -51,24 +71,5 @@
 			<div class="alert alert-danger">No content available for this topic</div>
 		{% endif %}
 	</div>
-	<div class="col-sm-3">
-		<div class="panel panel-default">
-            
-            <div class="panel-body">
-				{% for b in blocks %}
-					<b>{{b.title}}</b><br/>
-					 {% for t in b.topics %}
-						<ul class="ulnav">
-							{% if t.id != tp %}	
-								<li class ="linav"><a href = "/{{cur.id}}/study/?tp={{t.id}}">{{t.title}}</a></li>
-							{% endif%}
-							{% if t.id == tp %}	
-								<span class="text-muted"><li class ="linav">{{t.title}}</li></span>
-							{% endif%}
-						</ul><br/>
-					 {% endfor %}
-				{% endfor  %}
-			</div>
-          </div>
-	</div>
+	
 {% endblock %}
