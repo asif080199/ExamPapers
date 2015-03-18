@@ -499,13 +499,19 @@ def viewquestion(request,subj_id,qid):
 	param = {}
 	param.update(current(subj_id))
 	question = getViewQuestion(qid)
-	print "----------------------"
-	print question.images
-	print "----------------------"
 	param['question'] = question
 	questions = Question.objects.filter(topic = question.topic).exclude(id = question.id)
-	param['questions'] = questions[:5]
+	param['questions'] = questions[:3]
 	param['moreQuestions'] = questions[5:]
+	tags = Tag.objects.filter(question_id = qid)
+	tagdefs = []
+	for t in tags:
+		tagdef = TagDefinition.objects.get(tag = t.id)
+		if tagdef.type == "F" or tagdef.type == "C":
+			if tagdef not in tagdefs:
+				tagdef.title = tagdef.title.replace("_"," ")
+				tagdefs.append(tagdef)
+	param['tags'] = tagdefs
 	return render(request,'viewquestion.html',param)
 	
 def test(request,subj_id):
