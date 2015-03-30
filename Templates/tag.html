@@ -1,8 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
 	<div class="col-sm-12">
-		<label class = "head">Tag: {{tag.title}}</label>
+		<h3>Tag: {{tag.title}}</h3>
 	</div>
+	<div class="col-sm-3">
+		<div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Related tags</h3>
+            </div>
+            <div class="panel-body">
+				{% for t in rtag%}
+					<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-xs 
+					{%if t.type == 'K'%}btn-keyword {%endif%}
+					{%if t.type == 'F'%}btn-formula {%endif%}
+					{%if t.type == 'C'%}btn-concept {%endif%}" 
+					style = "margin:2px">{{t.title}}</button></a>
+				{% endfor%}
+			</div>
+		</div>
+	</div>		
 	<div class="col-sm-9">
 		<hr style="margin:0px;padding:0px">
 		{% for q in tag.questions %}
@@ -31,26 +47,18 @@
 										</td>
 									</tr>
 									<tr>
-										<td colspan = "3">
+										<td colspan = "4">
 											{% for t in q.tagdef%}
-												<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-default btn-sm" style = "margin:2px">{{t.title}}</button></a>
+												<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-xs
+												{%if t.type == 'K'%}btn-keyword {%endif%}
+												{%if t.type == 'F'%}btn-formula {%endif%}
+												{%if t.type == 'C'%}btn-concept {%endif%}
+												" style = "margin:2px">{{t.title}}</button></a>
 											{% endfor%}
 										</td>
 									</tr>
 								</table>
 							</div>
-					{% endfor %}</div>
-	<div class="col-sm-3">
-		<div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Related tags</h3>
-            </div>
-            <div class="panel-body">
-				{% for t in rtag%}
-					<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-default btn-sm" style = "margin:2px">{{t.title}}</button></a>
-				{% endfor%}
-			</div>
-		</div>
-	</div>			
+					{% endfor %}</div>	
 				
 {% endblock %}

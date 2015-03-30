@@ -5,8 +5,8 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.template import RequestContext
 from django.http import HttpResponseRedirect,HttpResponse
 from django.core.urlresolvers import reverse
-from logic.common import *
 from DBManagement.models import *
+from ExamPapers.views import current, getViewQuestion
 import datetime
 
 ''' Question Management'''
@@ -383,7 +383,7 @@ def qUpdate(request,subj_id):
 		question.title = question.subtopic.title 
 	if question.question_no != None:
 		question.title += " #" + str(question.question_no)
-	param['question'] = question		
+	param['question'] = getViewQuestion(question.id)		
 	
 	
 	"""Tag"""

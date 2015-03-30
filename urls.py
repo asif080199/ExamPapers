@@ -18,9 +18,6 @@ urlpatterns = patterns('',
 	#survey 
 	(r'^(?P<subj_id>\d*)/survey',views.survey),
 	
-	#contribute
-	url(r'^(?P<subj_id>\d*)/contribute/', include('ExamPapers.contribute.urls')),
-	
 	#search 
 	(r'^(?P<subj_id>\d*)/search/(?P<type>\d*)(?P<tp>\d*)(?P<searchtext>\d*)',views.search),
 	(r'^(?P<subj_id>\d*)/view/(?P<qid>\d*)/$', views.viewquestion),
@@ -38,32 +35,16 @@ urlpatterns = patterns('',
 	(r'^(?P<subj_id>\d*)/statistics/(?P<type>\d*)', views.statistics),	
 	
 	#account
-    (r'^accounts/login/$', views.account_login),
-    (r'^accounts/logout/$', views.account_logout),
-    (r'^accounts/register/$', views.account_register),
-    (r'^accounts/activate/$', views.account_activate),
-    (r'^accounts/forgot/$', views.account_forgot),
-    (r'^accounts/reset/$', views.account_reset),
-	(r'^accounts/profile/$', views.profile),
-	
+	url(r'^accounts/', include('ExamPapers.account.urls')),
 	
 	#comments
 	url(r'^comments/', include('django.contrib.comments.urls')),
 	
 	#qna
 	url(r'^(?P<subj_id>\d*)/qna/', include('ExamPapers.qna.urls')),
-
-	#searchc
-	url(r'^(?P<subj_id>\d*)/searchc/', include('ExamPapers.searchc.urls')),
 	
 	#paper
 	url(r'^(?P<subj_id>\d*)/paper/', include('ExamPapers.paper.urls')),
-	
-	#control
-	url(r'^(?P<subj_id>\d*)/control/', include('ExamPapers.control.urls')),
-
-	#fsearch
-	url(r'^(?P<subj_id>\d*)/fsearch/', include('ExamPapers.fsearch.urls')),
 	
 	#dajax
     (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),

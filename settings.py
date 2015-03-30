@@ -126,10 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
     'ExamPapers.DBManagement',
     'ExamPapers.resource',
     'ExamPapers.dajaxice',
@@ -138,9 +135,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
 	'comments',
 	'mptt', #for threaded comments
-	#'upload',	#for file upload
 	'qna',
-	'contribute',
 	'django_cleanup',
 )
 

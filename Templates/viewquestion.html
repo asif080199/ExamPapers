@@ -35,7 +35,7 @@
 {% endblock %}
 
 {% block content %}
-	<div class = "col-sm-12"><label class="head">{{question.subtopic}} #  {{question.question_no}}</label></div>
+	<div class = "col-sm-12"><h3>{{question.subtopic}} #  {{question.question_no}}</h3></div>
     
 	<div class="col-sm-3">
 		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -55,10 +55,14 @@
 					<li><b>Subject:</b> {{cur.title}} Mathematics</li>
 					<li><b>Topic:</b> {{question.topic}}</li>
 					<li><b>Subtopic:</b> {{question.subtopic}}</li>
-					<li><b>Tags:</b></li>
 				</ul>
 				{% for t in question.tagdef %}
-					<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-default btn-sm" style = "margin:2px">{{t.title}}</button></a>
+					<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-xs 
+					{%if t.type == 'K'%}btn-keyword {%endif%}
+					{%if t.type == 'F'%}btn-formula {%endif%}
+					{%if t.type == 'C'%}btn-concept {%endif%} "
+					
+					style = "margin:2px">{{t.title}}</button></a>
 				{% endfor %}
 			  </div>
 			</div>
@@ -104,7 +108,7 @@
 						<li class="list-group-item"><a href = "/{{cur.id}}/view/{{q.id}}">{{q.subtopic}} #{{q.question_no}}</a></li>
 					{% endfor%}
 				</div>
-				<input style = "display:block;width:100%" type="button" id="toggSim" name="toggSim" class="btn btn-inverse" onclick="toggleSim(this.id);"  value="See more..."/>
+				<input style = "display:block;width:100%" type="button" id="toggSim" name="toggSim" class="btn btn-grey btn-xs" onclick="toggleSim(this.id);"  value="See more..."/>
 			  </div>
 			</div>
 		  </div>
@@ -118,16 +122,17 @@
 			{{question.content|safe}}	
 			{% for i in question.images%}
 				{%if i.qa == 'Question'%}
-					<br/><img src={{i.imagepath}} max-height="200px">
+					<br/><img src={{i.imagepath}} max-height="150px">
 				{%endif %}				
 			{% endfor %}
 			<hr/>
 			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
 			<div style = "display:none;" id="sol">
+				<br/>
 				{{question.solution|safe}}
 				{% for i in question.images%}
 				{%if i.qa ==  'Solution'%}
-					<br/><img src={{i.imagepath}}>
+					<br/><img src={{i.imagepath}} height="150px">
 				{%endif %}				
 			{% endfor %}
 			</div>

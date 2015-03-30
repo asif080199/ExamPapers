@@ -2,13 +2,15 @@
 {% block content %}
 	
 	<div class="col-sm-12">
+	<h3>
 		{% if concept.type == "C" %}
-			<label class = "head">Concept:</label>
+			Concept:
 		{% endif %}
 		{% if concept.type == "F" %}
-			<label class = "head">Formula:</label>
+			Formula:
 		{% endif %}
-		<label class = "head">{{concept.title}}</label>
+		{{concept.title}}
+		</h3>
 	</div>
 	<div class="col-sm-3">
 		<div class="panel panel-default">
@@ -30,7 +32,12 @@
           </div>
 	</div>
 	<div class="col-sm-9">
-				<div class="well">
+				{% if concept.type == "C"%}
+				<div class="well-concept">
+				{% endif %}
+				{% if concept.type == "F"%}
+				<div class="well-formula">
+				{% endif %}
 					<label class ="mini">Definition:  </label> {{concept.content}}
 				</div>
 				<div class="panel panel-default">
@@ -54,7 +61,7 @@
 						{% else %}
 							<ul>
 								{% for q in questions%}
-									<li><a href = "/{{cur.id}}/view/{{q.id}}">{{q.subtopic}} ##{{q.question_no}}</a></li>
+									<li><a href = "/{{cur.id}}/view/{{q.id}}">{{q.title}}</a></li>
 								{%endfor%}
 							</ul>
 						{% endif %}

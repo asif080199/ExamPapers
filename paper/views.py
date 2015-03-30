@@ -20,13 +20,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.comments.models import Comment
 
 from DBManagement.models import *
-from logic import assessment_engine, formatter_engine
-from logic.common import *
-from logic.question_processing import *
 
 from datetime import datetime, timedelta
 
 import math, re, random, sys
+from ExamPapers.views import current
 
 @login_required
 def papertest(request, subj_id, test_id=None):

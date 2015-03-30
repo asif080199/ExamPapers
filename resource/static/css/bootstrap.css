@@ -2250,8 +2250,8 @@ fieldset[disabled] .btn-grey.active {
 /*ly*/
 .btn-concept {
   color: #333333;
-  background-color: #ECF6CE ;
-  border-color: #C8FE2E ;
+  background-color: #EBF5FF ;
+  border-color: #A3D1FF ;
 }
 
 .btn-concept:hover,
@@ -2291,8 +2291,8 @@ fieldset[disabled] .btn-concept.active {
 /**/
 .btn-formula {
   color: #333333;
-  background-color: #EFF8FB ;
-  border-color: #81DAF5 ;
+  background-color: #E0FFC2 ;
+  border-color: #7ACC29 ;
 }
 
 .btn-formula:hover,
@@ -2332,8 +2332,8 @@ fieldset[disabled] .btn-formula.active {
 /*ly*/
 .btn-keyword {
   color: #333333;
-  background-color: #EFF8FB ;
-  border-color: #81DAF5 ;
+  background-color: #FFFAFA ;
+  border-color: #FF99CC ;
 }
 
 .btn-keyword:hover,
@@ -5727,6 +5727,27 @@ a.list-group-item:focus {
   padding: 24px;
   border-radius: 0px; /*6px*/
 }
+
+/*ly*/
+.well-concept {
+  padding: 24px;
+  border-radius: 0px; /*6px*/
+  background-color: #EBF5FF ;
+  margin-bottom: 19px;
+}
+.well-formula {
+  padding: 24px;
+  border-radius: 0px; /*6px*/
+  background-color: #FFFAFA ;
+  margin-bottom: 19px;
+}
+.well-keyword {
+  padding: 24px;
+  border-radius: 0px; /*6px*/
+  background-color: #FFFAFA ;
+  margin-bottom: 19px;
+}
+/*ly*/
 
 .well-sm {
   padding: 9px;
