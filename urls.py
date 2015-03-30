@@ -55,7 +55,10 @@ urlpatterns = patterns('',
 
 	#searchc
 	url(r'^(?P<subj_id>\d*)/searchc/', include('ExamPapers.searchc.urls')),
-		
+	
+	#paper
+	url(r'^(?P<subj_id>\d*)/paper/', include('ExamPapers.paper.urls')),
+	
 	#control
 	url(r'^(?P<subj_id>\d*)/control/', include('ExamPapers.control.urls')),
 

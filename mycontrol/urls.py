@@ -20,4 +20,6 @@ urlpatterns = patterns('ExamPapers.mycontrol.views',
 	('tHome/$', views.tHome),
 	('tUpdate/$', views.tUpdate),
 	('tForm/$', views.tForm),
+	
+	('sHome/$', views.sHome),
 )

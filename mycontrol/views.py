@@ -451,9 +451,7 @@ def qDelete(request,subj_id):
 	param['mes'] = "Question " +id+" has been deleted successfully"
 	return render_to_response('mycontrol/qHome.html',param,context_instance=RequestContext(request))
 
-	
-	
-	
+
 """"Tag"""
 def tHome(request,subj_id):
 	param = {}
@@ -514,3 +512,9 @@ def tForm(request,subj_id):
 		param['type'] = tag.type
 		param['id'] = tag.id
 	return render_to_response('mycontrol/tForm.html',param,context_instance=RequestContext(request))
+	
+def sHome(request,subj_id):
+	param = {}
+	param.update(current(subj_id))
+	param['mes'] = ""
+	return render_to_response('mycontrol/sHome.html',param,context_instance=RequestContext(request))

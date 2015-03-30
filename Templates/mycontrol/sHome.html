@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class = "col-sm-12">
+		<h3>Search Management</h3>
+		{% if mes != ""%}
+			<div class="alert alert-success">{{mes}}</div>
+		{% endif %}
+	</div>
+	
+	<div class = "col-sm-6">
+		<div class="well well-large">
+			<h4>Reindex Text Search</h4>
+			<form action = "/{{cur.id}}/mycontrol/sHome/" method="POST">
+				{% csrf_token %}
+				<input type="hidden" name = "type" value = "text">
+				<input type = "Submit" class="btn btn-primary" value = "Reindex Text Search"/>
+			</form>
+		</div>
+	</div>
+	
+	<div class = "col-sm-6">
+		<div class="well well-large">
+			<h4>Reindex Formula Search</h4>
+			<form action = "/{{cur.id}}/mycontrol/sHome/" method="POST">
+				{% csrf_token %}
+				<input type="hidden" name = "type" value = "formula">
+				<input type = "Submit" class="btn btn-primary" value = "Reindex Formula Search"/>
+			</form>
+		</div>
+	</div>
+
+{% endblock %}
+

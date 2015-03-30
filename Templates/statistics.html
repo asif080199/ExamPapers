@@ -3,7 +3,7 @@
 	
 	<div class="col-sm-12">
 		<div class='nav nav-tabs'>
-			<li {% if type == "practice" or type == None %} class="active" {% endif %}><a href="/{{cur.id}}/statistics/?type=practice"><span>Practice Question Bank</span></a></li>
+			<li {% if type == "practice" or type == None %} class="active" {% endif %}><a href="/{{cur.id}}/statistics/?type=practice"><span>Search Question Bank</span></a></li>
 			<li {% if type == "qna" %} class="active" {% endif %}><a href="/{{cur.id}}/statistics/?type=qna"><span>Q&A Question Bank</span></a></li>
 			
 		</div>
@@ -11,7 +11,7 @@
 		{% if type == "practice" or type == None%} 
 			<div class="panel panel-default">
 			  <!-- Default panel contents -->
-			  <div class="panel-heading"><h4 style="text-align:center">Number of question by Topic and Difficulty in Practice Bank ({{all}})</h3></div>
+			  <div class="panel-heading"><h4 style="text-align:center">Number of question by Topic and Difficulty in Search Bank ({{all}})</h3></div>
 			   
 			  
 			  <!-- Table -->
