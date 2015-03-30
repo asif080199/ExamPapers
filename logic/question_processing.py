@@ -48,8 +48,8 @@ def formatContent(question,type):
 			question.content = question.content.replace('img', html_img, 1)
 		question.content = question.content.replace('<tempimage', '<img')
 		'''
-		question.content = question.content.replace(';','<br/>')
-		print question.content
+		question.content = question.content.replace(';','<br/>').replace('img','')
+		#print question.content
 		return question.content
 	if type =="Solution":
 		

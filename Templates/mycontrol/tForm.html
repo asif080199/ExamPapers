@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+	<script>
+	function input(content,display){
+		//Preview input
+		var str = document.getElementById(content).value;
+		var outnode = document.getElementById(display);
+		var n = outnode.childNodes.length;
+		for (var i=0; i<n; i++)
+		outnode.removeChild(outnode.firstChild);
+		outnode.appendChild(document.createTextNode(str));
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub,outnode]);
+		$("#outputMathML").val($("#outputNode").html());
+
+		document.getElementById("display").style.display = "";
+	 }
+	</script>
+	<div class="col-sm-12">
+		{% if title == None%}
+		<h3>New Tag</h3>
+		{% else %}
+		<h3>Update {{title}}</h3>
+		{% endif %}
+		{% if mes != "" %}
+			<div class= "alert alert-success">{{mes}}</div>
+		{% endif %}
+	</div>
+<div class="col-sm-12">
+<form action = "/{{cur.id}}/mycontrol/tUpdate/" method = "POST">	
+	{% csrf_token %}
+	<div  class = "well well-large">
+			<input type ="hidden" name = "id" value = {{id}}>
+			<div class = "col-sm-1">
+				<label>Title </label>
+			</div>
+			<div class = "col-sm-11">
+				<input class = "form-control" type = "text" name = "title" value = "{{title}}">
+			</div>
+			<br/><br/>
+			<div class = "col-sm-1">
+				<label>Type</label>
+			</div>
+			<div class = "col-sm-11">
+				<select class = "form-control" name = "type">
+					<option value ="K" {%if type == "K"%}selected{% endif %}>Keyword</option>
+					<option value ="C" {%if type == "C"%}selected{% endif %}>Concept</option>
+					<option value ="F" {%if type == "F"%}selected{% endif %}>Formula</option>
+				</select>
+			</div>
+			<br/><br/>
+			<div class = "col-sm-1">
+				<label>Topic</label>
+			</div>
+			<div class = "col-sm-11">
+				<select class = "form-control" name = "topic">
+					{% for t in topics%}
+						<option value = {{t.id}}>{{t.title}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<br><br/>
+			<div class = "col-sm-12">
+				<table>
+					<tr>
+						<th>Tag Content</th>
+						<th>Tag Preview</th>
+					</tr>
+					<tr>
+						<td><textarea onKeyUp="input('q_content','q_display')" id='q_content' name='content' cols='70' rows='10' class = "form-control">{{content}}</textarea></td>
+						<td><div id="q_display" style="margin:5px;background-color:#b0c4de;">{{content}}</div></td>
+					</tr>
+				</table>
+				<br></br>
+			</div>
+		
+	</div>
+	<div class="well well-large pull-right">
+		<div class = "col-sm-12"><input type="Submit" value = "Submit" class = "btn btn-primary pull-right"></div>
+	</div>
+</form>	
+</div>
+	{%if id != None %}
+			<div class="well well-large pull-right">
+				<form action = "/{{cur.id}}/mycontrol/tDelete/" method = "POST">
+					{% csrf_token %}
+					<input type ="hidden" name = "id" value = {{id}}>
+					<button class="btn btn-danger pull-left" >Delete</button>
+				<br/>
+				</form>
+			</div>
+		{%endif%}
+{% endblock %}
+				

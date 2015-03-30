@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block extrahead %}
+	
+{% endblock %}
+{% block content %}
+	<div class = "col-sm-12">
+		<h3>
+			Question List by {{cat}}: "{{topic.title}}{{concept.title}}{{paper.year}} {{paper.month}} {{paper.number}} {{title}}" 
+			<a href = "/{{cur.id}}/mycontrol/qForm/?paper={{paper.id}}&topic={{topic.id}}"><button class="pull-right btn btn-primary" style="margin-bottom:0px"> Create new question</button></a>
+		</h3>
+	
+	</div>
+
+	<div class = "col-sm-3">
+		<a href = "{{cur.id}}/mycontrol/qHome/">
+			<button class = "btn btn-default" style="width:100%"><<< Back to Question Home     </button>
+		</a>
+		<div class="panel panel-default">
+		  <!---For paper--->
+		  
+		  {% if papers%}
+			  <div class="panel-heading" align="center">
+					Other papers in this subject:
+			  </div>
+			  <div class="panel-body">
+				<ul>
+				{% for paper in papers%}
+					<li><a href = "/{{cur.id}}/mycontrol/qList/?paper={{paper.id}}">Paper {{paper.year}} {{paper.month}} {{paper.number}}</a></li>
+				{% endfor%}
+				</ul>
+			  </div>
+		   {% endif %}
+		   
+		   <!---For block--->
+		    {% if blocks%}
+		   <div class="panel-heading" align="center">
+				Other topic in this subject:
+			</div>
+            <div class="panel-body">
+				{% for b in blocks %}
+					<b>{{b.title}}</b><br/>
+					 <ul class="ulnav">
+					 {% for t in b.topics %}
+						<li class="linav2"><a href=" /{{cur.id}}/mycontrol/qList/?topic={{t.id}}"> {% if t.id == topic.id %}<span class="text-muted"> {% endif %}{{t.title}} {% if t.id == tp %}</span> {% endif %}</a></li>
+					 {% endfor %}
+					</ul>
+				{% endfor %}
+			</div>
+			{% endif %}
+			
+			<!---For concepts--->
+            {% if concepts%}
+			<div class="panel-heading" align="center">
+				Other tags in this block:
+			</div>
+			  <div class="panel-body">
+				{% for concept in concepts%}
+					{% if concept.type == "C"%}
+						<a href = "/{{cur.id}}/mycontrol/qList/?concept={{concept.id}}">
+							<button class="btn btn-concept btn-xs" style="margin:2px">
+								{{concept.title}}({{concept.count}})
+							</button>
+						</a>
+					{% endif %}
+					{% if concept.type == "F"%}
+						<a href = "/{{cur.id}}/mycontrol/qList/?formula={{concept.id}}">
+							<button class="btn btn-formula btn-xs" style="margin:2px">
+								{{concept.title}}({{concept.count}})
+							</button>
+						</a>
+					{% endif %}
+				{% endfor%}
+			  </div>
+		   {% endif %}
+		</div>
+	</div>
+	
+	<div class = "col-sm-9">
+	{% if topic or papers%}
+		<div class="panel panel-default">
+		</div>
+	{% endif %}
+	{% if concepts%}
+		<div class="panel panel-default">
+		<div class="panel-body">
+			<b>Title: </b>{{concept.title}}<br/>
+			<b>Content: </b>{{concept.content}}
+		</div>
+		</div>
+	{% endif %}
+	{% if questions|length == 0 %}
+		<div class="alert alert-warning">There is no question to display</div>
+	{% else%}
+		<table id="adminTable" class="display" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Title</th>
+						<th>Summary</th>
+						<th>Topic</th>
+						<th>Sub-Topic</th>
+						<th>Difficulty</th>
+						<th>#Tag</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for q in questions %}			
+				<tr>
+					<td>{{q.id}}</td>
+					<td>{{q.title}}</td>
+					<td>{{q.display}}...</td>
+					<td>{{q.topic}}</td>
+					<td>{{q.subtopic}}</td>
+					<td>{{q.difficulty}}</td>
+					<td>{{q.noTag}}</td>
+					<td>
+						<form action ="/{{cur.id}}/mycontrol/qForm/"  method="POST">
+							{% csrf_token %}
+							<input type="hidden" value ={{q.id}} name="id">
+							<button class="btn btn-primary btn-sm">Edit</button>
+						</form>
+					</td>
+				</tr>										
+				{% endfor %}
+				</tbody>
+			</table>
+		{% endif%}
+	</div>
+{% endblock %}
+

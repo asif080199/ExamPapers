@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class = "col-sm-12"><label class="head">{{question.title}}</label>
+	<div class="alert alert-success">{{mes|safe}}</div>
+	</div>
+    
+	<div class="col-sm-3">
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		  <div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="headingOne">
+			  <h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				  Question Info
+				</a>
+			  </h4>
+			</div>
+			<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+			  <div class="panel-body">
+				<ul class="ulnav">
+					<li><b>Name:</b> {{question.subtopic}} #{{question.question_no}}</li>
+					<li><b>Difficulty :</b> {{question.difficulty}} {%for s in question.stars%}{{s|safe}}{%endfor%}</li>
+					<li><b>Subject:</b> {{cur.title}} Mathematics</li>
+					<li><b>Topic:</b> {{question.topic}}</li>
+					<li><b>Subtopic:</b> {{question.subtopic}}</li>
+					<li><b>Tags:</b></li>
+				</ul>
+				{% for t in question.tagdef %}
+					<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-default btn-sm" style = "margin:2px">{{t.title}}</button></a>
+				{% endfor %}
+			  </div>
+			</div>
+		  </div>
+		  <div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="headingTwo">
+			  <h4 class="panel-title">
+				<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+				  Concept and Formula
+				</a>
+			  </h4>
+			</div>
+			<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+				<div class="list-group">
+					{% for tag in tags%}
+						<li class="list-group-item">
+							<span class="glyphicon glyphicon-screenshot"></span><b> 
+							<a href = "/{{cur.id}}/concept/{{tag.id}}">
+							{{tag.title}}
+							</a>
+							</b><br/>
+							{{tag.content}}
+						</li>
+					{% endfor %}		  
+				</div>
+			</div>
+		  </div>
+		  <div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="headingThree">
+			  <h4 class="panel-title">
+				<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+				  Similar Questions
+				</a>
+			  </h4>
+			</div>
+			<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+			  <div class="list-group">
+				{% for q in questions%}
+					<li class="list-group-item"><a href = "/{{cur.id}}/view/{{q.id}}">{{q.subtopic}} #{{q.question_no}}</a></li>
+				{% endfor%}
+				<div style = "display:none;" id="sim">
+					{% for q in moreQuestions%}
+						<li class="list-group-item"><a href = "/{{cur.id}}/view/{{q.id}}">{{q.subtopic}} #{{q.question_no}}</a></li>
+					{% endfor%}
+				</div>
+				<input style = "display:block;width:100%" type="button" id="toggSim" name="toggSim" class="btn btn-inverse" onclick="toggleSim(this.id);"  value="See more..."/>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	</div>
+
+	<div class="col-sm-9">
+		
+		<div class="thumbnail ftext" >
+			
+			{{question.content|safe}}	
+			{% for i in question.images%}
+				{%if i.qa == 'Question'%}
+					<br/><img src={{i.imagepath}} max-height="200px">
+				{%endif %}				
+			{% endfor %}
+			<hr/>
+			<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggleAns(this.id);"  value="View Solution"/>
+			<div style = "display:none;" id="sol">
+				{{question.solution|safe}}
+				{% for i in question.images%}
+				{%if i.qa ==  'Solution'%}
+					<br/><img src={{i.imagepath}}>
+				{%endif %}				
+			{% endfor %}
+			</div>
+		</div>
+		
+        
+    </div>
+{% endblock %}

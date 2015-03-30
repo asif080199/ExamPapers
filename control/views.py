@@ -772,8 +772,9 @@ def AddMaths_qChange(request,list_type,page_no,subj_id):
 	q_type=request.POST.get('a_type','')
 	q_ans=request.POST.get('a_ans','')
 	q_tag=request.POST.get('a_tag','')
+	q_new_tag=request.POST.get('a_new_tag','')
 	q_topic=request.POST.get('paper_topic','')
-	
+	q_new_tag=request.POST.get('a_new_tag','')
 	q_subtopic=request.POST.get('paper_subtopic','')
 	q_new_tag=request.POST.get('a_new_tag','')
 	q_marks=request.POST.get('a_marks','')

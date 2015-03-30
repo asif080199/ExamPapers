@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class = "col-sm-12">
+		<h3>Tag Home</h3>
+		{% if mes != ""%}
+			<div class="alert alert-success">{{mes}}</div>
+		{% endif %}
+	</div>
+	<div class = "pull-right">
+		<a href = "/{{cur.id}}/mycontrol/tForm/">
+			<button class="btn btn-primary">Create new tag</button>
+		</a>
+	</div>
+	<div class='nav nav-tabs'>
+		<li {% if tType == "concept" or tType = None %} class="active" {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=concept"><span>Concept</span></a></li>
+		<li {% if tType == "formula" %} class="active"  {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=formula"><span>Formula</span></a></li>
+		<li {% if tType == "keyword" %} class="active"  {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=keyword"><span>Keyword</span></a></li>
+	</div>
+	
+	<div class = "col-sm-12">
+		<table id="adminTable" class="display" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Tag Title</th>
+					<th>Tag Content</th>
+					<th>Topic</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for t in tags %}			
+				<tr>
+					<td>{{t.title}}</td>
+					<td>{{t.content}}</td>
+					<td>{{t.topic}}</td>
+					<td><a href = "/{{cur.id}}/mycontrol/tForm/?id={{t.id}}"><button class = "btn btn-small btn-primary">Edit</button></a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
+

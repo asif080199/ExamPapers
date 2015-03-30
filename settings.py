@@ -8,8 +8,8 @@ PROJECT_NAME = 'LOPA Math'
 ADMINS = (
     #('Your Name', 'your_email@example.com'),
 )
-
-
+ROOT_PATH = os.path.dirname(__file__)
+PROJECT_ROOT = os.path.abspath(ROOT_PATH)
 
 #local database
 DATABASES = {
@@ -48,15 +48,15 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-#MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'fileupload')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, '/resource/static/image/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-#MEDIA_URL = '/fileupload/'
+MEDIA_URL = '/images/'
 
 
-ROOT_PATH = os.path.dirname(__file__)
+
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
@@ -111,7 +111,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 ROOT_URLCONF = 'ExamPapers.urls'
 
-PROJECT_ROOT = os.path.abspath(ROOT_PATH)
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -196,3 +195,5 @@ DAJAXICE_MEDIA_PREFIX="dajaxice"
 
 # Extra user profile data for users
 AUTH_PROFILE_MODULE = 'DBManagement.UserProfile'
+
+FILE_UPLOAD_PERMISSIONS = 0600

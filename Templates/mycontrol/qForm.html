@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% block content %}
+<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
+<script type="text/javascript">
+
+function picture() {
+	// To change div exam paper and practice
+    var questionType = document.getElementById('questionType').value;
+    if (questionType == "Exam") {
+        document.getElementById('extend').innerHTML = ""
+		+"<div class='col-sm-3'><input class='form-control' type = 'text' name = 'year' placeholder = 'Year' value = '{{source}}'></div>"
+		+"<div class='col-sm-3'>"
+		+"<select name='month' class='form-control'><option value='June'>June</option><option value='November'>November</option></select>"
+		+"</div>"
+		+"<div class='col-sm-2'><input class='form-control' type = 'text' name = 'number' placeholder = 'Paper' value = '{{source}}'></div>"
+    }
+	if (questionType == "Practice") {
+        document.getElementById('extend').innerHTML = "<div class='col-sm-8'><input class='form-control' type = 'text' name = 'source' placeholder = 'Source' value = '{{source}}'></div>";
+    }
+    if (questionType != "none") {
+        document.getElementById('extend').style.display = 'block';
+    } else {
+        document.getElementById('extend').style.display = 'none';
+    }
+}
+function input(content,display){
+	//Preview input
+	var str = document.getElementById(content).value;
+	var outnode = document.getElementById(display);
+	var n = outnode.childNodes.length;
+	for (var i=0; i<n; i++)
+	outnode.removeChild(outnode.firstChild);
+	outnode.appendChild(document.createTextNode(str));
+	MathJax.Hub.Queue(["Typeset",MathJax.Hub,outnode]);
+	$("#outputMathML").val($("#outputNode").html());
+
+	document.getElementById("display").style.display = "";
+ }
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+	//Submit form 
+       $("#myButton").click(function() {
+           $("#myForm").submit();
+       });
+    });
+</script>
+
+		<h3>Question Form</h3>
+		<form id='preview_form' method='post' enctype="multipart/form-data" action='/{{cur.id}}/mycontrol/qUpdate/' id = "myForm">
+		{% csrf_token %}
+		<div class = "well well-large">
+			<div class="col-sm-1"><label>Type: </label></div>
+			<div class="col-sm-3">
+				<input type="hidden" name='id' value={{id}}>
+				<select class="form-control" id="questionType" name="type" onchange="return picture();">
+					<option value="Exam">Exam Paper</option>
+					<option value="Practice" {%if type == 'Practice' or year == -1 %}selected{%endif%}>Practice Question</option>
+				</select>
+			</div>
+			<div id="extend">
+				<div class='col-sm-8' style="display:block">
+					{%if type == 'Practice'  or year == -1  %}
+						<input class='form-control' type = 'text' name = 'source' placeholder = 'Source' value = '{{source}}'>
+					{% else%}
+					<div class='col-sm-4'><input class='form-control' type = 'text' name = 'year' placeholder = 'Year' value = '{{year}}'></div>
+					<div class='col-sm-4'>
+						<select name='month' class='form-control'>
+							<option value='June'> June</option>
+							<option value='November'  {%if month = "November"%}selected{%endif%}>November</option>
+						</select>
+					</div>
+					<div class='col-sm-4'><input class='form-control' type = 'text' name = 'number' placeholder = 'Paper' value = '{{number}}'></div>
+				{%endif%}
+				</div>
+				
+			</div>
+			
+			<br/><br/>
+				
+			<div class="col-sm-1"><label>Topic: </label></div>
+			<div class="col-sm-5">	
+				<select class="form-control" id = "topic" name="topic" onchange="return subtopic();">
+					{% for t in topics%}
+						<option {%if t.id == topic%}selected{%endif%} value = {{t.id}}>{{t.title}}</option>
+					{% endfor%}
+				</select>
+			</div>
+			<div class="col-sm-1"><label>Subtopic: </label></div>
+			<div class="col-sm-5">	
+				<select class="form-control" name="subtopic">
+					{{% for t in subtopics%}
+						<option {%if t.id == subtopic%}selected{%endif%} value = {{t.id}}>{{t.title}}</option>
+					{% endfor%}
+				</select>
+			</div>
+			<br></br>
+			<div class="col-sm-1"><label>Difficulty</label></div>
+			<div class="col-sm-5"><input class="form-control" type = "text" name = 'difficulty' placeholder = "1-10" value = "{{difficulty}}"></div>
+			<div class="col-sm-1"><label>Marks</label></div>
+			<div class="col-sm-5"><input id='marks' class="form-control" type = "text"  placeholder = "1-20" name ='mark' value = "{{marks}}"></div>
+			<hr/>
+			
+		</div>
+		
+		
+		<div class = "well well-large col-sm-8">
+			<div class="col-sm-12">
+				<table width="100%">
+					<tr>
+						<td><label>Title</label></td>
+						<td><input name="title" type = "text" class="form-control"></td>
+					</tr>
+					<tr><td><hr/></td></tr>
+				</table>
+				<table>
+					
+					<tr>
+						<td width="50%"><label>Question Content</label> <a href="javascript:OpenLatexEditor('testbox','html','')">LaTex Editor</a></td>
+						<td width="50%"><label>Question Preview</label></td>
+					</tr>
+					<tr>
+						<td><textarea onKeyUp="input('q_content','q_display')" id='q_content' name='content' cols='70' rows='10' class = "form-control">{{content}}</textarea></td>
+						<td><div id="q_display" style="margin:5px;background-color:#b0c4de;">{{content}}</div></td>
+					</tr>
+					<tr>
+						
+						<td colspan="1">
+							<input type = "hidden" name="delCon">
+							{% for i in images%}
+								{% if i.qa == "Question"%}
+									<img src = "/{{i.imagepath}}" width = "100px">
+									<input type = "checkbox" name="delCon"> Remove
+								{% endif %}
+							{% endfor %}
+							
+						</td>
+						<td colspan="1"><input type="file" name="questionFile" /></td>
+					</tr>
+					<tr>
+						<td colspan=2><hr/></td>
+					</tr>
+					<tr>
+						<td><label>Solution Content</label> <a href="javascript:OpenLatexEditor('testbox','html','')">LaTex Editor</a></td>
+						<td><label>Solution Preview</label></td>
+					</tr>
+					<tr>
+						<td><textarea onKeyUp="input('s_content','s_display')" id='s_content' name='solution' cols='70' rows='10' class = "form-control">{{solution}}</textarea></td>
+						<td><div id="s_display" style="margin:5px;background-color:#99FF66;">{{solution}}</div></td>
+					</tr>
+					<tr>
+						
+						<td colspan="1">
+							<input type = "hidden" name="delSol">
+							{% for i in images%}
+								{% if i.qa == "Solution"%}
+									<img src = "/{{i.imagepath}}" width = "100px">
+									<input type = "checkbox" name="delSol"> Remove
+								{% endif %}
+							{% endfor %}
+	
+						</td>
+						<td colspan="1"><input type="file" name="solutionFile" /></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div class = "col-sm-4" style="padding-right:0px">
+			<div class="well well-large">
+				<label>Concept Tag</label>
+				<div id="wrapper">
+					<input id="inputTagator" name="conceptTag" class = "form-control" value="{{tagC}}">
+					<input value="activate tagator"  id="activate_tagator" type="hidden">
+				</div>
+			</div>
+			<div class="well well-large">
+				<label>Formula Tag</label>
+				<div id="wrapper">
+					<input id="inputTagator2" name="formulaTag" class = "form-control" value="{{tagF}}">
+					<input value="activate tagator2" id="activate_tagator2" type="hidden">
+				</div>
+			</div>
+			<div class="well well-large">
+				<label>Keyword Tag</label>
+				<div id="wrapper">
+					<input id="inputTagator3" name="keywordTag" class = "form-control" value="{{tagK}}">
+					<input value="activate tagator3" id="activate_tagator3" type="hidden">
+				</div>
+			</div>
+			<div class="well well-large">
+				<button class="btn btn-primary"  style="width:100%;">Submit</button>	
+			</div>
+		</form>
+		{%if new == 0 %}
+			<div class="well well-large">
+				<form action = "/{{cur.id}}/mycontrol/qDelete/" method = "POST">
+					{% csrf_token %}
+					<input type ="hidden" name = "id" value = {{id}}>
+					<button class="btn btn-danger pull-left"  style="width:100%;" >Delete</button>
+				<br/>
+				</form>
+			</div>
+		{%endif%}
+		</div>
+<script>
+		$(function () {
+			$('#activate_tagator').click(function () {
+				var a = {{allTagC|safe}};
+				if ($('#inputTagator').data('tagator') === undefined) {
+					$('#inputTagator').tagator({
+						autocomplete: a
+					});
+					$('#activate_tagator').val('destroy tagator');
+				} else {
+					$('#inputTagator').tagator('destroy');
+					$('#activate_tagator').val('activate tagator');
+				}
+			});
+			$('#activate_tagator').trigger('click');
+		});
+		
+		$(function () {
+			$('#activate_tagator2').click(function () {
+				var a = {{allTagF|safe}};
+				if ($('#inputTagator2').data('tagator2') === undefined) {
+					$('#inputTagator2').tagator({
+						autocomplete: a
+					});
+					$('#activate_tagator2').val('destroy tagator2');
+				} else {
+					$('#inputTagator2').tagator('destroy');
+					$('#activate_tagator2').val('activate tagator2');
+				}
+			});
+			$('#activate_tagator2').trigger('click');
+		});
+		
+		$(function () {
+			$('#activate_tagator3').click(function () {
+				var a = {{allTagK|safe}};
+				if ($('#inputTagator3').data('tagator3') === undefined) {
+					$('#inputTagator3').tagator({
+						autocomplete: a
+					});
+					$('#activate_tagator3').val('destroy tagator3');
+				} else {
+					$('#inputTagator3').tagator('destroy');
+					$('#activate_tagator3').val('activate tagator3');
+				}
+			});
+			$('#activate_tagator3').trigger('click');
+		});
+	</script>	
+{% endblock %}

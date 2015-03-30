@@ -45,22 +45,12 @@ class Subtopic(models.Model):
 		return str(self.title)
 
 
-class Paperset(models.Model):
-	id = models.AutoField('id', primary_key=True, null=False)
-	title = models.TextField('title', null=True)
-	subject = models.ForeignKey(Subject, null=False)
-
-	def __str__(self):
-		return str(self.title)
-
-
 class Paper(models.Model):
 	id = models.CharField(max_length=64, primary_key=True, null=False)
 	year = models.TextField('year', null=True)
 	month = models.TextField('month', null=True)
 	number = models.IntegerField('number', null=True)
 	subject = models.ForeignKey(Subject, null=False)
-	paperset = models.ForeignKey(Paperset, null=False)
 
 	def __str__(self):
 		return str(self.id)
@@ -71,11 +61,14 @@ class Question(models.Model):
 	paper = models.ForeignKey(Paper, null=True)
 	question_no = models.SmallIntegerField('question_no', max_length=6, null=True)
 	content = models.TextField('content', null=False)
+	type = models.TextField('type', null=True)
 	topic = models.ForeignKey(Topic, null=True)
 	subtopic = models.ForeignKey(Subtopic, null=True)
 	marks = models.IntegerField('marks', max_length=2, null=True)
-	source = models.TextField('source', null=False)
+	source = models.TextField('source', null=True)
 	difficulty = models.IntegerField('difficulty', max_length=2, null=True)
+	created_at = models.DateTimeField(auto_now=True)
+	title = models.CharField(max_length=200, null=True)
 	def __str__(self):
 		return str(self.id)
 

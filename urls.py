@@ -65,7 +65,7 @@ urlpatterns = patterns('',
 	#dajax
     (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
 	
-	url(r'^(?P<subj_id>\d*)/control/', include('ExamPapers.control.urls')),
+	url(r'^(?P<subj_id>\d*)/mycontrol/', include('ExamPapers.mycontrol.urls')),
 )
 
 # This is needed to serve static files like images and css
