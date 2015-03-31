@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -24,7 +25,7 @@ from DBManagement.models import *
 from datetime import datetime, timedelta
 
 import math, re, random, sys
-from ExamPapers.views import current
+from ExamPapers.views import current, getViewQuestion
 
 @login_required
 def papertest(request, subj_id, test_id=None):
@@ -73,12 +74,12 @@ def papertest(request, subj_id, test_id=None):
             for i in range (0, numQns):
                 # Get a random question and add to paper
                 question_pool = question_pool.exclude(id__in=new_test.questions.all().values_list('id'))
-                """ I don't get this. Isn't it just random"""
+                """ I don't get this. Isn't it just random /ly/"""
                 if question_pool:
                     question = question_pool[random.randint(0, question_pool.count()-1)]
                     newTestQuestion = TestQuestion(question=question, test=new_test)
                     newTestQuestion.save()
-                """ I don't get this. Isn't it just random"""
+                """ I don't get this. Isn't it just random /ly/"""
             return redirect('/'+subj_id+'/paper/papertest/'+str(testid)+'/')
         elif request.method == 'POST':
 			
@@ -96,7 +97,7 @@ def papertest(request, subj_id, test_id=None):
         return render(request, 'paper/papertest.home.html', param)
     else:
         # test_id is available, render test instead
-        test = Test.objects.all().get(id=test_id)
+        test = Test.objects.get(id=test_id)
         testQuestion = []
         for question in test.questions.all():
 			question = getViewQuestion(question.id)

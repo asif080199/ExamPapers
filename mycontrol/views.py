@@ -123,7 +123,7 @@ def previewQuestion(q):
 
 def qForm(request,subj_id):
 	param = {}
-
+	question = None
 	param['tagdefs'] = TagDefinition.objects.filter(type = "K")|TagDefinition.objects.filter(topic__block__subject_id = subj_id)
 	param['topics'] = Topic.objects.filter(block__subject_id = subj_id)
 	"""Update old"""
@@ -167,7 +167,7 @@ def qForm(request,subj_id):
 	param['subtopics'] = Subtopic.objects.filter(topic__block__subject_id = subj_id)
 	param.update(current(subj_id))
 	"""Tags"""
-	if question:
+	if question!=None:
 		tags = Tag.objects.filter(question_id = question.id)
 		c = ""
 		f = ""
@@ -411,7 +411,25 @@ def qUpdate(request,subj_id):
 			newTag.tagdefinition = theTag
 			newTag.question = question
 			newTag.save()
-	return render_to_response('mycontrol/qView.html',param,context_instance=RequestContext(request))
+			
+			
+	"""View Question"""
+	question = getViewQuestion(question.id)
+	
+	param['question'] = question
+	questions = Question.objects.filter(topic = question.topic).exclude(id = question.id)
+	param['questions'] = questions[:3]
+	param['moreQuestions'] = questions[5:]
+	tags = Tag.objects.filter(question_id = question.id)
+	tagdefs = []
+	for t in tags:
+		tagdef = TagDefinition.objects.get(tag = t.id)
+		if tagdef.type == "F" or tagdef.type == "C":
+			if tagdef not in tagdefs:
+				tagdef.title = tagdef.title.replace("_"," ")
+				tagdefs.append(tagdef)
+	param['tags'] = tagdefs
+	return render_to_response('viewquestion.html',param,context_instance=RequestContext(request))
 
 def qDelete(request,subj_id):
 	param = {}
@@ -457,14 +475,29 @@ def tHome(request,subj_id):
 	param = {}
 	param.update(current(subj_id))
 	tType = request.GET.get("tType")
+	tp = int(request.GET.get("tp"))
 	param['tType'] = tType
 	if tType == None or tType== "concept":
-		param['tags'] = TagDefinition.objects.filter(topic__block__subject_id = subj_id).filter(type="C")
+		if tp ==-1:
+			param['tags'] = TagDefinition.objects.filter(topic__block__subject_id = subj_id).filter(type="C")
+		else:
+			param['tags'] = TagDefinition.objects.filter(topic__block__subject_id = subj_id).filter(type="C").filter(topic_id = tp)
 	if tType== "formula":
-		param['tags'] = TagDefinition.objects.filter(topic__block__subject_id = subj_id).filter(type="F")
+		if tp ==-1:
+			param['tags'] = TagDefinition.objects.filter(topic__block__subject_id = subj_id).filter(type="F")
+		else:
+			param['tags'] = TagDefinition.objects.filter(topic__block__subject_id = subj_id).filter(type="F").filter(topic_id = tp)
+		
 	if tType== "keyword":
 		param['tags'] = TagDefinition.objects.filter(type="K")
 	param['mes'] = ""
+	
+	blocks = Block.objects.filter(subject_id = subj_id)
+	for b in blocks:
+		b.topics = Topic.objects.filter(block_id = b.id)
+	param['blocks'] = blocks
+	param['tp'] = tp
+	param['tType'] = tType
 	return render_to_response('mycontrol/tHome.html',param,context_instance=RequestContext(request))
 	
 def tUpdate(request,subj_id):
@@ -511,6 +544,7 @@ def tForm(request,subj_id):
 		param['content'] = tag.content
 		param['type'] = tag.type
 		param['id'] = tag.id
+	
 	return render_to_response('mycontrol/tForm.html',param,context_instance=RequestContext(request))
 	
 def sHome(request,subj_id):

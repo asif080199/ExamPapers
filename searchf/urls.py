@@ -13,5 +13,5 @@ from django.conf import settings
 urlpatterns = patterns('ExamPapers.searchf.views',
 	url('reindex/$', views.reindex),
 	('home/$', views.home),
-	('result/(?P<type>\d*)(?P<tp>\d*)(?P<searchtext>\d*)',views.result),
+	('result/(?P<type>\d*)(?P<tp>\d*)(?P<query>\d*)',views.result),
 )

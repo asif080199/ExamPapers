@@ -3,34 +3,13 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from DBManagement.models import *
 from haystack.query import SearchQuerySet
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-
-#import datetime
-#from datetime import datetime
-#from django.template import RequestContext
-#from django.template.loader import render_to_string
-
-#from django.views.decorators.csrf import csrf_exempt
-#from django.contrib.auth import authenticate, login, logout
+from ExamPapers.views import *
 from django.contrib.auth.decorators import login_required, user_passes_test
-#from django.contrib.auth.hashers import make_password
-#from django.core.mail import send_mail
-#from django.conf import settings
-#from django.core.exceptions import ObjectDoesNotExist
-#from django.contrib.auth.models import User
-#from django.db.models import Avg
+from ExamPapers.searchf.views import *
 
-#from django.contrib.contenttypes.models import ContentType
-#from django.contrib.comments.models import Comment
-
-#from datetime import datetime, timedelta
-
-#import math, re, random, sys
-
-#from datetime import timedelta
-#from django.utils import timezone
-
-#from ExamPapers.logic.question_processing import *
+import os
+import json
+path = path = os.getcwd()
 
 def current(subj_id):
 	param = {}
@@ -201,6 +180,8 @@ def search(request,subj_id,type,tp,searchtext):
 					if q.topic == t.title:
 						t.count = t.count + 1
 						q.linkId = q.id[22:]
+						if q.title == None:
+							q.title = q.subtopic + " #"+str(q.question_no)
 						q.stars = star(int(q.marks*5/16.0)+1)
 						q.images = Image.objects.filter(qa_id = q.question_id)
 						if q.images.count() > 0:
@@ -246,6 +227,7 @@ def viewquestion(request,subj_id,qid):
 	param = {}
 	param.update(current(subj_id))
 	question = getViewQuestion(qid)
+	
 	param['question'] = question
 	questions = Question.objects.filter(topic = question.topic).exclude(id = question.id)
 	param['questions'] = questions[:3]
@@ -448,12 +430,15 @@ def getViewQuestion(qid):
 	question.answer = "Not available"
 	question.images = Image.objects.filter(qa_id = question)
 	question.tag = Tag.objects.filter(question_id = question.id)
+	if question.title == "":
+			question.title = question.subtopic.title + " #"+str(question.question_no)
 	question.tagdef = []
 	for ta in question.tag:
 		tdeg = TagDefinition.objects.get(id = ta.tagdefinition.id)
 		if tdeg not in question.tagdef:
 			tdeg = getTagLite(tdeg)
 			question.tagdef.append(tdeg)
+	#print question.solution
 	return question
 
 def formatContent(question,type):
@@ -467,3 +452,43 @@ def formatContent(question,type):
 			solutionContent  = Solution.objects.get(question_id = question.id).content
 		solutionContent = solutionContent.replace(';','<br/>').replace('img','').replace("<br/>(","<br/><br/>(").replace('(ANS)','(ANS)<br/>')
 		return solutionContent
+
+def reindex(request,subj_id):
+	param = {}
+	param.update(current(subj_id))
+	questions = Question.objects.all()
+	param['mes'] = ""
+	#formulaAll = []
+	if request.POST:
+		type = request.POST['type']
+		if type == "formula":
+			for q in questions:
+				formulaSet = getFormula(q)
+				for formula in formulaSet:
+					line = {}
+					formulaOb = Formula()
+					if len(formula) >2:
+						semantic,vector = extractFeature(formula)
+						formulaOb.question = q
+						formulaOb.formula = formula
+						tem = "','".join(map(str, semantic))
+						formulaOb.semantic  = "['"+tem+"']"
+						##print formulaOb.semantic
+						formulaOb.vector = vector
+						if formulaOb.semantic  != "['']":
+							formulaOb.save()
+			buildIndex()
+			param['mes'] = "Tag index for "+param['cur'].title+" has been created successfully at "+path+"/log/index.json"
+		if type == "tag":
+			tagAll = TagDefinition.objects.filter(type = "K")|TagDefinition.objects.filter(type = "C").filter(topic__block__subject_id = subj_id)|TagDefinition.objects.filter(type = "K").filter(topic__block__subject_id = subj_id)
+			index = {}
+			for tag in tagAll:
+				title = str(tag.title)
+				index[title] = []
+				tags = Tag.objects.filter(tagdefinition_id = tag.id)
+				for t in tags:
+					index[title].append( str(t.question_id))
+			with open(path+"/index/tagIndex"+str(subj_id)+".json", 'w') as outfile:
+				json.dump(index, outfile)
+			param['mes'] = "Tag index for "+param['cur'].title+" has been created successfully at "+path+"/index/tagIndex"
+	return render(request,'reindex.html',param)

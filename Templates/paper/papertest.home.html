@@ -5,7 +5,7 @@
 {% block content %}
       <div class="row">
         <div class="col-md-12 col-lg-10 col-lg-offset-1">
-          <h1>Paper Test</h1>
+          <h3>Generate Paper</h3>
           <blockquote>
             <p>Pick some options and begin a paper test to test your skills!</p>
             <small>Paper Tests are generated using test paper generation techniques according to a user's specification. <!--<a href="#">Learn more</a>--></small>
@@ -40,7 +40,7 @@
             <div class="form-group">
               <label for="qn_time" class="col-sm-3 control-label">{{ topic }}</label>
               <div class="col-sm-2">
-                <input type="checkbox" class="form-control" id="topics{{ topic.id }}" name="topics" value="{{ topic.id }}" checked="false">
+                <input type="checkbox" class="form-control" id="topics{{ topic.id }}" name="topics" value="{{ topic.id }}">
               </div>
               <div class="col-sm-2">
                 <input type="text" class="form-control" id="qns_{{ topic }}" name="qns_{{ topic }}" placeholder="Optional" value="">

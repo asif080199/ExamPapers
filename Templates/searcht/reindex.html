@@ -1,33 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
 	<div class = "col-sm-12">
-		<h3>Search Management</h3>
+		<h3>Reindex Tag Search for {{cur.title}}</h3>
 		{% if mes != ""%}
 			<div class="alert alert-success">{{mes}}</div>
 		{% endif %}
 	</div>
 	
-	<div class = "col-sm-6">
+	<div class = "col-sm-12">
 		<div class="well well-large">
-			<h4>Reindex Text Search</h4>
-			<form action = "/{{cur.id}}/searchf/reindex/" method="POST">
+			<form action = "/{{cur.id}}/searcht/reindex/" method="POST">
 				{% csrf_token %}
-				<input type="hidden" name = "block" value = "text">
-				<input type = "Submit" class="btn btn-primary" value = "Reindex Text Search"/>
+				<input type="hidden" name = "type" value = "tag">
+				<input type = "Submit" class="btn btn-primary" width = "100%" value = "Reindex Tag Search"/>
 			</form>
 		</div>
 	</div>
 	
-	<div class = "col-sm-6">
-		<div class="well well-large">
-			<h4>Reindex Formula Search</h4>
-			<form action = "/{{cur.id}}/searchf/reindex/" method="POST">
-				{% csrf_token %}
-				<input type="hidden" name = "block" value = "formula">
-				<input type = "Submit" class="btn btn-primary" value = "Reindex Formula Search"/>
-			</form>
-		</div>
-	</div>
 
 {% endblock %}
 

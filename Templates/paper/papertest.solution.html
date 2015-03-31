@@ -2,7 +2,7 @@
 
 {% block content %}
 	<div class = "col-sm-12">	
-		<h1>Paper Test <small class="pull-right">Test ID: <span id="test_id">{{ test.id }}</span></small></h1>
+		<h3>Paper Solution <small class="pull-right">Test ID: <span id="test_id">{{ test.id }}</span></small></h3>
 	</div>
 	<div class="col-sm-3 well" >
               {% csrf_token %}
@@ -19,15 +19,26 @@
 		<a href = "/{{cur.id}}/paper/papertest/{{ test.id }}/">
 			<button class = "btn btn-default" style="display:block;width:100%">View Paper without solution</button>
 		</a>
-		<button class = "btn btn-default" style="display:block;width:100%"><p class = "glyphicon glyphicon-print glyphicon"></p> Print Paper with Solution</button>
-	</div>
-	<div class = "col-sm-9 thumbnail">
+		<!--
+		<button class = "btn btn-default" style="display:block;width:100%"><p class = "glyphicon glyphicon-print glyphicon"></p> Print Paper</button>
+		-->	</div>
+	<div class = "col-sm-9 thumbnail "  style = "padding:15px">
 		{% for question in testQuestion %}
 			<div id="question-{{ forloop.counter }}" class="anchor"></div>
-			<h3>Q{{ forloop.counter }}:</h3>	
+			<h4>Q{{ forloop.counter }}:</h4>	
 			{{ question.content|safe }}
-			<h3>A:</h3>		
+			{% for i in question.images %}
+					{% if i.qa == "question" %}
+						<br/><img src = "{{i.imagepath}}" width = "150px">
+					{% endif %}
+				{% endfor%}
+			<h4>A:</h4>		
 			{{question.solution|safe}}
+			{% for i in question.images %}
+					{% if i.qa == "solution" %}
+						<br/><img src = "{{i.imagepath}}" width = "150px">
+					{% endif %}
+				{% endfor%}
 			<hr/>
           {% endfor %}
 	</div>

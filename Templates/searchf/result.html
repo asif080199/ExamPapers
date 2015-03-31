@@ -1,38 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
-	<div class="col-sm-12">
-		<form action="/{{cur.id}}/fsearch/result/" method="post" onSubmit =" return checkSubmit(this)" class="form-inline" role="form">
-		{% csrf_token %}
-		{% include "fsearch/t_formula_view.html" %}
-		<br/>
-		<table width = "100%">
-			<tr>
-				<td width = "90%">
-					<input id="query" name="query" type="text" class="form-control" value="{{ query }}" style= "width:100%;display:block" onkeyup="display_formula()" />
-				</td>
-				<td>
-					<input type = "Submit" class = "btn btn-primary" value = "Search">
-				</td>
-			</tr>
-		</table>
-		<div>Preview: </div><div style="background-color: #CCFF66" id="outputNode" class="formula_view"></div>
-
-	</form>
-	</div>
-
+	<div class="col-sm-3">
+		<div class='nav nav-tabs'>
+			<li {% if type == "question" or type = None %} class="active" {% endif %}><a href="/{{cur.id}}/searchf/result/?type=question&tp={{tp}}&query={{query}}"><span>Questions</span></a></li>
+			<li {% if type == "image" %} class="active" {% endif %}><a href="/{{cur.id}}/searchf/result/?type=image&tp={{tp}}&query={{query}}"><span>Images</span></a></li>
+		</div>
 	
-	<div class="col-sm-12">
-		<hr/>
-		<label class = "head">Search Result:</label> 
+		<div class="panel panel-default">
+            <div class="panel-body">
+				{% for b in blocks %}
+					<b>{{b.title}}</b><br/>
+					 <ul class="ulnav">
+					 {% for t in b.topics %}
+						{%if t.count > 0%}
+							<li class="linav2"><a href=" /{{cur.id}}/searchf/result/?type={{type}}&tp={{t.id}}&query={{query}}"> {% if t.id == tp %}<span class="text-muted"> {% endif %}{{t.title}} ({{t.count}}){% if t.id == tp %}</span> {% endif %}</a></li>
+							{% for q in t.questions%}
+								{{q}}
+							{%endfor%}
+						{% endif %}
+					 {% endfor %}
+					</ul>
+				{% endfor %}
+			</div>
+          </div>
+		  <div class="alert alert-warning">
+			Can't find any similar problem? Create <a href = "/{{cur.id}}/qna/form">new problem</a> in <a href = "/{{cur.id}}/qna/home">Q&A forum </a>for public help.
+		  </div>
+	</div>
+	<div class="col-sm-9">
+		{% include "searchf/searchform.formula.html" %}
+	</div>
+	
+	<div class="col-sm-9">
+		<h3>Search Result ({% if tp == -1 %} All topics{% endif %}
+													{% if tp != -1%} {{topic}}{% endif %}) </h3>
+		<hr style="margin:0px;padding:0px">
+			{% if questions|length == 0 %}
+				<div class="alert alert-warning">
+					There is no result for "{{query}}"
+				</div>
+			{% endif %}
+				{% if type == 'question' %}
 					{% for q in questions %}
-						<div class = "result">	
-								<table  width = "100%" style="padding:5px" >
+						{%if tp == q.topic_id  or tp == -1 %}
+							<div class = "result">	
+								<table  width = "100%"  >
 									<tr>
-										<td width = "20%" rowspan = "2">									
-											$${{q.formula}}$$
-										</td>
 										<td width = "37%">									
-											<b><a style="font-size:130%" href = "/{{cur.id}}/view/{{q.id}}/"> {{q.subtopic.title}} #{{q.question_no}}:</a></b>
+											<b><a style="font-size:130%" href = "/{{cur.id}}/view/{{q.linkId}}/">{{q.title}}:</a></b>
 										</td>
 										<td width = "9%">									
 											{%for s in q.stars%}
@@ -42,19 +57,46 @@
 										<td>
 											<p class="footer">{{q.topic.title}} </p>
 										</td>
-										<td rowspan="2" align= 'center' width = '12%'>
-												<img src = "{{q.image}}" style="max-width:100px;max-height:100px" alt="">
+										<td rowspan="2" align= 'center' width = '12%' style="background-color:#F8F8F8 ">
+											
+											$${{q.formula}}$$
+											
 										</td>
 									</tr>
 									<tr>
 										<td colspan = "3">						
-											<i>{{q.content}}... </i> 
+											<i>{{q.content_short}}... </i> 
+										</td>
+									</tr>
+									<tr>
+										<td colspan = "2">
+											{% for t in q.tags%}
+												<a href = "/{{cur.id}}/tag/{{t.id}}"><button class="btn btn-sm 
+													{%if t.type == 'K'%}btn-keyword {%endif%}
+													{%if t.type == 'F'%}btn-formula {%endif%}
+													{%if t.type == 'C'%}btn-concept {%endif%} "
+													style = "margin:2px">{{t.title}}</button></a>
+											{% endfor%}
 										</td>
 									</tr>
 								</table>
 							</div>
+						{% endif %}
 					{% endfor %}
+				{% endif %}
 				
-			</div>
-    </div>
+		{% if type == 'image' %}
+			{% for q in questions %}
+				{%if tp == q.topic_id  or tp == -1 %}
+					{% for image in q.images %}
+						<div class="col-sm-4">							
+							<a href = "/{{cur.id}}/view/{{q.linkId}}/"><img src= "{{image.imagepath}}" class="img-thumbnail" alt="{{image.qa_id}}"/></a>
+						</div>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	</div>
+	
+
 {% endblock %}

@@ -47,7 +47,7 @@
 								<table  width = "100%"  >
 									<tr>
 										<td width = "37%">									
-											<b><a style="font-size:130%" href = "/{{cur.id}}/view/{{q.linkId}}/"> {{q.subtopic.title}} #{{q.question_no}}:</a></b>
+											<b><a style="font-size:130%" href = "/{{cur.id}}/view/{{q.linkId}}/"> {{q.title}}:</a></b>
 										</td>
 										<td width = "9%">									
 											{%for s in q.stars%}
@@ -58,7 +58,9 @@
 											<p class="footer">{{q.topic.title}} </p>
 										</td>
 										<td rowspan="2" align= 'center' width = '12%'>
+											{% if q.image != None %}
 												<img src = "{{q.image}}" style="max-width:100px;max-height:100px" alt="">
+											{% endif %}
 										</td>
 									</tr>
 									<tr>

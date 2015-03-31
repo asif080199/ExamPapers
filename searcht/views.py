@@ -20,17 +20,20 @@ def current(subj_id):
 def reindex(request,subj_id):
 	param = {}
 	param.update(current(subj_id))
-	tagAll = TagDefinition.objects.filter(type = "K")|TagDefinition.objects.filter(type = "C").filter(topic__block__subject_id = subj_id)|TagDefinition.objects.filter(type = "K").filter(topic__block__subject_id = subj_id)
-	index = {}
-	for tag in tagAll:
-		title = str(tag.title)
-		index[title] = []
-		tags = Tag.objects.filter(tagdefinition_id = tag.id)
-		for t in tags:
-			index[title].append( str(t.question_id))
-	with open(path+"/index/tagIndex"+str(subj_id)+".json", 'w') as outfile:
-		json.dump(index, outfile)
-	
+	param['mes'] = ""
+	if request.POST:
+		if request.POST['type'] == "tag":
+			tagAll = TagDefinition.objects.filter(type = "K")|TagDefinition.objects.filter(type = "C").filter(topic__block__subject_id = subj_id)|TagDefinition.objects.filter(type = "K").filter(topic__block__subject_id = subj_id)
+			index = {}
+			for tag in tagAll:
+				title = str(tag.title)
+				index[title] = []
+				tags = Tag.objects.filter(tagdefinition_id = tag.id)
+				for t in tags:
+					index[title].append( str(t.question_id))
+			with open(path+"/index/tagIndex"+str(subj_id)+".json", 'w') as outfile:
+				json.dump(index, outfile)
+			param['mes'] = "Tag index for "+param['cur'].title+" has been created successfully at "+path+"/index/tagIndex"
 	return render(request,'searcht/reindex.html', param)	
 	
 @login_required	
@@ -166,6 +169,7 @@ def tagSearch(query,subj_id):
 	questions = []
 	
 	for question,value in allS:
+		print question
 		question = Question.objects.get(id = question)
 		question.tags = []
 		myTag = theTag.get(question.id,[])

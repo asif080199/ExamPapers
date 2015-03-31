@@ -35,7 +35,7 @@
 {% endblock %}
 
 {% block content %}
-	<div class = "col-sm-12"><h3>{{question.subtopic}} #  {{question.question_no}}</h3></div>
+	<div class = "col-sm-12"><h3>{{question.title}}</h3></div>
     
 	<div class="col-sm-3">
 		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -122,7 +122,7 @@
 			{{question.content|safe}}	
 			{% for i in question.images%}
 				{%if i.qa == 'Question'%}
-					<br/><img src={{i.imagepath}} max-height="150px">
+					<br/><img src='{{i.imagepath}}' height="150" >
 				{%endif %}				
 			{% endfor %}
 			<hr/>
@@ -132,7 +132,7 @@
 				{{question.solution|safe}}
 				{% for i in question.images%}
 				{%if i.qa ==  'Solution'%}
-					<br/><img src={{i.imagepath}} height="150px">
+					<br/><img src={{i.imagepath}} height="150">
 				{%endif %}				
 			{% endfor %}
 			</div>

@@ -1,30 +1,47 @@
 {% extends 'base.html' %}
 {% block content %}
 	<div class = "col-sm-12">
+		<div class = "pull-right">
+			<a href = "/{{cur.id}}/mycontrol/tForm/">
+				<button class="btn btn-primary">Create new tag</button>
+			</a>
+		</div>
 		<h3>Tag Home</h3>
 		{% if mes != ""%}
 			<div class="alert alert-success">{{mes}}</div>
 		{% endif %}
+	
 	</div>
-	<div class = "pull-right">
-		<a href = "/{{cur.id}}/mycontrol/tForm/">
-			<button class="btn btn-primary">Create new tag</button>
-		</a>
-	</div>
-	<div class='nav nav-tabs'>
-		<li {% if tType == "concept" or tType = None %} class="active" {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=concept"><span>Concept</span></a></li>
-		<li {% if tType == "formula" %} class="active"  {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=formula"><span>Formula</span></a></li>
-		<li {% if tType == "keyword" %} class="active"  {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=keyword"><span>Keyword</span></a></li>
-	</div>
+	
+	
 	<br/>
-	<div class = "col-sm-12">
+	<div class = "col-sm-3" style="padding:0px">
+	<div class="panel panel-default">
+            <div class="panel-body">
+				<div class='nav nav-tabs'>
+					<li {% if tType == "concept" or tType = None %} class="active" {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=concept&tp={{tp}}"><span>Concept</span></a></li>
+					<li {% if tType == "formula" %} class="active"  {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=formula&tp={{tp}}"><span>Formula</span></a></li>
+					<li {% if tType == "keyword" %} class="active"  {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=keyword&tp={{tp}}"><span>Key</span></a></li>
+				</div>
+				{% for b in blocks %}
+					<b>{{b.title}}</b><br/>
+					 <ul class="ulnav">
+					 {% for t in b.topics %}
+							<li class="linav2"><a href="/{{cur.id}}/mycontrol/tHome/?tType={{tType}}&tp={{t.id}}"> {% if t.id == tp %}<span class="text-muted"> {% endif %}{{t.title}} {% if t.id == tp %}</span> {% endif %}</a></li>
+					 {% endfor %}
+					</ul>
+				{% endfor %}
+			</div>
+          </div>
+	</div>
+	<div class = "col-sm-9">
 		<table id="adminTable" class="display" cellspacing="0" width="100%">
 			<thead>
 				<tr>
 					<th>Tag Title</th>
 					<th>Tag Content</th>
 					<th>Topic</th>
-					<th></th>
+					<th>_</th>
 				</tr>
 			</thead>
 			<tbody>

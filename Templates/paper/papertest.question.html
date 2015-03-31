@@ -2,7 +2,7 @@
 
 {% block content %}
 	<div class = "col-sm-12">	
-		<h1>Paper Test <small class="pull-right">Test ID: <span id="test_id">{{ test.id }}</span></small></h1>
+		<h3>Paper Question<small class="pull-right">Test ID: <span id="test_id">{{ test.id }}</span></small></h3>
 	</div>
 	<div class="col-sm-3 well" >
               {% csrf_token %}
@@ -19,10 +19,12 @@
 		<a href = "/{{cur.id}}/paper/solution/{{ test.id }}/">
 			<button class = "btn btn-default" style="display:block;width:100%">View Paper with Solution</button>
 		</a>
+		<!--
 		<button class = "btn btn-default" style="display:block;width:100%"><p class = "glyphicon glyphicon-print glyphicon"></p> Print Paper</button>
+		-->
 	</div>
 	<div class = "col-sm-9">
-		<div class = "thumbnail">
+		<div class = "thumbnail" style = "padding:15px">
 		{% for question in testQuestion %}
           <div class="multiquestion-row">
             <div id="question-{{ forloop.counter }}" class="anchor"></div>
@@ -32,6 +34,11 @@
               </div>
               <div class="col-md-11"{% if not user.is_staff %} style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor: default;"{% endif %}>
                 {{ question.content|safe }}
+				{% for i in question.images %}
+					{% if i.qa == "question" %}
+						<br/><img src = "{{i.imagepath}}" width = "150px">
+					{% endif %}
+				{% endfor%}
               </div>
             </div>
             <div class="row">
