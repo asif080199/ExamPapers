@@ -32,10 +32,10 @@ def papertest(request, subj_id, test_id=None):
     # Record usage for stats purpose
     page = "paper_test"
     # Never accessed this page before, or last access was more than 10 mins ago
-    if 'user_usage_'+page not in request.session or datetime.now() > datetime.strptime(request.session['user_usage_'+page], "%a %b %d %H:%M:%S %Y") + timedelta(minutes=10):
-        usage = UserUsage(user=request.user, page=page)
-        usage.save()
-        request.session['user_usage_'+page] = usage.datetime.strftime("%a %b %d %H:%M:%S %Y")
+    #if 'user_usage_'+page not in request.session or datetime.now() > datetime.strptime(request.session['user_usage_'+page], "%a %b %d %H:%M:%S %Y") + timedelta(minutes=10):
+        #usage = UserUsage(user=request.user, page=page)
+        #usage.save()
+        #request.session['user_usage_'+page] = usage.datetime.strftime("%a %b %d %H:%M:%S %Y")
     # End usage recording
 
     # Obtain the list of topics

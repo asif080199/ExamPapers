@@ -1,5 +1,5 @@
 from haystack import indexes
-from .models import Question, Image, Answer, Subject, Topic, Subtopic
+from .models import Question, Image, Subject, Topic, Subtopic
 from django.utils import six
 
 class questionIndex(indexes.SearchIndex, indexes.Indexable):

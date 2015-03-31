@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block html_head %}
+    <script>
+		function toggleAns(button_id) {
+			var ele_name = "sol";
+			var ele = document.getElementById(ele_name);
+			var text = document.getElementById(button_id);
+			if(ele.style.display == "block") {
+					ele.style.display = "none";
+				text.value = "How to start?";
+			}
+			else {
+				ele.style.display = "block";
+				text.value = "Thank you";
+			}
+		}
+		function checkSubmit(){
+			var searchtext = document.getElementById("search_field").value;
+				if (searchtext==""){
+					return false;
+				}
+		}
+	</script>
+{%  endblock %}
+{% block content %}
+<div class = "col-sm-12">
+		<br/><br/>
+		<div class ="text-center">
+			<table align="center" style="padding:0px">
+				<tr>
+					<td colspan="3"><a href = "/"><img src="/static/images/logo1.png" width="305px"></a></td>
+				</tr>
+				<tr>
+					<td><a href = "/{{cur.id}}/"><button style = "width:100px;background-color:black;color:white " class="btn "><font color = "#BFFF00">Text</font></button></a></td>
+					<td><a href = "/{{cur.id}}/fsearch/home/"><button style = "width:100px;background-color:black;color:white " class="btn ">Formula</button></a></td>
+					<td><a href = "/{{cur.id}}/searchTag"><button style = "width:100px;background-color:black;color:white " class="btn ">Tag</button></a></td>
+				</tr>
+			</table>
+			
+			
+		</div>
+	<br/><br/>
+	{% include 'searcht/searchform.tag.html' %}
+	<br/>
+	<div style = "display:true;" id="sol">
+		<div class="well">
+			<p>This is the first step for <font color="Red" size="4e"><b>L</b></font>earn from Example</p>
+			<p>Let us know your problem and we will give you relevant materials that may help. You can enter a topic name, concept, or a full question</p>
+		
+			<p>If you have no idea how to start, try entering below examples: </p>
+			<p class = "text-muted">
+				<span class="glyphicon glyphicon-align-justify"></span> "Circle"<br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "Binomial Distribution"<br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "A group of 12 people consists of 6 married couples. The group stand in a line. Find the number of different possible orders"
+			</p>
+			If you prefer to search a formula, try <a href = "/{{cur.id}}/fsearch/home/">this</a><br/>
+			If you prefer to start by learning concept and formula, try <a href = "/{{cur.id}}/study/home/">this</a><br/>
+		</div>
+	</div>
+	
+</div>
+
+
+{% endblock %}

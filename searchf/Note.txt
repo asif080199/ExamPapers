@@ -1,0 +1,22 @@
+-------------------------------------
+TF
+-------------------------------------
+Log normalization
+1 + log f(t,d)
+
+f(t,d): frequency of t in document d
+
+
+
+
+
+-------------------------------------
+IDF
+-------------------------------------
+inverse frequency smooth
+
+log(1+ N/n(t))
+N: number of document
+n(t): number of document with term
+
+TF-IDF = TFxIDF

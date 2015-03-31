@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class = "col-sm-12">
+	<br/><br/>
+		<div class ="text-center">
+			<table align="center" style="padding:0px">
+				<tr>
+					<td colspan="3"><a href = "/"><img src="/static/images/logo1.png" width="305px"></a></td>
+				</tr>
+				<tr>
+					<td><a href = "/{{cur.id}}/"><button style = "width:100px;background-color:black;color:white " class="btn ">Text</button></a></td>
+					<td><a href = "/{{cur.id}}/fsearch/home/"><button style = "width:100px;background-color:black;color:white " class="btn "><font color = "#BFFF00">Formula</font></button></a></td>
+					<td><a href = "/{{cur.id}}/searchTag"><button style = "width:100px;background-color:black;color:white " class="btn ">Tag</button></a></td>
+				</tr>
+			</table>
+		</div>
+	<br/><br/>
+	<form action="/{{cur.id}}/searchf/result/" method="post" onSubmit =" return checkSubmit(this)" class="form-inline" role="form">
+		{% csrf_token %}
+		{% include "searchf/t_formula_view.html" %}
+		<br/>
+		<table width = "100%">
+			<tr>
+				<td width = "90%">
+					<input id="query" name="query" type="text" class="form-control" value="{{ query }}" style= "width:100%;display:block" onkeyup="display_formula()" />
+				</td>
+				<td>
+					<input type = "Submit" class = "btn btn-primary" value = "Search">
+				</td>
+			</tr>
+		</table>
+		<div>Preview: </div><div style="background-color: #CCFF66" id="outputNode" class="formula_view"></div>
+		<br/>
+	</form>
+	<div style = "display:true;" id="sol">
+		<div class="well">
+			<p>Enter a formula and we will find related questions and concepts to help you understand it.</p>
+		
+			<p>If you have no idea how to start, click on any formula expression button or try entering below examples: </p>
+			<p class = "text-muted">
+				<span class="glyphicon glyphicon-align-justify"></span> "x^2"<br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "sin^2x"<br/>
+				<span class="glyphicon glyphicon-align-justify"></span> "\int_{0}^{2} \frac{1}{2}xdx"
+			</p>
+			If you prefer to a text search, try <a href = "/{{cur.id}}/">this</a><br/>
+			If you prefer to start by learning concept and formula, try <a href = "/{{cur.id}}/study/home/">this</a><br/>
+		</div>
+	</div>
+	
+</div>
+	
+
+{% endblock %}

@@ -92,32 +92,7 @@ class Image(models.Model):
 		return str(self.id)
 
 
-class AnswerType(models.Model):
-	id = models.IntegerField('id', primary_key=True, null=False)
-	description = models.TextField('description', null=False)
 
-	def __str__(self):
-		return str(self.id)
-
-class Answer(models.Model):
-	id = models.AutoField('id', primary_key=True, null=False)
-	answertype = models.ForeignKey(AnswerType, null=False)
-	question = models.ForeignKey(Question, null=False)
-	part_no = models.CharField(max_length=3, null=False)
-	content = models.TextField('content', null=True)
-	switch = models.BooleanField(default=False, null=False)
-
-	def __str__(self):
-		return str(self.id)
-
-class Progress(models.Model):
-	user = models.ForeignKey(User, null=False)
-	question_id = models.ForeignKey(Question, null=False)
-	created = models.DateTimeField(auto_now=True)
-	score = models.IntegerField(null = True)
-	
-	def __str__(self):
-		return str(self.id)
 
 class TagDefinition(models.Model):
 	id = models.AutoField('id', primary_key=True, null=False)
@@ -136,22 +111,15 @@ class  Tag(models.Model):
 
 """Index Formula Search"""
 class Formula(models.Model):
-    #indexid = models.PositiveIntegerField(primary_key=True)
-    indexid = models.AutoField('index ID', primary_key=True)
-    question = models.ForeignKey(Question)
-    formula = models.CharField(max_length=1024, null=True, blank=True)
-    status = models.BooleanField(default=True)
-    inorder_term = models.CharField(max_length=1024, null=True, blank=True)
-    sorted_term = models.CharField(max_length=1024, null=True, blank=True)
-    structure_term = models.CharField(max_length=1024, null=True, blank=True)
-    constant_term = models.CharField(max_length=1024, null=True, blank=True)
-    variable_term = models.CharField(max_length=1024, null=True, blank=True)
-            
-class Formula_index(models.Model):
-    indexkey = models.CharField('index key', primary_key=True, max_length=64)
-    docsids = models.CharField(max_length=9192, null=True, blank=True)
-    df = models.PositiveIntegerField('frequency', default=1, blank=True)
-
+	index = models.AutoField('index ID', primary_key=True)
+	question = models.ForeignKey(Question)
+	formula = models.CharField(max_length=1024, null=False, blank=True)
+	vector = models.CharField(max_length=1024, null=False, blank=True)
+	semantic = models.CharField(max_length=1024, null=False, blank=True)
+	
+	def __str__(self):
+		return str(self.formula)
+		
 """Paper test and CAT"""
 class Assessment(models.Model):
     "Assessment model to represent different assessment engines"
@@ -171,18 +139,6 @@ class Assessment(models.Model):
     def __unicode__(self):
         return self.name
 
-# New in version 20131023
-class Response(models.Model):
-    "Response model to store user responses"
-    user        = models.ForeignKey(User)
-    question    = models.ForeignKey(Question)
-    response    = models.TextField(max_length=100)
-    date        = models.DateTimeField(auto_now=True)
-    duration    = models.IntegerField(blank=True, null=True) # In seconds
-    correctness = models.DecimalField(max_digits=3, decimal_places=2, null=True) # Percent correct in dec (0-1)
-    criterion   = models.DecimalField(max_digits=3, decimal_places=1) # Max marks for random practice/test, diff for CAT
-    ability     = models.DecimalField(max_digits=5, decimal_places=2, null=True) # Current ability score for practices
-    assessment  = models.ForeignKey(Assessment)
 
 # New in version 20131208
 class Test(models.Model):
@@ -210,66 +166,8 @@ class Test(models.Model):
     score     = property(_get_score)
 
 # New in version 20131208
-class TestResponse(Response):
-    "TestResponse model for storage of test responses, this links back to the test itself"
-    test        = models.ForeignKey(Test, related_name='responses')
-
-    def __unicode__(self):
-        return 'TestResponse ' + str(self.id)
-
-class Meta(models.Model):
-    "Meta model to keep the list of meta tags used"
-    metatag     = models.CharField(max_length=30, primary_key=True)
-
-    def __unicode__(self):
-        return self.metatag
-# Many to Many intermediary models
-
-# New in version 20131023
-class QuestionMeta(models.Model):
-    "QuestionMeta model is an intermediary model between Question and Meta models"
-    question    = models.ForeignKey(Question)
-    meta        = models.ForeignKey(Meta)
-    content     = models.CharField(max_length=50)
-
-# New in version 20131208
 class TestQuestion(models.Model):
     "TestQuestion model is an intermediary model between Test qnd Question models"
     question    = models.ForeignKey(Question)
     test        = models.ForeignKey(Test)
-
-# New in version 20140205
-class UserProfile(models.Model):
-    user        = models.OneToOneField(User)
-
-    debug       = models.BooleanField()
-
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            UserProfile.objects.create(user=instance)
-
-    post_save.connect(create_user_profile, sender=User)
-
-# New in version 20140215
-class UserUsage(models.Model):
-    user        = models.ForeignKey(User)
-    datetime    = models.DateTimeField(auto_now=True)
-    page        = models.CharField(max_length=50)
-
-    class Meta:
-        ordering = ['-datetime']
-
-    def __unicode__(self):
-        return self.user.get_full_name() + ' last accessed ' + self.page + ' ' + timesince(self.datetime) + ' ago'
-	
-class UserProfile(models.Model):
-    user        = models.OneToOneField(User)
-
-    debug       = models.BooleanField()
-
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            UserProfile.objects.create(user=instance)
-
-    post_save.connect(create_user_profile, sender=User)
 

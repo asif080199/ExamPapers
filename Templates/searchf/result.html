@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="col-sm-12">
+		<form action="/{{cur.id}}/fsearch/result/" method="post" onSubmit =" return checkSubmit(this)" class="form-inline" role="form">
+		{% csrf_token %}
+		{% include "fsearch/t_formula_view.html" %}
+		<br/>
+		<table width = "100%">
+			<tr>
+				<td width = "90%">
+					<input id="query" name="query" type="text" class="form-control" value="{{ query }}" style= "width:100%;display:block" onkeyup="display_formula()" />
+				</td>
+				<td>
+					<input type = "Submit" class = "btn btn-primary" value = "Search">
+				</td>
+			</tr>
+		</table>
+		<div>Preview: </div><div style="background-color: #CCFF66" id="outputNode" class="formula_view"></div>
+
+	</form>
+	</div>
+
+	
+	<div class="col-sm-12">
+		<hr/>
+		<label class = "head">Search Result:</label> 
+					{% for q in questions %}
+						<div class = "result">	
+								<table  width = "100%" style="padding:5px" >
+									<tr>
+										<td width = "20%" rowspan = "2">									
+											$${{q.formula}}$$
+										</td>
+										<td width = "37%">									
+											<b><a style="font-size:130%" href = "/{{cur.id}}/view/{{q.id}}/"> {{q.subtopic.title}} #{{q.question_no}}:</a></b>
+										</td>
+										<td width = "9%">									
+											{%for s in q.stars%}
+												{{s|safe}}
+											{%endfor%}
+										</td>
+										<td>
+											<p class="footer">{{q.topic.title}} </p>
+										</td>
+										<td rowspan="2" align= 'center' width = '12%'>
+												<img src = "{{q.image}}" style="max-width:100px;max-height:100px" alt="">
+										</td>
+									</tr>
+									<tr>
+										<td colspan = "3">						
+											<i>{{q.content}}... </i> 
+										</td>
+									</tr>
+								</table>
+							</div>
+					{% endfor %}
+				
+			</div>
+    </div>
+{% endblock %}

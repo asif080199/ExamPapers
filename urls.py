@@ -37,6 +37,12 @@ urlpatterns = patterns('',
 	#account
 	url(r'^accounts/', include('ExamPapers.account.urls')),
 	
+	#searchf
+	url(r'^(?P<subj_id>\d*)/searchf/', include('ExamPapers.searchf.urls')),
+	
+	#searcht
+	url(r'^(?P<subj_id>\d*)/searcht/', include('ExamPapers.searcht.urls')),
+	
 	#comments
 	url(r'^comments/', include('django.contrib.comments.urls')),
 	

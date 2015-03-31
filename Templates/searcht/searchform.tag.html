@@ -1,0 +1,38 @@
+<script type = "text/javascript">	
+	function checkSubmit(){
+		var searchtext = document.getElementById("search_field").value;
+			if (searchtext==""){
+				return false;
+			}
+	}
+		$(function () {
+			$('#activate_tagator').click(function () {
+				var a = {{allTag|safe}};
+				if ($('#inputTagator').data('tagator') === undefined) {
+					$('#inputTagator').tagator({
+						autocomplete: a
+					});
+					$('#activate_tagator').val('destroy tagator');
+				} else {
+					$('#inputTagator').tagator('destroy');
+					$('#activate_tagator').val('activate tagator');
+				}
+			});
+			$('#activate_tagator').trigger('click');
+		});
+</script>
+<form action="/{{cur.id}}/searcht/result/" method="get" onSubmit =" return checkSubmit(this)">
+			<table width="100%">
+				<tr>
+					<td width="90%">
+					<input id="inputTagator" name="searchtext" class = "form-control" value="{{searchtext}}">
+					<input value="activate tagator"  id="activate_tagator" type="hidden">
+					</td>
+					<td>
+						<input type = 'hidden' name ='type' value = '{{type}}'>
+						<input type = 'hidden' name ='tp' value = -1>
+						<input type="submit" id="search" class="btn btn-primary" value="Search" />
+					</td>
+				</tr>
+			</table>
+</form>

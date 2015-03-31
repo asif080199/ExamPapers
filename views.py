@@ -440,7 +440,6 @@ def getLiteQuestion(q):
 	
 def getViewQuestion(qid):
 	question = Question.objects.get(id=qid)
-	answer = list(Answer.objects.filter(question_id=question.id).values())
 	question.content = formatContent(question, "Question")
 	question.topic = Topic.objects.get(id=question.topic_id)
 	question.subtopic = Subtopic.objects.get(id=question.subtopic_id)
@@ -448,8 +447,6 @@ def getViewQuestion(qid):
 	question.solution = formatContent(question,"Solution")
 	question.answer = "Not available"
 	question.images = Image.objects.filter(qa_id = question)
-	if Answer.objects.filter(question = question.id).count != 0:
-		question.answer = Answer.objects.filter(question = question.id)
 	question.tag = Tag.objects.filter(question_id = question.id)
 	question.tagdef = []
 	for ta in question.tag:
