@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+font.found {
+	font-weight:bold;
+	color: #FF8000
+	;
+}
+</style>
 	<div class="col-sm-3">
 		<div class='nav nav-tabs'>
 			<li {% if type == "question" or type = None %} class="active" {% endif %}><a href="/{{cur.id}}/search/?type=question&tp={{tp}}&searchtext={{searchtext}}"><span>Questions</span></a></li>
@@ -65,7 +72,7 @@
 									</tr>
 									<tr>
 										<td colspan = "3">						
-											<i>{{q.content_short}}... </i> 
+											<i>{{q.content_short|safe}}... </i> 
 										</td>
 									</tr>
 									<tr>

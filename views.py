@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ExamPapers.views import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 from ExamPapers.searchf.views import *
-
+from haystack.utils import Highlighter
 import os
 import json
 path = path = os.getcwd()
@@ -94,6 +94,7 @@ def concept(request,subj_id,conceptId):
 	
 	concept = TagDefinition.objects.get(id = conceptId)
 	concept.title = concept.title.replace("_"," ")
+	concept.content = concept.content.replace(";","<br/>")
 	param['concept'] = concept
 	tags = Tag.objects.filter(tagdefinition = concept)
 	questions = []
@@ -186,7 +187,10 @@ def search(request,subj_id,type,tp,searchtext):
 						q.images = Image.objects.filter(qa_id = q.question_id)
 						if q.images.count() > 0:
 							q.image = q.images[0].imagepath
-						q.content_short = q.content[0:250]
+						highlight = Highlighter(input, html_tag='font', css_class='found', max_length=250)
+						q.content_short = highlight.highlight(q.content)
+						print q.content_short
+						
 						finalQuestions.append(q)
 				total+=t.count
 				

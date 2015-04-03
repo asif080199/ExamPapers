@@ -7,4 +7,5 @@ urlpatterns = patterns('ExamPapers.paper.views',
 	url('home/$', views.papertest),
 	url('papertest/(?P<test_id>\w+)/$', views.papertest),
 	url('solution/(?P<test_id>\w+)/$', views.solution),
+	url('question/(?P<test_id>\w+)/$', views.question),
 )

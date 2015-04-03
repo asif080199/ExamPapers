@@ -65,6 +65,47 @@ def qnahome(request,subj_id,tp):
         context_instance=RequestContext(request)
     )
 
+@login_required	
+def qnapopular(request,subj_id,tp):
+	param = {}
+	tp = -1
+	if request.GET.get("tp") != None:
+		tp = int(request.GET.get("tp"))	
+	if tp == -1:
+		asks = Ask.objects.filter(subject_id = subj_id).order_by('-view')
+	else:
+		asks = Ask.objects.filter(topic_id = int(tp)).order_by('-view')
+	asks = asks[:10]
+	for s in asks:
+		s.contentshort = s.content[0:200].replace("<p>","").replace("</p>","")
+		s.image = Askfile.objects.filter(ask = s)
+		
+		for i in s.image:
+			i.imageurl = i.docfile.url.replace("resource/","")
+		
+	#Do paging for asks entries
+	paginator = Paginator(asks, 5)
+	
+	try: page = int(request.GET.get("page", '1'))
+	except ValueError: page = 1
+
+	try:
+		asks = paginator.page(page)
+	except (InvalidPage, EmptyPage):
+		asks = paginator.page(paginator.num_pages)
+		
+	param['asks'] = asks
+	
+	param.update(current(subj_id))
+	param.update(qna(subj_id))
+	param.update(qnatopic(subj_id))
+	
+	return render_to_response(
+        'qna/qna.home.html',
+        param,
+        context_instance=RequestContext(request)
+    )	
+	
 @login_required		
 def qnaform(request,subj_id):
 	param = {}

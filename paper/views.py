@@ -106,7 +106,7 @@ def papertest(request, subj_id, test_id=None):
         param.update(current(subj_id))
         param['testQuestion'] = testQuestion
         param['test'] = test
-        return render(request, 'paper/papertest.question.html', param)
+        return render(request, 'paper/papertest.view.html', param)
 
 @login_required
 def solution(request, subj_id, test_id):
@@ -121,6 +121,19 @@ def solution(request, subj_id, test_id):
 	param['test'] = test
 	return render(request, 'paper/papertest.solution.html', param)
 
+@login_required
+def question(request, subj_id, test_id):
+	test = Test.objects.all().get(id=test_id)
+	testQuestion = []
+	for question in test.questions.all():
+		question = getViewQuestion(question.id)
+		testQuestion.append(question)
+	param = {}
+	param['testQuestion'] = testQuestion
+	param.update(current(subj_id))
+	param['test'] = test
+	return render(request, 'paper/papertest.question.html', param)	
+	
 @login_required
 def papertestutil(request, test_id=None, util_name=None):
     "Util functions for Boombastic function!"

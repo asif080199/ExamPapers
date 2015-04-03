@@ -13,6 +13,7 @@ from django.conf import settings
 urlpatterns = patterns('ExamPapers.qna.views',
 	url('home/(?P<tp>\d*)', views.qnahome),
 	#('submit/$', views.submit),
+	('popular/(?P<tp>\d*)$', views.qnapopular),
 	('form/$', views.qnaform),
 	('edit/(?P<askId>\d*)/$', views.qnaedit),
 	('view/(?P<askId>\d*)/$', views.qnaview),

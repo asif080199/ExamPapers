@@ -1,46 +1,75 @@
-{% extends "base.html" %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-{% block content %}
-	<div class = "col-sm-12">	
-		<h3>Paper Solution <small class="pull-right">Test ID: <span id="test_id">{{ test.id }}</span></small></h3>
-	</div>
-	<div class="col-sm-3 well" >
-              {% csrf_token %}
-              <ul class="nav bs-sidenav">
-                  <li id="nav_questions">
-                    <a href="#">Questions</a>
-                    <ul class="nav">
-                      {% for question in test.questions.all %}
-                      <li><a href="#question-{{ forloop.counter }}">Question {{ forloop.counter }}</a></li>
-                      {% endfor %}
-                    </ul>
-                  </li>
-              </ul>
-		<a href = "/{{cur.id}}/paper/papertest/{{ test.id }}/">
-			<button class = "btn btn-default" style="display:block;width:100%">View Paper without solution</button>
-		</a>
-		<!--
-		<button class = "btn btn-default" style="display:block;width:100%"><p class = "glyphicon glyphicon-print glyphicon"></p> Print Paper</button>
-		-->	</div>
-	<div class = "col-sm-9 thumbnail "  style = "padding:15px">
-		{% for question in testQuestion %}
-			<div id="question-{{ forloop.counter }}" class="anchor"></div>
-			<h4>Q{{ forloop.counter }}:</h4>	
-			{{ question.content|safe }}
-			{% for i in question.images %}
-					{% if i.qa == "question" %}
-						<br/><img src = "{{i.imagepath}}" width = "150px">
-					{% endif %}
-				{% endfor%}
-			<h4>A:</h4>		
-			{{question.solution|safe}}
-			{% for i in question.images %}
-					{% if i.qa == "solution" %}
-						<br/><img src = "{{i.imagepath}}" width = "150px">
-					{% endif %}
-				{% endfor%}
-			<hr/>
-          {% endfor %}
-	</div>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+		{% block extrahead %}{% endblock %}
+        <title>Mathematics Study System</title>
+        <script type="text/javascript" src="/static/mathjax-MathJax-f5cd294/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+            MathJax.Hub.Config({
+                displayAlign: "left",
+                tex2jax: {inlineMath: [['$','$'],['$$','$$'],['\\[','\\]']], displayMath:[]}
+            })
+        </script>
+		
+		<style type="text/css">
+				.disableSelect {
+					-webkit-user-select: none;
+					-moz-user-select: -moz-none;
+					-ms-user-select: none;
+					user-select: none;
+				}
+        </style>
+        <!-- General Javascript --->
+		<script src="/static/javascript/jquery-1.10.2.min.js"></script>
+		<script src="/static/javascript/bootstrap.js"></script>
+
+		<script src="/static/javascript/ajaxcomment.js"></script>
+
+		<!-- General css --->	
+		<link rel="stylesheet" href="/static/css/bootstrap.css">
+		<link rel="stylesheet" href="/static/css/ajaxcomment.css">
+		<link rel="stylesheet" href="/static/css/theme.css">
+		
+		<script>
+		function myPrint() {
+			window.print();
+		}
+		</script>
+	</head>
+    <body class="center_page">
+		<div class="container">
+			<div class = "pull-right"><h3>Question</h3></div>
+			<div class = "pull-left"><h3>
+			<button onclick="myPrint()" class = "btn btn-default">
+			<span  class = "glyphicon glyphicon-print"></span>
+			</button>
+			Paper {{ test.id }}</h3></div>
+			<br/><br/>
+				<div  style = "padding:15px">
+				{% for question in testQuestion %}
+					<div id="question-{{ forloop.counter }}" class="anchor"></div>
+					<h4>Q{{ forloop.counter }}:</h4>	
+					{{ question.content|safe }}
+					{% for i in question.images %}
+							{% if i.qa == "question" %}
+								<br/><img src = "{{i.imagepath}}" width = "150px">
+							{% endif %}
+						{% endfor%}
+					<h4>A:</h4>		
+					{{question.solution|safe}}
+					{% for i in question.images %}
+							{% if i.qa == "solution" %}
+								<br/><img src = "{{i.imagepath}}" width = "150px">
+							{% endif %}
+						{% endfor%}
+					<hr/>
+				  {% endfor %}
+			</div>
+		   
+		</div>
+    </body>
+</html>
+
+
+	
       
-{% endblock %}

@@ -2,7 +2,9 @@
 {% block content %}
 	
 	<div class="col-sm-12">
-	<h3>
+	<h3><a href = "/{{cur.id}}/study/?tp={{concept.topic.id}}">
+			<button class = "btn btn-default"><span class = "glyphicon glyphicon-arrow-left"></span></button>
+		</a>
 		{% if concept.type == "C" %}
 			Concept:
 		{% endif %}
@@ -38,7 +40,7 @@
 				{% if concept.type == "F"%}
 				<div class="well-formula">
 				{% endif %}
-					<label class ="mini">Definition:  </label> {{concept.content}}
+					<label class ="mini">Description:  </label> {{concept.content|safe}}
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -47,7 +49,7 @@
 					<div class="panel-body">
 						<script src="/static/javascript/ytembed.js" type="text/javascript"></script>
 						<div id="youtubeDiv"></div>
-						<script>ytEmbed.init({'block':'youtubeDiv','type':'search','q':'{{concept.title}}','results': 1});</script>
+						<script>ytEmbed.init({'block':'youtubeDiv','type':'search','q':'{{concept.title}} math {{cur.title}}','results': 1});</script>
 					</div>
 				</div>
 				<div class="panel panel-default">
