@@ -24,6 +24,7 @@ def reindex(request,subj_id):
 	param = {}
 	param.update(current(subj_id))
 	questions = Question.objects.all()
+
 	#formulaAll = []
 	if request.POST:
 		type = request.POST['type']
@@ -43,12 +44,12 @@ def reindex(request,subj_id):
 						formulaOb.vector = vector
 						if formulaOb.semantic  != "['']":
 							formulaOb.save()
-			buildIndex()
+			buildIndex(subj_id)
 
 	return render_to_response('searchf/reindex.html',param,context_instance=RequestContext(request))
 
 
-def buildIndex():
+def buildIndex(subj_id):
 	feature1 = ["int","sum","lim","pro"] 
 	feature2 = ["cup","cap"]
 	feature3 = ["leq","geq","neq",">","<"]
@@ -59,14 +60,18 @@ def buildIndex():
 	featureStandard = feature1+feature2+feature3+feature4+feature5+feature6+feature7
 	
 	index = {}
-	formulas = Formula.objects.all()
+	formulas = Formula.objects.filter(question__topic__block__subject_id = subj_id)
+	
+	print len(formulas)
 	for feature in featureStandard:
 		list = []
 		for formula in formulas:
+			if feature == "int":
+				print formula.semantic
 			if feature in eval(formula.semantic):
 				list.append(formula.index)
 		index[feature] = list	
-	with open(path+"/log/index.json", 'w') as outfile:
+	with open(path+"/index/formula"+str(subj_id)+".json", 'w') as outfile:
 		json.dump(index, outfile)
 	return
 	
@@ -96,12 +101,13 @@ def extractFeature(formula):
 			tem = formula.replace("|->"," ").replace("<-|"," ").replace("| \left"," ").replace("\right |"," ")
 		
 		if feature in tem:
+			
 			semantic.append(feature)
+			
 		vector.append(tem.count(feature))
 
 	return list(set(semantic)),vector
 	
-
 def home(request,subj_id):
 	param = {}
 	param.update(current(subj_id))
@@ -136,8 +142,9 @@ def getFormula(question):
 					fmark.append(i)
 	for i in range(0,len(fmark),2):
 		fbegin = fmark[i]+2
-		fend = fmark[i+1]
-		formula.append(content[fbegin:fend])
+		if i+1 <len(fmark):
+			fend = fmark[i+1]
+			formula.append(content[fbegin:fend])
 	return formula
 	
 @login_required			
@@ -226,7 +233,7 @@ def result(request,subj_id,type,tp,query):
 
 def formulaSearch(query,subj_id):
 	#read index
-	file = open(path+"/log/index.json")
+	file = open(path+"/index/formula"+str(subj_id)+".json")
 	for line in file:
 		index = json.loads(line)
 	semantic, vector = extractFeature(query)	

@@ -14,7 +14,7 @@ class questionIndex(indexes.SearchIndex, indexes.Indexable):
     block = indexes.CharField(model_attr='topic__block')
     subtopic = indexes.CharField(model_attr='subtopic')
     marks = indexes.IntegerField(model_attr='marks')
-    difficulty = indexes.IntegerField(model_attr='difficulty')
+    difficulty = indexes.IntegerField(model_attr='difficulty',null= True)
     question_id = indexes.CharField(model_attr='id')
 	
     def get_model(self):

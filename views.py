@@ -189,7 +189,6 @@ def search(request,subj_id,type,tp,searchtext):
 							q.image = q.images[0].imagepath
 						highlight = Highlighter(input, html_tag='font', css_class='found', max_length=250)
 						q.content_short = highlight.highlight(q.content)
-						print q.content_short
 						
 						finalQuestions.append(q)
 				total+=t.count
@@ -460,12 +459,16 @@ def formatContent(question,type):
 def reindex(request,subj_id):
 	param = {}
 	param.update(current(subj_id))
-	questions = Question.objects.all()
 	param['mes'] = ""
 	#formulaAll = []
 	if request.POST:
 		type = request.POST['type']
 		if type == "formula":
+			questions = Question.objects.filter(topic__block__subject_id = subj_id)
+			formulaOld = Formula.objects.filter(question__topic__block__subject_id = subj_id)
+			
+			for f in formulaOld:
+				f.delete()
 			for q in questions:
 				formulaSet = getFormula(q)
 				for formula in formulaSet:
@@ -477,12 +480,12 @@ def reindex(request,subj_id):
 						formulaOb.formula = formula
 						tem = "','".join(map(str, semantic))
 						formulaOb.semantic  = "['"+tem+"']"
-						##print formulaOb.semantic
 						formulaOb.vector = vector
 						if formulaOb.semantic  != "['']":
 							formulaOb.save()
-			buildIndex()
+			buildIndex(subj_id)
 			param['mes'] = "Tag index for "+param['cur'].title+" has been created successfully at "+path+"/log/index.json"
+		
 		if type == "tag":
 			tagAll = TagDefinition.objects.filter(type = "K")|TagDefinition.objects.filter(type = "C").filter(topic__block__subject_id = subj_id)|TagDefinition.objects.filter(type = "K").filter(topic__block__subject_id = subj_id)
 			index = {}
