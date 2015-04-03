@@ -45,8 +45,17 @@ function input(content,display){
        });
     });
 </script>
-
-		<h3>Question Form</h3>
+		<h3>
+		{% if topic != "" %}
+		<a href = "/{{cur.id}}/mycontrol/qList/?topic={{topic}}">
+		{% elif paper != "" %}
+		<a href = "/{{cur.id}}/mycontrol/qList/?paper={{topic}}">
+		{% else %}
+		<a href = "/{{cur.id}}/mycontrol/qHome/">
+		{% endif %}
+			<button class = "btn btn-default"><span class = "glyphicon glyphicon-arrow-left"></span></button>
+		</a>
+		Question Form</h3>
 		<form id='preview_form' method='post' enctype="multipart/form-data" action='/{{cur.id}}/mycontrol/qUpdate/' id = "myForm">
 		{% csrf_token %}
 		<div class = "well well-large">

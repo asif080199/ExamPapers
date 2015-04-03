@@ -6,23 +6,28 @@
 				<button class="btn btn-primary">Create new tag</button>
 			</a>
 		</div>
-		<h3>Tag Home</h3>
-		{% if mes != ""%}
-			<div class="alert alert-success">{{mes}}</div>
-		{% endif %}
-	
+		<h3> 
+		<a href = "/{{cur.id}}/mycontrol/tHome/?tType=concept&tp=-1">
+			<button class = "btn btn-default"><span class = "glyphicon glyphicon-arrow-left"></span></button>
+		</a>
+		Tag Home</h3>
 	</div>
 	
 	
 	<br/>
 	<div class = "col-sm-3" style="padding:0px">
-	<div class="panel panel-default">
-            <div class="panel-body">
-				<div class='nav nav-tabs'>
+		<div class='nav nav-tabs'>
 					<li {% if tType == "concept" or tType = None %} class="active" {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=concept&tp={{tp}}"><span>Concept</span></a></li>
 					<li {% if tType == "formula" %} class="active"  {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=formula&tp={{tp}}"><span>Formula</span></a></li>
-					<li {% if tType == "keyword" %} class="active"  {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=keyword&tp={{tp}}"><span>Key</span></a></li>
+					<li {% if tType == "keyword" %} class="active"  {% endif %}><a href="/{{cur.id}}/mycontrol/tHome/?tType=keyword&tp={{tp}}"><span>Keyword</span></a></li>
 				</div>
+		<div class="panel panel-default">
+            <div class="panel-body">
+				
+				<a href = "/{{cur.id}}/mycontrol/tHome/?tType={{tType}}&tp=-1">
+					<b>All</b>
+				</a>
+				<br/>
 				{% for b in blocks %}
 					<b>{{b.title}}</b><br/>
 					 <ul class="ulnav">
@@ -35,6 +40,7 @@
           </div>
 	</div>
 	<div class = "col-sm-9">
+		{{mes|safe}}
 		<table id="adminTable" class="display" cellspacing="0" width="100%">
 			<thead>
 				<tr>

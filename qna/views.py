@@ -38,12 +38,12 @@ def qnahome(request,subj_id,tp):
 	for s in asks:
 		s.contentshort = s.content[0:200].replace("<p>","").replace("</p>","")
 		s.image = Askfile.objects.filter(ask = s)
-		"""
+		
 		for i in s.image:
 			i.imageurl = i.docfile.url.replace("resource/","")
-		"""
+		
 	#Do paging for asks entries
-	paginator = Paginator(asks, 3)
+	paginator = Paginator(asks, 5)
 	
 	try: page = int(request.GET.get("page", '1'))
 	except ValueError: page = 1
@@ -86,6 +86,7 @@ def qnaform(request,subj_id):
 				return  HttpResponseRedirect('/'+str(subj_id)+'/qna/view/'+str(newstory.id))
 	else:	
 			form = DocumentForm(initial = {'subj_id_pass' : subj_id}) 
+			param['new'] = 1
 	
 	param['form'] = form
 	return render_to_response(

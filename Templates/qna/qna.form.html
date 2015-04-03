@@ -14,7 +14,11 @@
 
 				<table >
 					<tr>
-						<td width = "35%">{{ form.docfile }}</td>
+						<td width = "50%">{{ form.docfile }}<br>
+						{% if new != 1%}
+							<font color='red'>Old file will be replaced by new uploaded file</font>
+						{% endif %}
+						</td>
 						<td style="text-align:right" width = "75%"><small align = "right">Need to show a graph? Try <a   target="_blank" href = "http://web.geogebra.org/chromeapp/">Geogebra</a></small></td>
 					</tr>
 				</table>

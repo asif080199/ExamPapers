@@ -430,7 +430,7 @@ def getViewQuestion(qid):
 	question.answer = "Not available"
 	question.images = Image.objects.filter(qa_id = question)
 	question.tag = Tag.objects.filter(question_id = question.id)
-	if question.title == "":
+	if question.title == None:
 			question.title = question.subtopic.title + " #"+str(question.question_no)
 	question.tagdef = []
 	for ta in question.tag:

@@ -2,37 +2,14 @@
 {% block content %}
 	{% load comments %}
 	<div class = "col-sm-12">
-	<label class = "head" style="">Q&A Open Forum</label>
+	<div class = "pull-right">
+		<a href = ""><button class= "btn btn-inverse">Popular Question</button></a>
+		<a href = ""><button class= "btn btn-inverse">Recent Questions</button></a>
+		<a href = "/{{cur.id}}/qna/form/"><button class= "btn btn-inverse">New Questions</button></a>
+	</div>
+	<h3>Q&A Open Forum</h3>
 	</div>
 	<div class="col-sm-3">
-		<form action = "/{{cur.id}}/qna/form/">
-			<input type="submit" style = "display:block;width:100%" class="btn btn-primary" value = "Ask Question"><br/>
-		</form>
-		
-		<div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Popular questions</h3>
-            </div>
-            <div class="panel-body">
-				{% for p in populars%}
-					<a href = "/{{cur.id}}/qna/view/{{p.id}}/">{{p.title}}</a><br/>
-					{% get_comment_count for p as comment_count %}
-					<small>Views ({{p.view}}) &nbsp;&nbsp;  Answers ({{comment_count}})</small><br/>
-				{% endfor%}
-			</div>
-          </div>
-		  <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Recent questions</h3>
-            </div>
-            <div class="panel-body">
-				{% for r in recents%}
-					{% get_comment_count for r as comment_count %}
-					<a href = "/{{cur.id}}/qna/view/{{r.id}}/">{{r.title}}</a><br/>
-					<small>Views ({{r.view}}) &nbsp;&nbsp;  Answers ({{comment_count}})</small><br/>
-				{% endfor%}
-			</div>
-          </div>
 		<div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title"><a href = "/{{cur.id}}/qna/home/?tp=-1">All topics</a></h3>

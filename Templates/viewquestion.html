@@ -132,7 +132,7 @@
 				{{question.solution|safe}}
 				{% for i in question.images%}
 				{%if i.qa ==  'Solution'%}
-					<br/><img src={{i.imagepath}} height="150">
+					<br/><img src='{{i.imagepath}}' height="150" >
 				{%endif %}				
 			{% endfor %}
 			</div>

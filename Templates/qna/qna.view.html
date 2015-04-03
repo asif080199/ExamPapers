@@ -9,7 +9,7 @@
 			<h4>{{ask.title}}</h4>
 			<table width="100%"> 
 				<tr>
-					<td>
+					<td width="10%">
 						<table>
 							<tr><td>
 								<form action="/{{cur.id}}/qna/view/{{ask.id}}/" method="Post">
@@ -30,7 +30,7 @@
 						</table>
 					</td>
 					<td >{{ask.content|safe}}{% for i in ask.image%}
-							<img src = "/{{i.imageurl}}" max-width = "200px">
+							<img src = "/{{i.imageurl}}" style ="max-height:150px">
 						{% endfor %}</td>
 				</tr>
 				<tr>

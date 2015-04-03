@@ -142,7 +142,11 @@ def qForm(request,subj_id):
 		param['topic'] = question.topic
 		param['subtopic'] = question.subtopic
 		param['id'] = question.id
-		param['solution'] = Solution.objects.get(question_id = question.id).content
+		s = Solution.objects.filter(question_id = question.id)
+		if len(s)>0:
+			param['solution'] = s[0].content
+		else:
+			param['solution'] = ""
 		#Image
 		images = Image.objects.filter(qa_id = question.id)
 		param['images'] = images
@@ -352,8 +356,8 @@ def qUpdate(request,subj_id):
 		
 		#f1
 		tail = f1.name.split(".")[-1]
-		des = 'resource'+path+question.id+"q."+tail
-		savePath = path[1:]+question.id+"q."+tail
+		des = 'resource/'+path+str(question.id)+"q."+str(tail)
+		savePath = path+str(question.id)+"q."+tail
 		destination = open(des, 'wb+')
 		for chunk in f1.chunks():
 			destination.write(chunk)
@@ -367,8 +371,8 @@ def qUpdate(request,subj_id):
 		
 		#f2
 		tail = f2.name.split(".")[-1]
-		des = 'resource'+path+question.id+"q."+tail
-		savePath = path[1:]+question.id+"q."+tail
+		des = 'resource'+path+str(question.id)+"q."+tail
+		savePath = path+str(question.id)+"q."+tail
 		destination = open(des, 'wb+')
 		for chunk in f2.chunks():
 			destination.write(chunk)
@@ -473,9 +477,24 @@ def qDelete(request,subj_id):
 """"Tag"""
 def tHome(request,subj_id):
 	param = {}
+	param['mes'] = ""
+	'''Delete'''
+	if request.POST:
+		id = request.POST['id']
+		tag = TagDefinition.objects.get(id = id)
+		tags= Tag.objects.filter(tagdefinition_id = id)
+		for t in tags:
+			t.delete()
+		tag.delete()
+		param['mes'] = "<div class = 'alert alert-success'>Tag '"+ tag.title +"' has been deleted successfully</div>"
+	''''''
+	tp = -1
 	param.update(current(subj_id))
 	tType = request.GET.get("tType")
-	tp = int(request.GET.get("tp"))
+	if request.GET.get("tp"):
+		tp = int(request.GET.get("tp"))
+	else:
+		tp = -1
 	param['tType'] = tType
 	if tType == None or tType== "concept":
 		if tp ==-1:
@@ -490,7 +509,6 @@ def tHome(request,subj_id):
 		
 	if tType== "keyword":
 		param['tags'] = TagDefinition.objects.filter(type="K")
-	param['mes'] = ""
 	
 	blocks = Block.objects.filter(subject_id = subj_id)
 	for b in blocks:
@@ -512,23 +530,31 @@ def tUpdate(request,subj_id):
 		topic = request.POST['topic']
 
 	if id !="":
+		id = int(id)
 		tag = TagDefinition.objects.get(id = id)
-		param["mes"] = "Tag is updated successfully"
+		param["mes"] = "<div class = 'alert alert-success'>Tag is updated successfully</div>"
 		tag.title = title
 		tag.content = content
 		tag.type = type
 		tag.topic = Topic.objects.get(id = topic)
-		if tag.type == "K":
-			tag.topic = None
-	else :
-		tag = TagDefinition(title = title, content = content, type = type)
 		tag.save()
-		param["mes"] = "Tag is created successfully"
+	else :
+		check = TagDefinition.objects.filter(title = title)
+		tag = TagDefinition(title = title, content = content, type = type, topic = Topic.objects.get(id = topic))
+		if len(check)>0:
+			param["mes"] = "<div class = 'alert alert-danger'>Tag '"+title+"' not created. Tag name must be unique</div>"
+		else:
+			tag.save()
+
+			param["mes"] = "<div class = 'alert alert-success'>Tag '"+tag.title+"' is created successfully </div>"
+
+	id = request.GET.get("id")
+	param['topics'] = Topic.objects.filter(block__subject_id = subj_id)
 	param['title'] = tag.title
+	param['id'] = tag.id
+	param['topic'] = tag.topic.id
 	param['content'] = tag.content
 	param['type'] = tag.type
-	param['id'] = tag.id
-	param['topics'] = Topic.objects.filter(block__subject_id = subj_id)
 	
 	return render_to_response('mycontrol/tForm.html',param,context_instance=RequestContext(request))
 
@@ -540,6 +566,7 @@ def tForm(request,subj_id):
 	param['topics'] = Topic.objects.filter(block__subject_id = subj_id)
 	if id!= None:
 		tag = TagDefinition.objects.get(id = id)
+		param['topic'] = tag.topic.id
 		param['title'] = tag.title
 		param['content'] = tag.content
 		param['type'] = tag.type

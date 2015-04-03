@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 	<div class = "col-sm-12">
-		<h3>Question Home</h3>
+		<h3>
+		<a href = "/{{cur.id}}/mycontrol/qHome/">
+			<button class = "btn btn-default"><span class = "glyphicon glyphicon-arrow-left"></span></button>
+		</a>
+		Question Home</h3>
 		{% if mes != ""%}
 			<div class="alert alert-success">{{mes}}</div>
 		{% endif %}

@@ -48,12 +48,12 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, '/resource/static/image/')
+# ly MEDIA_ROOT = os.path.join(PROJECT_ROOT, '/resource/static/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = '/images/'
+# ly MEDIA_URL = '/resource/'
 
 
 
