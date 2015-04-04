@@ -175,7 +175,7 @@ def tagSearch(query,subj_id):
 		myTag = theTag.get(question.id,[])
 		
 		for tag in myTag:
-			question.tags.append(TagDefinition.objects.get(title = tag))
+			question.tags.append(TagDefinition.objects.filter(title = tag)[0])
 		questions.append(question)
 		
 	return questions

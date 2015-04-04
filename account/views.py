@@ -1,4 +1,4 @@
-import account.forms
+from account.forms import *
 from django.shortcuts import render, render_to_response, redirect
 from DBManagement.models import *
 
@@ -91,7 +91,7 @@ def account_logout(request):
 
 def account_register(request):
     if request.method == 'POST':
-        form = forms.RegistrationForm(request.POST) # Bind to user submitted form
+        form = RegistrationForm(request.POST) # Bind to user submitted form
         if form.is_valid():
             # Process account registration
             user = User.objects.create_user(username=form.cleaned_data['email'], email=form.cleaned_data['email'], password=form.cleaned_data['password'])
@@ -116,7 +116,7 @@ def account_register(request):
             return render(request, 'account/account.register.success.html')
     else:
         # Display new form for user to fill in
-        form = forms.RegistrationForm()
+        form = RegistrationForm()
 
     return render(request, 'account/account.register.form.html', {'form': form})
 
