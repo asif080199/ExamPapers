@@ -458,6 +458,8 @@ def formatContent(question,type):
 
 def reindex(request,subj_id):
 	param = {}
+	
+	print "done"
 	param.update(current(subj_id))
 	param['mes'] = ""
 	#formulaAll = []
@@ -466,9 +468,10 @@ def reindex(request,subj_id):
 		if type == "formula":
 			questions = Question.objects.filter(topic__block__subject_id = subj_id)
 			formulaOld = Formula.objects.filter(question__topic__block__subject_id = subj_id)
-			
+			print "deleting..."
 			for f in formulaOld:
 				f.delete()
+			print "rebuilding..."
 			for q in questions:
 				formulaSet = getFormula(q)
 				for formula in formulaSet:
@@ -483,7 +486,10 @@ def reindex(request,subj_id):
 						formulaOb.vector = vector
 						if formulaOb.semantic  != "['']":
 							formulaOb.save()
+			print "build index"
 			buildIndex(subj_id)
+			print "build if_idf"
+			buidIF_IDF(subj_id)
 			param['mes'] = "Tag index for "+param['cur'].title+" has been created successfully at "+path+"/log/index.json"
 		
 		if type == "tag":

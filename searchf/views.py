@@ -9,7 +9,9 @@ import json
 import datetime
 import operator
 from ExamPapers.views import *
+import math
 from django.contrib.auth.decorators import login_required, user_passes_test
+
 def current(subj_id):
 	param = {}
 	param['cur'] = Subject.objects.get(id = subj_id)
@@ -48,7 +50,49 @@ def reindex(request,subj_id):
 
 	return render_to_response('searchf/reindex.html',param,context_instance=RequestContext(request))
 
-
+def buidIF_IDF(subj_id):
+	feature1 = ["int","sum","lim","pro"] 
+	feature2 = ["cup","cap"]
+	feature3 = ["leq","geq","neq",">","<"]
+	feature4 = ["ln","log","lg"]
+	feature5 = ["sin","cos","tan","sec","cot"]
+	feature6 = ["+","-","sqrt","|","^","vec","frac"]
+	feature7 = ["binom","choose","brack","brace","bangle"]
+	featureStandard = feature1+feature2+feature3+feature4+feature5+feature6+feature7
+	
+	formulas = Formula.objects.filter(question__topic__block__subject_id = subj_id)
+	noDoc = len(formulas) #noDoc
+	noDocHas = {}	#noDocHas
+	theIF = []
+	theIDF = {}
+	for f in formulas:
+		thisIF = {}
+		vector = eval(f.vector)
+		sum = 0
+		for term in vector:
+			sum+=term
+		sum = len(vector)	#ly
+		thisIF['id'] = int(f.index) 
+		for i in range(len(vector)):
+			feature = str(featureStandard[i])
+			#thisIF[feature] = (1.0*vector[i]/sum)
+			if vector[i]>0:
+				thisIF[feature] = 1
+			theIF.append(thisIF)
+			
+	for feature in featureStandard:
+		for f in formulas:
+			if feature in eval(f.semantic):
+				noDocHas[feature] = noDocHas.get(feature,0)+1
+	for feature in noDocHas:
+		theIDF[feature] = math.log(1.0*noDoc/(1 + noDocHas.get(feature,0)),math.e)
+	
+	with open(path+"/index/theif"+str(subj_id)+".json", 'w') as outfile:
+		json.dump(theIF, outfile)
+	#with open(path+"/index/theidf"+str(subj_id)+".json", 'w') as outfile:
+	#	json.dump(theIDF, outfile)
+	return 0
+	
 def buildIndex(subj_id):
 	feature1 = ["int","sum","lim","pro"] 
 	feature2 = ["cup","cap"]
@@ -62,15 +106,13 @@ def buildIndex(subj_id):
 	index = {}
 	formulas = Formula.objects.filter(question__topic__block__subject_id = subj_id)
 	
-	print len(formulas)
 	for feature in featureStandard:
 		list = []
 		for formula in formulas:
-			if feature == "int":
-				print formula.semantic
 			if feature in eval(formula.semantic):
 				list.append(formula.index)
 		index[feature] = list	
+		
 	with open(path+"/index/formula"+str(subj_id)+".json", 'w') as outfile:
 		json.dump(index, outfile)
 	return
@@ -92,18 +134,28 @@ def extractFeature(formula):
 	
 		tem = formula
 		if feature == "^":
-			tem = formula.replace("^{\circ}"," ").replace("^{-1}"," ")
+			tem = formula.replace("^{-1}"," ").replace("cm^{2}"," ").replace("cm^{3}"," ")
+			if "circ" in tem and "^" in tem:
+				i_cir = tem.index("cir")
+				i_mu = int(tem.index("^"))
+				if i_cir > i_mu :					
+					tem = tem[:i_mu] +tem[i_mu+1:]
+				
 		if feature == "frac":
 			tem = formula.replace("/","frac")
 		if feature == "-":
 			tem = formula.replace("|->"," ").replace("<-|"," ").replace("^{-1}"," ")
 		if feature == "|":
 			tem = formula.replace("|->"," ").replace("<-|"," ").replace("| \left"," ").replace("\right |"," ")
-		
+		if feature == "^":
+			if "^" in tem and "int" in tem and "_" in tem:
+				i_int = tem.index("int")
+				i_mu = int(tem.index("^"))
+				i_du = int(tem.index("_"))
+				if i_int < i_mu :					
+					tem = tem[:i_mu] +tem[i_mu+1:]
 		if feature in tem:
-			
 			semantic.append(feature)
-			
 		vector.append(tem.count(feature))
 
 	return list(set(semantic)),vector
@@ -149,8 +201,6 @@ def getFormula(question):
 	
 @login_required			
 def result(request,subj_id,type,tp,query):
-	
-
 	total = 0
 	param={}
 	input = ""
@@ -172,8 +222,8 @@ def result(request,subj_id,type,tp,query):
 		b.topics = Topic.objects.filter(block = b.id)
 	
 	#get all match question
-	questions = formulaSearch(input,subj_id)
-	
+	#questions = formulaSearch(input,subj_id)
+	questions = lySearch(input,subj_id)
 	
 	finalQuestions = []
 	if type == "question":
@@ -242,19 +292,40 @@ def formulaSearch(query,subj_id):
 	for feature in semantic:
 		print feature
 		result.append((index.get(feature)))
+	final =[]
+	for index in result[0]:
+		formula = Formula.objects.get(index = index)
+		question = Question.objects.get(id = formula.question_id)
+		question.formula = formula.formula
+		final.append(question)
+	return final
 	
-	final = (result[0])
-	for line in result[1:]:
-		tem = []
-		for item in line:
-			if item in final:
-				tem.append(item)
-		if tem == []:
-			break
-		final = tem
-	questions = []	
-	for item in list(final):
-		formula = (Formula.objects.get(index = item))
+def lySearch(query,subj_id):
+	#read index
+	file = open(path+"/index/theif"+str(subj_id)+".json")
+	for line in file:
+		theif = json.loads(line)
+	file = open(path+"/index/theidf"+str(subj_id)+".json")
+	for line in file:
+		theidf = json.loads(line)	
+	semantic, queryVector = extractFeature(query)	
+	print semantic
+	
+	allList = {}
+	for vector in theif:
+		id = vector['id']
+		allList[id] = 0
+		for feature in semantic:
+			allList[id] = allList.get(id) + vector.get(feature,0)*theidf.get(feature,0)
+		for element in vector:
+			if element not in semantic:
+				allList[id] = allList.get(id) - 0.1
+
+	allList = sorted(allList.items(), key=lambda(k,v):(v,k), reverse = True)
+	#print allList
+	questions = []
+	for item in (allList)[:30]:
+		formula = (Formula.objects.get(index = item[0]))
 		question = Question.objects.get(id = formula.question_id)
 		question.formula = formula.formula
 		questions.append(question)
